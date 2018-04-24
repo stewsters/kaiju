@@ -1,26 +1,26 @@
 package kai.pathfinder
 
-import kai.math.Matrix3d
-import kai.math.Vec3
+import kai.math.Matrix2d
+import kai.math.Vec2
 
 /**
- * AStar 3d
+ * AStar 2d
  */
-fun findPath3d(
-        size: Vec3,
-        cost: (Vec3) -> Double,
-        heuristic: (Vec3, Vec3) -> Double,
-        neighbors: (Vec3) -> List<Vec3>,
-        start: Vec3,
-        end: Vec3
-): List<Vec3>? {
+fun findPath2d(
+        size: Vec2,
+        cost: (Vec2) -> Double,
+        heuristic: (Vec2, Vec2) -> Double,
+        neighbors: (Vec2) -> List<Vec2>,
+        start: Vec2,
+        end: Vec2
+): List<Vec2>? {
 
-    val costs = Matrix3d(size.x, size.y, size.z, { _, _, _ -> Double.MAX_VALUE })
-    val parent = Matrix3d<Vec3?>(size.x, size.y, size.z, { _, _, _ -> null })
-    val fScore = Matrix3d(size.x, size.y, size.z, { _, _, _ -> Double.MAX_VALUE })
+    val costs = Matrix2d(size.x, size.y, { _, _ -> Double.MAX_VALUE })
+    val parent = Matrix2d<Vec2?>(size.x, size.y, { _, _ -> null })
+    val fScore = Matrix2d(size.x, size.y, { _, _ -> Double.MAX_VALUE })
 
-    val openSet = mutableListOf<Vec3>()
-    val closeSet = HashSet<Vec3>()
+    val openSet = mutableListOf<Vec2>()
+    val closeSet = HashSet<Vec2>()
 
     openSet.add(start)
     costs[start] = 0.0
@@ -29,7 +29,7 @@ fun findPath3d(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode: Vec3 = openSet.minBy { fScore[it] }!!
+        val cheapestNode: Vec2 = openSet.minBy { fScore[it] }!!
 
         if (cheapestNode == end) {
             // target found, we have a path
@@ -47,9 +47,10 @@ fun findPath3d(
         closeSet.add(cheapestNode)
 
         // get the neighbors
-        // for each point, set the cost, and a pointer back if we set the cost
+        //  for each point, set the cost, and a pointer back if we set the cost
+
         for (it in neighbors(cheapestNode)) {
-            if (it.x < 0 || it.y < 0 || it.z < 0 || it.x >= size.x || it.y >= size.y || it.z >= size.z)
+            if (it.x < 0 || it.y < 0 || it.x >= size.x || it.y >= size.y)
                 continue
 
             if (closeSet.contains(it))

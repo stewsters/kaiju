@@ -5,6 +5,8 @@ import kai.math.Matrix2d
 import kai.math.Obstacle
 import kai.math.Rectangle
 import kai.math.Vec2
+import kai.math.Vec3
+import kai.math.getEuclideanDistance
 import org.junit.Test
 
 class PathfinderTest {
@@ -29,23 +31,29 @@ class PathfinderTest {
         // This represents the cost to travel as a scalar field.  Keeping ourselves away from the edges
         // is important, since we are not necessarily accurate, and a default path finder will
         // run you as close to the edge as is mathematically possible.
-        val fieldMap = Matrix2d<Double>(size.x, size.y, { x, y ->
-
-            val d: Double = obstacles.map { it.minDist(Vec2[x, y]) }.min()!!
-            if (d <= 0) {
-                Double.MAX_VALUE
-            } else if (d > safeDist) {
-                1.0
-            } else {
-                // weight spaces near obstacles higher.
-                2 * (1 - (d / safeDist)) + 1
-            }
-        })
 
         val start = Vec2(1, 1)
         val end = Vec2(19, 29)
 
-        val path = findPath2d(fieldMap, { it.mooreNeighborhood() }, start, end)
+        val path = findPath2d(
+                size,
+                { pos ->
+
+                    val d: Double = obstacles.map { it.minDist(pos) }.min()!!
+                    if (d <= 0) {
+                        Double.MAX_VALUE
+                    } else if (d > safeDist) {
+                        1.0
+                    } else {
+                        // weight spaces near obstacles higher.
+                        2 * (1 - (d / safeDist)) + 1
+                    }
+                },
+                { one, two -> 1.0 },
+                { it.mooreNeighborhood() },
+                start,
+                end
+        )
 
 
         assert(path != null)
@@ -54,6 +62,34 @@ class PathfinderTest {
 
     }
 
+
+    @Test
+    fun testPathfindingInOpen3d() {
+
+        // If blocks are 6.5 * 6.5 inches
+        // xSize = 50
+        // ySize = 100
+
+        val size = Vec3[20, 30, 40]
+
+        val start = Vec3(1, 1, 1)
+        val end = Vec3(19, 29, 39)
+
+        val path = findPath3d(
+                size,
+                { pos -> 1.0 },
+                { one, two -> getEuclideanDistance(one, two) },
+                { it.vonNeumanNeighborhood() },
+                start,
+                end
+        )
+
+
+        assert(path != null)
+        assert(path?.first() == start)
+        assert(path?.last() == end)
+
+    }
 
 //    @Test
 //    fun testPathMakerWithTurns() {

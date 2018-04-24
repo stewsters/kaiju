@@ -43,12 +43,12 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
     }
 
     fun vonNeumanNeighborhood(): List<Vec3> = listOf(
-            Vec3(x, y + 1, z),
             Vec3(x + 1, y, z),
-            Vec3(x, y - 1, z),
+            Vec3(x, y + 1, z),
+            Vec3(x, y, z + 1),
             Vec3(x - 1, y, z),
-            Vec3(z, y, z + 1),
-            Vec3(z, y, z - 1)
+            Vec3(x, y - 1, z),
+            Vec3(x, y, z - 1)
     )
 
     fun vonNeumanNeighborhood2d(): List<Vec3> = listOf(
