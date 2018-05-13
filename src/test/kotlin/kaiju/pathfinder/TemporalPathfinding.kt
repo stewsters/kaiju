@@ -5,10 +5,13 @@ import kaiju.math.Matrix3d
 import kaiju.math.Vec2
 import kaiju.math.Vec3
 import kaiju.math.getEuclideanDistance
+import org.junit.Ignore
+import org.junit.Test
 
 // Multi agent pathfinding in time
 class TemporalPathfinding() {
 
+    @Ignore("should work on this soon")
     @Test
     fun testPathfindingInOpen3d() {
 

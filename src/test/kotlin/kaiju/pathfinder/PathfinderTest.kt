@@ -7,6 +7,7 @@ import kaiju.math.Rectangle
 import kaiju.math.Vec2
 import kaiju.math.Vec3
 import kaiju.math.getEuclideanDistance
+import org.junit.Test
 
 class PathfinderTest {
 

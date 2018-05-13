@@ -1,5 +1,7 @@
 package kaiju.plan
 
+import org.junit.Test
+
 class TestPlan {
 
     @Test

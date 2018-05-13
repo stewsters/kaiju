@@ -1,6 +1,7 @@
 package kaiju.plan
 
 import kaiju.math.Vec2
+import org.junit.Test
 
 class DungeonPlanner {
 
