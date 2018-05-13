@@ -1,6 +1,7 @@
-package kai.math
+package kaiju.math
 
 data class Vec3(val x: Int, val y: Int, val z: Int) {
+
 
     operator fun plus(dir: Vec3): Vec3 = get(x + dir.x, y + dir.y, z + dir.z)
     operator fun plus(dir: Facing): Vec3 = get(x + dir.offset.x, y + dir.offset.y, z)
@@ -9,6 +10,7 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
 
     fun down(): Vec3 = get(x, y, z - 1)
     fun up(): Vec3 = get(x, y, z + 1)
+    fun getXY(): Vec2 = Vec2[x, y]
 
     companion object {
 

@@ -1,7 +1,7 @@
-package kai.pathfinder
+package kaiju.pathfinder
 
-import kai.math.Matrix3d
-import kai.math.Vec3
+import kaiju.math.Matrix3d
+import kaiju.math.Vec3
 
 /**
  * AStar 3d

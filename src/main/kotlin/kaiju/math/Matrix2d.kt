@@ -1,4 +1,4 @@
-package kai.math
+package kaiju.math
 
 class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
 

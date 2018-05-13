@@ -1,4 +1,4 @@
-package kai.math
+package kaiju.math
 
 class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val data: Array<T>) {
 

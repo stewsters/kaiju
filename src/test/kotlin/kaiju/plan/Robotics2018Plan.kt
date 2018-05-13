@@ -1,6 +1,4 @@
-package kai.plan
-
-import org.junit.Test
+package kaiju.plan
 
 class Robotics2018Plan {
 

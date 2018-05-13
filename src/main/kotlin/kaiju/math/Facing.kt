@@ -1,4 +1,4 @@
-package kai.math
+package kaiju.math
 
 enum class Facing(val offset: Vec2) {
 

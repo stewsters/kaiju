@@ -1,4 +1,4 @@
-package kai.math
+package kaiju.math
 
 import java.lang.Math.abs
 

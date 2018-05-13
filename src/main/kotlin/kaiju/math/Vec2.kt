@@ -1,4 +1,4 @@
-package kai.math
+package kaiju.math
 
 data class Vec2(val x: Int, val y: Int) {
 

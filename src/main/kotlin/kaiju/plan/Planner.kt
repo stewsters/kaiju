@@ -1,4 +1,4 @@
-package kai.plan
+package kaiju.plan
 
 import java.util.*
 

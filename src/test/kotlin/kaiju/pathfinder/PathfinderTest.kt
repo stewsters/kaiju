@@ -1,13 +1,12 @@
-package kai.pathfinder
+package kaiju.pathfinder
 
-import kai.math.InverseRectangle
-import kai.math.Matrix2d
-import kai.math.Obstacle
-import kai.math.Rectangle
-import kai.math.Vec2
-import kai.math.Vec3
-import kai.math.getEuclideanDistance
-import org.junit.Test
+import kaiju.math.InverseRectangle
+import kaiju.math.Matrix2d
+import kaiju.math.Obstacle
+import kaiju.math.Rectangle
+import kaiju.math.Vec2
+import kaiju.math.Vec3
+import kaiju.math.getEuclideanDistance
 
 class PathfinderTest {
 
