@@ -1,17 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.2.41'
 }
-//
-//    repositories {
-//        mavenCentral()
-//    }
-//
-//    dependencies {
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-//    }
-//}
-
-//apply plugin: 'kotlin'
 
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.2.41"
@@ -27,6 +16,9 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "com.github.alexeyr.pcg:pcg:0.9.1"
+    compile 'com.google.code.gson:gson:2.8.4'
+
     testCompile("junit:junit:4.12")
 }
 
