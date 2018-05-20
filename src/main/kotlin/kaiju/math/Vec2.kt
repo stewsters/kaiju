@@ -42,7 +42,7 @@ data class Vec2(val x: Int, val y: Int) {
 
     fun mooreNeighborhood(): List<Vec2> = List(8, { index ->
         if (index >= 4)
-            Vec2[(index + 1) % 2 - 1 + x, (index + 1) / 3 - 1 + y]
+            Vec2[(index + 1) % 3 - 1 + x, (index + 1) / 3 - 1 + y]
         else
             Vec2[index % 3 - 1 + x, index / 3 - 1 + y]
     })
