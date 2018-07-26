@@ -1,9 +1,9 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.51'
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.41"
+    id "org.jetbrains.kotlin.jvm" version "1.2.51"
 }
 
 group 'com.stewsters'

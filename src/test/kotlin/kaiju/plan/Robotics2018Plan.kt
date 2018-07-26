@@ -76,7 +76,7 @@ class Robotics2018Plan {
                 maxCost
         )
 
-        plan?.forEach({ println(it.name) })
+        plan?.forEach { println(it.name) }
 
         assert(plan != null)
     }

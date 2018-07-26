@@ -67,14 +67,14 @@ class TestPlan {
                 maxCost
         )
 
-        plan?.forEach({ println(it.name) })
+        plan?.forEach { println(it.name) }
 
         assert(plan != null)
     }
 }
 
 
-// EXAMPLEAGE:
+// EXAMPLE:
 
 private class SwordCombatWorldState(
         var hp: Int = 10,

@@ -44,11 +44,11 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val da
 inline fun <reified T> Matrix3d(size: Vec3, init: (Int, Int, Int) -> T) = Matrix3d(size.x, size.y, size.z, init)
 
 inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, init: (Int, Int, Int) -> T) =
-        Matrix3d(xSize, ySize, zSize, Array(xSize * ySize * zSize, { i ->
+        Matrix3d(xSize, ySize, zSize, Array(xSize * ySize * zSize) { i ->
             init(
                     i % xSize,
                     (i % (xSize * ySize)) / xSize,
                     i / (xSize * ySize)
             )
-        }))
+        })
 

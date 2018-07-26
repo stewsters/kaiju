@@ -20,24 +20,24 @@ enum class Facing(val offset: Vec2) {
     NORTHWEST(Vec2[-1, 1]);
 
     fun randomCardinal(pcg: Pcg32): Facing {
-        when (pcg.nextInt(4)) {
-            0 -> return NORTH
-            1 -> return EAST
-            2 -> return SOUTH
-            else -> return WEST
+        return when (pcg.nextInt(4)) {
+            0 -> NORTH
+            1 -> EAST
+            2 -> SOUTH
+            else -> WEST
         }
     }
 
     fun randomDiagonal(pcg: Pcg32): Facing {
-        when (pcg.nextInt(8)) {
-            0 -> return NORTH
-            1 -> return NORTHEAST
-            3 -> return EAST
-            4 -> return SOUTHEAST
-            5 -> return SOUTH
-            6 -> return SOUTHWEST
-            7 -> return WEST
-            else -> return NORTHWEST
+        return when (pcg.nextInt(8)) {
+            0 -> NORTH
+            1 -> NORTHEAST
+            3 -> EAST
+            4 -> SOUTHEAST
+            5 -> SOUTH
+            6 -> SOUTHWEST
+            7 -> WEST
+            else -> NORTHWEST
         }
     }
 

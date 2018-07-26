@@ -15,7 +15,7 @@ fun findPath2d(
         end: Vec2
 ): List<Vec2>? {
 
-    val costs = Matrix2d(size.x, size.y, { _, _ -> Double.MAX_VALUE })
+    val costs = Matrix2d(size.x, size.y) { _, _ -> Double.MAX_VALUE }
     val parent = Matrix2d<Vec2?>(size.x, size.y, { _, _ -> null })
     val fScore = Matrix2d(size.x, size.y, { _, _ -> Double.MAX_VALUE })
 

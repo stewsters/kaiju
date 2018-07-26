@@ -1,7 +1,7 @@
 package kaiju.math
 
 import com.github.alexeyr.pcg.Pcg32
-import java.util.ArrayList
+import java.util.*
 
 // Random Math functions
 val defaultRng = Pcg32()
@@ -39,11 +39,11 @@ fun getGauss(stdDeviation: Double, rng: Pcg32 = defaultRng): Double {
 }
 
 fun <E> rand(source: ArrayList<E>, rng: Pcg32 = defaultRng): E {
-    val id = getIntInRange(0, source.size - 1,rng)
+    val id = getIntInRange(0, source.size - 1, rng)
     return source[id]
 }
 
 fun <T> randVal(source: Array<T>, rng: Pcg32 = defaultRng): T {
-    val id = getIntInRange(0, source.size - 1,rng)
+    val id = getIntInRange(0, source.size - 1, rng)
     return source[id]
 }

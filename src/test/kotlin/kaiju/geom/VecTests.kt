@@ -57,7 +57,7 @@ class VecTests {
 
     @Test
     fun testMatrix() {
-        val mat = Matrix2d(10, 10, { x, y -> x * y })
+        val mat = Matrix2d(10, 10) { x, y -> x * y }
 
         for (x in 0..9) {
             for (y in 0..9) {

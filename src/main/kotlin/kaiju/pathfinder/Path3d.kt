@@ -16,7 +16,7 @@ fun findPath3d(
 ): List<Vec3>? {
 
     val costs = Matrix3d(size.x, size.y, size.z, { _, _, _ -> Double.MAX_VALUE })
-    val parent = Matrix3d<Vec3?>(size.x, size.y, size.z, { _, _, _ -> null })
+    val parent = Matrix3d<Vec3?>(size.x, size.y, size.z) { _, _, _ -> null }
     val fScore = Matrix3d(size.x, size.y, size.z, { _, _, _ -> Double.MAX_VALUE })
 
     val openSet = mutableListOf<Vec3>()

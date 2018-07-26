@@ -68,7 +68,7 @@ class DungeonPlanner {
                 maxCost
         )
 
-        plan?.forEach({ println(it.name) })
+        plan?.forEach { println(it.name) }
 
         assert(plan != null)
     }
@@ -76,7 +76,7 @@ class DungeonPlanner {
 
 data class Entity(var hp: Int, var pos: Vec2)
 
-// EXAMPLEAGE:
+// EXAMPLE:
 
 //TODO: Data class allows copy.  I think this can get a lot smaller if we use that.
 class DungeonWorldState(

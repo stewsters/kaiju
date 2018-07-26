@@ -1,7 +1,6 @@
 package kaiju.math
 
 import com.github.alexeyr.pcg.Pcg32
-import java.util.ArrayList
 
 
 // Math
@@ -14,7 +13,6 @@ fun manhattanDistance(x1: Int, y1: Int, x2: Int, y2: Int): Int {
 fun chebyshevDistance(x1: Int, y1: Int, x2: Int, y2: Int): Int {
     return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2))
 }
-
 
 
 fun min(a: Int, b: Int): Int {
@@ -57,14 +55,12 @@ fun <T : Comparable<T>> T.limit(low: T, high: T): T =
         else this
 
 
-
-
 // Linear Interpolate
 fun lerp(percentage: Double, one: Double, two: Double): Double =
         one + (two - one) * percentage
 
 fun lerp(percentage: Float, min: Float, max: Float): Float =
-     min + (max - min) * percentage
+        min + (max - min) * percentage
 
 
 fun unlerp(min: Float, max: Float, value: Float): Float {
@@ -85,7 +81,7 @@ fun smootherStep(edge0: Float, edge1: Float, x: Float): Float {
 }
 
 
-fun getChoice(choicesMap: Map<String, Int>, rng:Pcg32 = defaultRng): String? {
+fun getChoice(choicesMap: Map<String, Int>, rng: Pcg32 = defaultRng): String? {
     var totalChances = 0
     for (value in choicesMap.values) {
         totalChances += value

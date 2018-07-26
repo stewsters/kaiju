@@ -33,4 +33,4 @@ class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
 }
 
 inline fun <reified T> Matrix2d(xSize: Int, ySize: Int, init: (Int, Int) -> T) =
-        Matrix2d(xSize, ySize, Array(xSize * ySize, { i -> init(i % xSize, i / xSize) }))
+        Matrix2d(xSize, ySize, Array(xSize * ySize) { i -> init(i % xSize, i / xSize) })

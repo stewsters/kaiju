@@ -17,14 +17,14 @@ fun <W> plan(
     val openList = PriorityQueue<W>()
     openList.add(startingState)
 
-    // while we have a worldstate in the open
+    // while we have a world state in the open
     while (openList.size > 0) {
         val current = openList.poll()
         val viableActions = actions.filter {
             it.prerequisite(current)
         }
 
-        if (viableActions.size == 0) {
+        if (viableActions.isEmpty()) {
             endState.add(current)
             continue
         }
@@ -51,10 +51,10 @@ fun <W> plan(
 
     while (state != null && state.parentAction != null && state.parentState != null) {
         plan.add(state.parentAction!!)
-        state = state?.parentState
+        state = state.parentState
     }
 
-    Collections.reverse(plan)
+    plan.reverse()
 
     return plan
 }
@@ -72,7 +72,6 @@ interface World<W> {
 abstract class BaseWorldState<W>(
         override var parentState: W? = null,
         override var parentAction: Action<W>? = null,
-        override var cost: Float = 0f) : World<W> {
-}
+        override var cost: Float = 0f) : World<W>
 
 

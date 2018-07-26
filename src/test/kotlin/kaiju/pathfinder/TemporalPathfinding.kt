@@ -9,7 +9,7 @@ import org.junit.Ignore
 import org.junit.Test
 
 // Multi agent pathfinding in time
-class TemporalPathfinding() {
+class TemporalPathfinding {
 
     @Ignore("should work on this soon")
     @Test
@@ -26,7 +26,7 @@ class TemporalPathfinding() {
                 start = Vec2(1, 29),
                 end = Vec2(29, 1))
 
-        val map = Matrix2d(30, 30, { x, y -> false })
+        val map = Matrix2d(30, 30) { x, y -> false }
 
         val paths = findPathTemporal(
                 size = Vec2[20, 20],
@@ -37,18 +37,18 @@ class TemporalPathfinding() {
                     // get von neuman neighborhood 1 unit in the future
                     it.vonNeumanNeighborhood()
                 },
-                movers = arrayOf<Mover>(
+                movers = arrayOf(
                         mover1,
                         mover2
                 )
         )
 
-        with(paths.get(mover1)) {
+        with(paths[mover1]) {
             assert(this?.first()?.getXY() == mover1.start)
             assert(this?.last()?.getXY() == mover1.end)
         }
 
-        with(paths.get(mover2)) {
+        with(paths[mover2]) {
             assert(this?.first()?.getXY() == mover2.start)
             assert(this?.last()?.getXY() == mover2.end)
         }
