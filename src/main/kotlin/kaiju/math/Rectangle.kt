@@ -4,13 +4,19 @@ import java.lang.Math.abs
 
 open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle {
 
-    fun inside(point: Vec2): Boolean {
-        return point.x >= lower.x && point.y >= lower.y && point.x <= upper.x && point.y <= upper.y
+    fun inside(point: Vec2): Boolean = inside(point.x, point.y)
+    fun inside(x: Int, y: Int): Boolean {
+        return x >= lower.x && y >= lower.y && x <= upper.x && y <= upper.y
     }
 
-    fun outside(point: Vec2): Boolean {
-        return point.x < 0 || point.y < 0 || point.x > upper.x || point.y > upper.y
+    fun outside(point: Vec2) = outside(point.x, point.y)
+    fun outside(x: Int, y: Int): Boolean {
+        return x < 0 || y < 0 || x > upper.x || y > upper.y
     }
+
+    fun getXSize(): Int = upper.x - lower.x
+    fun getYSize(): Int = upper.y - lower.y
+
 
     override fun minDist(point: Vec2): Double {
         if (inside(point)) {
@@ -49,6 +55,7 @@ open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle {
 }
 
 class InverseRectangle(lower: Vec2, upper: Vec2) : Rectangle(lower, upper) {
+
     override fun minDist(point: Vec2): Double {
 
         return if (outside(point)) {
@@ -65,14 +72,20 @@ class InverseRectangle(lower: Vec2, upper: Vec2) : Rectangle(lower, upper) {
 
 open class RectangularPrism(val lower: Vec3, val upper: Vec3) {
 
-    fun inside(point: Vec3): Boolean {
-        return point.x >= lower.x && point.y >= lower.y && point.y >= lower.z
-                && point.x <= upper.x && point.y <= upper.y && point.z <= upper.z
+    fun inside(point: Vec3): Boolean = inside(point.x, point.y, point.z)
+    fun inside(x: Int, y: Int, z: Int): Boolean {
+        return x >= lower.x && y >= lower.y && y >= lower.z
+                && x <= upper.x && y <= upper.y && z <= upper.z
     }
 
-    fun outside(point: Vec3): Boolean {
-        return point.x < 0 || point.y < 0 || point.z < 0 || point.x > upper.x || point.y > upper.y || point.z > upper.z
+    fun outside(point: Vec3): Boolean = outside(point.x, point.y, point.z)
+    fun outside(x: Int, y: Int, z: Int): Boolean {
+        return x < 0 || y < 0 || z < 0 || x > upper.x || y > upper.y || z > upper.z
     }
+
+    fun getXSize() = upper.x - lower.x
+    fun getYSize() = upper.y - lower.y
+    fun getZSize() = upper.z - lower.z
 
 //    override fun minDist(point: Vec3): Double {
 //        if (inside(point)) {
