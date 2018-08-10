@@ -22,7 +22,9 @@ class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
 
     fun outside(x: Int, y: Int): Boolean = (x < 0 || y < 0 || x >= xSize || y >= ySize)
 
-    fun each(function: (Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
+    fun forEach(function: (T) -> Unit) = data.forEach(function)
+
+    fun forEachIndexed(function: (Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
         function(
                 i % xSize,
                 i / xSize,
@@ -30,7 +32,28 @@ class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
         )
     }
 
+    fun setFromList(list: List<T>) {
+        list.forEachIndexed { index, t -> data[index] = t }
+    }
+
+//    fun <R> map(transform: (T) -> R): Matrix2d<R> = Matrix2d(xSize, ySize, data.map(transform))
+
+//    fun <R> mapIndexed(transform: (Int, Int, T) -> R): Matrix2d<R> = Matrix2d.fromArray(xSize, ySize,
+//            data.mapIndexed { i, t ->
+//                transform(
+//                        i % xSize,
+//                        i / xSize,
+//                        t
+//                )
+//            }
+//    )
+
 }
+
+inline fun <reified T> Matrix2d(size: Vec2, init: (Int, Int) -> T) = Matrix2d(size.x, size.y, init)
 
 inline fun <reified T> Matrix2d(xSize: Int, ySize: Int, init: (Int, Int) -> T) =
         Matrix2d(xSize, ySize, Array(xSize * ySize) { i -> init(i % xSize, i / xSize) })
+
+inline fun <reified T> Matrix2d(xSize: Int, ySize: Int, dataList: List<T>): Matrix2d<T> =
+        Matrix2d<T>(xSize, ySize, Array<T>(dataList.size, { i -> dataList[i] }))

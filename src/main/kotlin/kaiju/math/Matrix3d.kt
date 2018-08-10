@@ -22,7 +22,9 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val da
 
     fun outside(x: Int, y: Int, z: Int): Boolean = (x < 0 || y < 0 || z < 0 || x >= xSize || y >= ySize || z >= zSize)
 
-    fun each(function: (Int, Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
+    fun forEach(function: (T) -> Unit) = data.forEach(function)
+
+    fun forEachIndexed(function: (Int, Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
         function(
                 i % xSize,
                 (i % (xSize * ySize)) / xSize,
@@ -34,6 +36,7 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val da
     fun setFromList(list: List<T>) {
         list.forEachIndexed { index, t -> data[index] = t }
     }
+
 
 //    fun submap(boundingRect: RectangularPrism): Matrix3d<T> {
 //
@@ -51,4 +54,7 @@ inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, init: (Int, 
                     i / (xSize * ySize)
             )
         })
+
+inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, dataList: List<T>): Matrix3d<T> =
+        Matrix3d<T>(xSize, ySize, zSize, Array<T>(dataList.size, { i -> dataList[i] }))
 
