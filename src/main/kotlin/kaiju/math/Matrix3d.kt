@@ -37,6 +37,7 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val da
         list.forEachIndexed { index, t -> data[index] = t }
     }
 
+    fun <R : Comparable<R>> sortedBy(function: (T) -> R?): List<T> = data.sortedBy(function)
 
 //    fun submap(boundingRect: RectangularPrism): Matrix3d<T> {
 //

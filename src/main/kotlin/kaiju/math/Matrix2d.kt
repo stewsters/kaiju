@@ -36,6 +36,8 @@ class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
         list.forEachIndexed { index, t -> data[index] = t }
     }
 
+    fun <R : Comparable<R>> sortedBy(function: (T) -> R?): List<T> = data.sortedBy(function)
+
 //    fun <R> map(transform: (T) -> R): Matrix2d<R> = Matrix2d(xSize, ySize, data.map(transform))
 
 //    fun <R> mapIndexed(transform: (Int, Int, T) -> R): Matrix2d<R> = Matrix2d.fromArray(xSize, ySize,
