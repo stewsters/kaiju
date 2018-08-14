@@ -17,20 +17,19 @@ interface Task {
 
 // Executes every node in order
 class Sequence(val tasks: List<Task>, var i: Int = 0) : Task {
-    override fun doIt(): Status {
-        val current = tasks[i]
-
-        if (current.doIt()) {
-            // Sub action completed
-            i++
-            if (i >= tasks.size) {
-                i = 0
-                return true
+    override fun doIt(): Status =
+            when (tasks[i].doIt()) {
+                Status.SUCCESS -> {
+                    i++
+                    if (i >= tasks.size) {
+                        i = 0
+                        Status.SUCCESS
+                    } else
+                        Status.RUNNING
+                }
+                Status.FAILURE -> Status.FAILURE
+                Status.RUNNING -> Status.RUNNING
             }
-        }
-        // Still going
-        return Status.RUNNING
-    }
 }
 
 // Decorators
@@ -56,16 +55,53 @@ interface Condition {
 // inverter
 // succeeder  - always return success
 
-// Repeater -
-class Loop(val task: Task, val count: Int) : Task {
+// Repeater - keep doing it x number of times
+class Loop(val task: Task, val iterations: Int) : Task {
+    private var count: Int = 0
+
     override fun doIt(): Status {
-        task.doIt()
+
+        val result = task.doIt()
+
+        if (result != Status.RUNNING) {
+            count++
+            if (count >= iterations)
+                return Status.SUCCESS
+        }
+
+        return Status.RUNNING
     }
 }
 
-class LoopUntilSuccess(val task: Task) // keeps going until it reutns success
-class LoopUntilFailure(val task: Task) // keeps
+class LoopForever(val task: Task) : Task {
 
-class Parallel()  // failuremode any/all, successMode any/all
+    override fun doIt(): Status {
+        task.doIt()
+        return Status.RUNNING
+    }
+}
+
+
+class LoopUntilSuccess(val task: Task) : Task {
+    override fun doIt(): Status {
+        val result = task.doIt()
+        if (result == Status.SUCCESS)
+            return Status.SUCCESS
+
+        return Status.RUNNING
+    }
+}
+
+class LoopUntilFailure(val task: Task) : Task {
+    override fun doIt(): Status {
+        val result = task.doIt()
+        if (result == Status.FAILURE)
+            return Status.SUCCESS
+
+        return Status.RUNNING
+    }
+}
+
+//class Parallel()  // failuremode any/all, successMode any/all
 
 // wait?

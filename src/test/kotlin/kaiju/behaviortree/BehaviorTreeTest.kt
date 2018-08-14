@@ -18,8 +18,7 @@ class BehaviorTreeTest {
 
         val root = Sequence(listOf(
                 WalkIntoRoom(situation),
-                inRoom,
-                inRoom
+                Loop(inRoom, 2)
         ))
 
         for (x in 0 until 100)
@@ -41,18 +40,18 @@ class ShootValue(var situation: Situation) : Condition {
 }
 
 class ShootYourShot(var situation: Situation) : Task {
-    override fun doIt(): Boolean {
+    override fun doIt(): Status {
         println("Shoot")
         situation.opponentAlive = false
-        return true
+        return Status.SUCCESS
     }
 }
 
 class WalkIntoRoom(var situation: Situation) : Task {
-    override fun doIt(): Boolean {
+    override fun doIt(): Status {
         println("Walks into room")
         situation.inRoom = true
-        return true
+        return Status.SUCCESS
     }
 
 }
@@ -64,9 +63,9 @@ class LeaveValue(var situation: Situation) : Condition {
 }
 
 class WalkOutOfRoom(var situation: Situation) : Task {
-    override fun doIt(): Boolean {
+    override fun doIt(): Status {
         println("Walks out of room")
         situation.inRoom = false
-        return true
+        return Status.SUCCESS
     }
 }
