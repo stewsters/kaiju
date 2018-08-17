@@ -43,7 +43,7 @@ class ShootYourShot(var situation: Situation) : Task {
     override fun doIt(): Status {
         println("Shoot")
         situation.opponentAlive = false
-        return Status.SUCCESS
+        return Status.Success
     }
 }
 
@@ -51,7 +51,7 @@ class WalkIntoRoom(var situation: Situation) : Task {
     override fun doIt(): Status {
         println("Walks into room")
         situation.inRoom = true
-        return Status.SUCCESS
+        return Status.Success
     }
 
 }
@@ -66,6 +66,6 @@ class WalkOutOfRoom(var situation: Situation) : Task {
     override fun doIt(): Status {
         println("Walks out of room")
         situation.inRoom = false
-        return Status.SUCCESS
+        return Status.Success
     }
 }

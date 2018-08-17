@@ -1,10 +1,13 @@
 package kaiju.behaviortree
 
-enum class Status {
-    SUCCESS,
-    FAILURE,
-    RUNNING
+sealed class Status {
+    object Success : Status()
+    object Failure : Status()
+    object Running : Status()
 }
+typealias success = Status.Success
+typealias failure = Status.Failure
+typealias running = Status.Running
 
 
 // Does something in the game
@@ -19,16 +22,16 @@ interface Task {
 class Sequence(val tasks: List<Task>, var i: Int = 0) : Task {
     override fun doIt(): Status =
             when (tasks[i].doIt()) {
-                Status.SUCCESS -> {
+                Status.Success -> {
                     i++
                     if (i >= tasks.size) {
                         i = 0
-                        Status.SUCCESS
+                        success
                     } else
-                        Status.RUNNING
+                        running
                 }
-                Status.FAILURE -> Status.FAILURE
-                Status.RUNNING -> Status.RUNNING
+                Status.Failure -> failure
+                Status.Running -> running
             }
 }
 
@@ -39,7 +42,7 @@ class Selector(val tasks: Map<Condition, Task>) : Task {
 
         // if there is no option, we are done
         if (current == null) {
-            return Status.FAILURE
+            return failure
         }
 
         return current.doIt()
@@ -63,13 +66,13 @@ class Loop(val task: Task, val iterations: Int) : Task {
 
         val result = task.doIt()
 
-        if (result != Status.RUNNING) {
+        if (result != running) {
             count++
             if (count >= iterations)
-                return Status.SUCCESS
+                return success
         }
 
-        return Status.RUNNING
+        return running
     }
 }
 
@@ -77,7 +80,7 @@ class LoopForever(val task: Task) : Task {
 
     override fun doIt(): Status {
         task.doIt()
-        return Status.RUNNING
+        return running
     }
 }
 
@@ -85,20 +88,20 @@ class LoopForever(val task: Task) : Task {
 class LoopUntilSuccess(val task: Task) : Task {
     override fun doIt(): Status {
         val result = task.doIt()
-        if (result == Status.SUCCESS)
-            return Status.SUCCESS
+        if (result == success)
+            return success
 
-        return Status.RUNNING
+        return running
     }
 }
 
 class LoopUntilFailure(val task: Task) : Task {
     override fun doIt(): Status {
         val result = task.doIt()
-        if (result == Status.FAILURE)
-            return Status.SUCCESS
+        if (result == failure)
+            return success
 
-        return Status.RUNNING
+        return running
     }
 }
 
