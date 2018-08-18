@@ -2,6 +2,8 @@ package kaiju.behaviortree
 
 import org.junit.Test
 
+val log = mutableListOf<String>()
+
 class BehaviorTreeTest {
     @Test
     fun testBehaviorTree() {
@@ -11,20 +13,55 @@ class BehaviorTreeTest {
                 opponentAlive = true
         )
 
-        val inRoom = Selector(mapOf(
-                LeaveValue(situation) to WalkOutOfRoom(situation),
-                ShootValue(situation) to ShootYourShot(situation)
-        ))
-
         val root = Sequence(listOf(
                 WalkIntoRoom(situation),
-                Loop(inRoom, 2)
+                Loop(3,
+                        Selector(mapOf(
+                                LeaveValue(situation) to WalkOutOfRoom(situation),
+                                ShootValue(situation) to Sequence(listOf(
+                                        SayPunchline("Remember when I said I would kill you last?"),
+                                        ShootYourShot(situation),
+                                        SayPunchline("I lied.")
+                                )),
+                                NapValue(situation) to TakeANap(situation)
+                        ))
+                )
         ))
 
-        for (x in 0 until 100)
-            root.doIt()
+
+        var i = 0;
+        do {
+            val result = root.doIt()
+            i++
+        } while (result == running && i < 10)
+
+        log.forEach { println(it) }
+
+        assert(log[0] == "Walks into room")
+        assert(log[1] == "Remember when I said I would kill you last?")
+        assert(log[2] == "Shoot")
+        assert(log[3] == "Walks out of room")
+        assert(log[4] == "Take a nap")
 
     }
+}
+
+class TakeANap(val situation: Situation) : Task {
+    override fun doIt(): Status {
+        if (situation.opponentAlive)
+            return failure
+
+        log.add("Take a nap")
+        return success
+    }
+
+}
+
+class NapValue(val situation: Situation) : Condition {
+    override fun valueToDoIt(): Float {
+        return if (situation.opponentAlive || situation.inRoom) 0f else 1f
+    }
+
 }
 
 class Situation(
@@ -41,17 +78,17 @@ class ShootValue(var situation: Situation) : Condition {
 
 class ShootYourShot(var situation: Situation) : Task {
     override fun doIt(): Status {
-        println("Shoot")
+        log.add("Shoot")
         situation.opponentAlive = false
-        return Status.Success
+        return success
     }
 }
 
 class WalkIntoRoom(var situation: Situation) : Task {
     override fun doIt(): Status {
-        println("Walks into room")
+        log.add("Walks into room")
         situation.inRoom = true
-        return Status.Success
+        return success
     }
 
 }
@@ -64,8 +101,16 @@ class LeaveValue(var situation: Situation) : Condition {
 
 class WalkOutOfRoom(var situation: Situation) : Task {
     override fun doIt(): Status {
-        println("Walks out of room")
+        log.add("Walks out of room")
         situation.inRoom = false
-        return Status.Success
+        return success
     }
+}
+
+class SayPunchline(val line: String) : Task {
+    override fun doIt(): Status {
+        log.add(line)
+        return success
+    }
+
 }

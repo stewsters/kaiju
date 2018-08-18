@@ -30,22 +30,41 @@ class Sequence(val tasks: List<Task>, var i: Int = 0) : Task {
                     } else
                         running
                 }
-                Status.Failure -> failure
+                Status.Failure -> {
+                    i = 0
+                    failure
+                }
                 Status.Running -> running
             }
 }
 
 // Decorators
-class Selector(val tasks: Map<Condition, Task>) : Task {
-    override fun doIt(): Status {
-        val current = tasks.maxBy { it.key.valueToDoIt() }?.value
+class Selector(val tasks: Map<Condition, Task>, var current: Task? = null) : Task {
 
-        // if there is no option, we are done
+
+    override fun doIt(): Status {
+
         if (current == null) {
-            return failure
+            val current = tasks.maxBy { it.key.valueToDoIt() }?.value
+
+            // if there is no option, we are done
+            if (current == null) {
+                return failure
+            }
+
+            return current.doIt()
+
+        } else {
+            // if we are running, keep it up
+            // else clear the current and return
+            val result = current!!.doIt()
+            if (result != running) {
+                current = null
+            }
+            return result
+
         }
 
-        return current.doIt()
     }
 
 }
@@ -54,12 +73,11 @@ interface Condition {
     fun valueToDoIt(): Float
 }
 
-
 // inverter
 // succeeder  - always return success
 
 // Repeater - keep doing it x number of times
-class Loop(val task: Task, val iterations: Int) : Task {
+class Loop(val iterations: Int, val task: Task) : Task {
     private var count: Int = 0
 
     override fun doIt(): Status {
