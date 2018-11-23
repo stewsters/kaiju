@@ -40,12 +40,12 @@ data class Vec2(val x: Int, val y: Int) {
             Vec2[x - 1, y]
     )
 
-    fun mooreNeighborhood(): List<Vec2> = List(8, { index ->
+    fun mooreNeighborhood(): List<Vec2> = List(8) { index ->
         if (index >= 4)
             Vec2[(index + 1) % 3 - 1 + x, (index + 1) / 3 - 1 + y]
         else
             Vec2[index % 3 - 1 + x, index / 3 - 1 + y]
-    })
+    }
 
     override fun toString(): String {
         return "($x, $y)"

@@ -68,4 +68,16 @@ class MathTest {
         assertEquals(6.0, 5.0.limit(6.0, 7.0))
         assertEquals(5L, 10L.limit(-5L, 5L))
     }
+
+    @Test
+    fun testDestructure() {
+        val (x, y, z) = Vec3[1, 2, 3]
+        assert(1 == x)
+        assert(2 == y)
+        assert(3 == z)
+
+        val (x1, y1) = Vec2[0, 4]
+        assert(0 == x1)
+        assert(4 == y1)
+    }
 }

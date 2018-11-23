@@ -49,7 +49,7 @@ fun <W> plan(
 
     val plan = ArrayList<Action<W>>()
 
-    while (state != null && state.parentAction != null && state.parentState != null) {
+    while (state?.parentAction != null && state.parentState != null) {
         plan.add(state.parentAction!!)
         state = state.parentState
     }
