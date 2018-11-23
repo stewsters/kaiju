@@ -13,20 +13,22 @@ class BehaviorTreeTest {
                 opponentAlive = true
         )
 
-        val root = Sequence(listOf(
-                WalkIntoRoom(situation),
-                Loop(3,
-                        Selector(mapOf(
-                                LeaveValue(situation) to WalkOutOfRoom(situation),
-                                ShootValue(situation) to Sequence(listOf(
-                                        SayPunchline("Remember when I said I would kill you last?"),
-                                        ShootYourShot(situation),
-                                        SayPunchline("I lied.")
-                                )),
-                                NapValue(situation) to TakeANap(situation)
-                        ))
+        val root = BehaviorTree(
+                Sequence(
+                        WalkIntoRoom(situation),
+                        Loop(3,
+                                Chooser(mapOf(
+                                        LeaveValue(situation) to WalkOutOfRoom(situation),
+                                        ShootValue(situation) to Sequence(
+                                                SayPunchline("Remember when I said I would kill you last?"),
+                                                ShootYourShot(situation),
+                                                SayPunchline("I lied.")
+                                        ),
+                                        NapValue(situation) to TakeANap(situation)
+                                ))
+                        )
                 )
-        ))
+        )
 
 
         var i = 0;
@@ -40,8 +42,9 @@ class BehaviorTreeTest {
         assert(log[0] == "Walks into room")
         assert(log[1] == "Remember when I said I would kill you last?")
         assert(log[2] == "Shoot")
-        assert(log[3] == "Walks out of room")
-        assert(log[4] == "Take a nap")
+        assert(log[3] == "I lied.")
+        assert(log[4] == "Walks out of room")
+        assert(log[5] == "Take a nap")
 
     }
 }
