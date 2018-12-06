@@ -65,7 +65,7 @@ class TemporalPathfinding {
 
         // create a temporalMap of future blocked positions
 
-        val map = Matrix3d(size.x, size.y, timeLimit, { x, y, z -> false })
+        val map = Matrix3d(size.x, size.y, timeLimit) { x, y, z -> false }
 
 
         return mapOf()

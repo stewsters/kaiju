@@ -22,7 +22,7 @@ data class Vec2(val x: Int, val y: Int) {
             val xA = x + offset
             val yA = y + offset
 
-            return if (xA >= 0 && xA < actualSize && yA >= 0 && yA < actualSize) {
+            return if (xA in 0 until actualSize && yA in 0 until actualSize) {
                 pool[actualSize * yA + xA]
             } else {
                 // return a generated one.  This should not happen in practice, but its nice not to throw a bug for the

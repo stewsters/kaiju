@@ -8,7 +8,7 @@ class BehaviorTreeTest {
     @Test
     fun testBehaviorTree() {
 
-        var situation = Situation(
+        val situation = Situation(
                 inRoom = false,
                 opponentAlive = true
         )
@@ -29,7 +29,7 @@ class BehaviorTreeTest {
         ))
 
 
-        var i = 0;
+        var i = 0
         do {
             val result = root.doIt()
             i++

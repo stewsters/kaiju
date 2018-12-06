@@ -57,5 +57,5 @@ inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, init: (Int, 
         })
 
 inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, dataList: List<T>): Matrix3d<T> =
-        Matrix3d<T>(xSize, ySize, zSize, Array<T>(dataList.size, { i -> dataList[i] }))
+        Matrix3d<T>(xSize, ySize, zSize, Array<T>(dataList.size) { i -> dataList[i] })
 
