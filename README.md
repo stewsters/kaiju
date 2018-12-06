@@ -19,6 +19,7 @@ Instruction can be found here:
 
 
 
-## Future Plans:
-Behavior Trees
-Monte Carlo Tree Search (MCTS)
+## Future Plans
+
+* Behavior Trees
+* Monte Carlo Tree Search (MCTS)
