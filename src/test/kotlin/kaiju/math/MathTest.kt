@@ -80,4 +80,11 @@ class MathTest {
         assert(0 == x1)
         assert(4 == y1)
     }
+
+    @Test
+    fun testAdd() {
+        assert(Vec2[1, 2] + Vec2[2, 3] == Vec2[3, 5])
+
+        assert(Vec3[1, 2, 0] - Vec3[2, 3, 1] == Vec3[-1, -1, -1])
+    }
 }

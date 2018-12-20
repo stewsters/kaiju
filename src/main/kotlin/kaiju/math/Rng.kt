@@ -1,7 +1,6 @@
 package kaiju.math
 
 import com.github.alexeyr.pcg.Pcg32
-import java.util.*
 
 // Random Math functions
 val defaultRng = Pcg32()
@@ -17,33 +16,43 @@ fun getIntInRange(low: Int, high: Int, rng: Pcg32 = defaultRng): Int {
     return rng.nextInt(high + 1 - low) + low
 }
 
-fun d(high: Int, rng: Pcg32 = defaultRng): Int {
-    return getIntInRange(1, high, rng)
-}
+fun getInt(intRange: IntRange, rng: Pcg32 = defaultRng): Int = getIntInRange(intRange.first, intRange.endInclusive, rng)
+
+
+fun d(high: Int, rng: Pcg32 = defaultRng): Int = getIntInRange(1, high, rng)
+
+// this is done so I can call it in the integer
+fun dice(high: Int, rng: Pcg32 = defaultRng): Int = d(high, rng)
+
+fun Int.d(high: Int, rng: Pcg32 = defaultRng): Int = (0 until this).map { dice(high, rng) }.sum()
+
 
 fun getFloatInRange(low: Float, high: Float, rng: Pcg32 = defaultRng): Float {
     if (low == high) return low
     return rng.nextFloat() * (high - low) + low
 }
 
-fun getBoolean(rng: Pcg32 = defaultRng): Boolean {
-    return rng.nextBoolean()
+fun getDoubleInRange(low: Double, high: Double, rng: Pcg32 = defaultRng): Double {
+    if (low == high) return low
+    return rng.nextFloat() * (high - low) + low
 }
 
-fun getBoolean(chance: Float, rng: Pcg32 = defaultRng): Boolean {
-    return rng.nextFloat() <= chance
-}
+fun getBoolean(rng: Pcg32 = defaultRng): Boolean = rng.nextBoolean()
+
+fun getBoolean(chance: Float, rng: Pcg32 = defaultRng): Boolean = rng.nextFloat() <= chance
+
+fun getBoolean(chance: Double, rng: Pcg32 = defaultRng): Boolean = rng.nextDouble() <= chance
 
 fun getGauss(stdDeviation: Double, rng: Pcg32 = defaultRng): Double {
     return rng.nextGaussian() * stdDeviation
 }
 
-fun <E> rand(source: ArrayList<E>, rng: Pcg32 = defaultRng): E {
+fun <E> rand(source: List<E>, rng: Pcg32 = defaultRng): E {
     val id = getIntInRange(0, source.size - 1, rng)
     return source[id]
 }
 
-fun <T> randVal(source: Array<T>, rng: Pcg32 = defaultRng): T {
+fun <T> rand(source: Array<T>, rng: Pcg32 = defaultRng): T {
     val id = getIntInRange(0, source.size - 1, rng)
     return source[id]
 }
