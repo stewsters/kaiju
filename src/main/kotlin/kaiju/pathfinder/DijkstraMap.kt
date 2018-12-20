@@ -8,11 +8,11 @@ import java.util.*
 
 // http://www.roguebasin.com/index.php?title=The_Incredible_Power_of_Dijkstra_Maps
 
-
-fun dijkstraMap2d(size: Vec2, goals: List<Vec2>): Matrix2d<Int> {
+// Todo: need a function to block
+fun dijkstraMap2d(size: Vec2, goals: List<Vec2>, blocked: (p: Vec2) -> Boolean): Matrix2d<Int> {
     // clear out map
     val map = Matrix2d<Int>(size.x, size.y) { x, y -> Int.MAX_VALUE }
-    val frontier = PriorityQueue<Vec2>(goals.size, { x, y -> map[x].compareTo(map[y]) })
+    val frontier = PriorityQueue<Vec2>(goals.size) { x, y -> map[x].compareTo(map[y]) }
 
     // put all the points in the frontier
     for (goal in goals) {
@@ -26,7 +26,7 @@ fun dijkstraMap2d(size: Vec2, goals: List<Vec2>): Matrix2d<Int> {
 
         val newVal = map[evaluating] + 1
         evaluating.vonNeumanNeighborhood().forEach {
-            if (map.contains(it) && map[it] > newVal) {
+            if (map.contains(it) && map[it] > newVal && !blocked(it)) {
                 map[it] = newVal
                 frontier.add(it)
             }
@@ -39,10 +39,10 @@ fun dijkstraMap2d(size: Vec2, goals: List<Vec2>): Matrix2d<Int> {
 }
 
 
-fun dijkstraMap3d(size: Vec3, goals: List<Vec3>): Matrix3d<Int> {
+fun dijkstraMap3d(size: Vec3, goals: List<Vec3>, blocked: (p: Vec3) -> Boolean): Matrix3d<Int> {
     // clear out map
     val map = Matrix3d<Int>(size) { x, y, z -> Int.MAX_VALUE }
-    val frontier = PriorityQueue<Vec3>(goals.size, { x, y -> map[x].compareTo(map[y]) })
+    val frontier = PriorityQueue<Vec3>(goals.size) { x, y -> map[x].compareTo(map[y]) }
 
     // put all the points in the frontier
     for (goal in goals) {
@@ -56,7 +56,7 @@ fun dijkstraMap3d(size: Vec3, goals: List<Vec3>): Matrix3d<Int> {
 
         val newVal = map[evaluating] + 1
         evaluating.vonNeumanNeighborhood().forEach {
-            if (map.contains(it) && map[it] > newVal) {
+            if (map.contains(it) && map[it] > newVal && !blocked(it)) {
                 map[it] = newVal
                 frontier.add(it)
             }
