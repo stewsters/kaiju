@@ -1,6 +1,5 @@
 package kaiju.math
 
-import junit.framework.Assert.assertEquals
 import org.junit.Test
 
 
@@ -64,9 +63,9 @@ class MathTest {
 
     @Test
     fun testLimit() {
-        assertEquals(5, 5.limit(3, 6))
-        assertEquals(6.0, 5.0.limit(6.0, 7.0))
-        assertEquals(5L, 10L.limit(-5L, 5L))
+        assert(5 == 5.limit(3, 6))
+        assert(6.0 == 5.0.limit(6.0, 7.0))
+        assert(5L == 10L.limit(-5L, 5L))
     }
 
     @Test

@@ -47,12 +47,7 @@ fun getGauss(stdDeviation: Double, rng: Pcg32 = defaultRng): Double {
     return rng.nextGaussian() * stdDeviation
 }
 
-fun <E> rand(source: List<E>, rng: Pcg32 = defaultRng): E {
-    val id = getIntInRange(0, source.size - 1, rng)
-    return source[id]
-}
-
-fun <T> rand(source: Array<T>, rng: Pcg32 = defaultRng): T {
-    val id = getIntInRange(0, source.size - 1, rng)
-    return source[id]
-}
+// .random() can do this, but we may need a different Random function
+// fun <E> rand(source: List<E>, rng: Pcg32 = defaultRng): E = source[getIntInRange(0, source.size - 1, rng)]
+//
+// fun <T> rand(source: Array<T>, rng: Pcg32 = defaultRng): T = source[getIntInRange(0, source.size - 1, rng)]

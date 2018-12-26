@@ -71,18 +71,6 @@ class RandomTests {
 
     }
 
-    @Test
-    fun random() {
-
-        val list = listOf(1, 2, 3, 4)
-        val randomElement = rand(list)
-
-        val array = arrayOf(5, 6, 7, 8)
-        val randomElement2 = rand(array)
-
-
-    }
-
 
 }
 

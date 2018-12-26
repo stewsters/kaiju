@@ -15,8 +15,6 @@ class DijkstraMapTest() {
         for (y in (0 until map.ySize)) {
             println()
             for (x in (0 until map.xSize)) {
-
-
                 print(min(map[x, y], 9))
             }
         }
