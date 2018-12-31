@@ -58,6 +58,14 @@ class MathTest {
         assert(neighbors.contains(Vec2[3, 2]))
         assert(neighbors.contains(Vec2[2, 3]))
         assert(neighbors.contains(Vec2[4, 3]))
+
+        val neighbors2 = Vec2[3, 3].inclusiveVonNeumanNeighborhood()
+        assert(neighbors2.size == 5)
+        assert(neighbors2.contains(Vec2[3, 3]))
+        assert(neighbors2.contains(Vec2[3, 4]))
+        assert(neighbors2.contains(Vec2[3, 2]))
+        assert(neighbors2.contains(Vec2[2, 3]))
+        assert(neighbors2.contains(Vec2[4, 3]))
     }
 
 

@@ -4,7 +4,6 @@ import kaiju.math.Facing
 import kaiju.math.Matrix2d
 import kaiju.math.Vec2
 import org.junit.Test
-import java.util.*
 
 class VecTests {
 
@@ -38,10 +37,7 @@ class VecTests {
         val neighbors = center.mooreNeighborhood()
 
         assert(neighbors.size == 8)
-
-        neighbors.forEach { println(it) }
-
-        assert(neighbors.containsAll(Arrays.asList(
+        assert(neighbors.containsAll(listOf(
                 Vec2[4, 4],
                 Vec2[5, 4],
                 Vec2[6, 4],
@@ -50,8 +46,22 @@ class VecTests {
                 Vec2[4, 6],
                 Vec2[5, 6],
                 Vec2[6, 6]
-        ))
-        )
+        )))
+
+        val neighbors2 = center.inclusiveMooreNeighborhood()
+        assert(neighbors2.size == 9)
+        assert(neighbors2.containsAll(listOf(
+                center,
+                Vec2[4, 4],
+                Vec2[5, 4],
+                Vec2[6, 4],
+                Vec2[4, 5],
+                Vec2[6, 5],
+                Vec2[4, 6],
+                Vec2[5, 6],
+                Vec2[6, 6]
+        )))
+
     }
 
 
