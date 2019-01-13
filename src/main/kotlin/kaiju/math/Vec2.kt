@@ -22,7 +22,7 @@ data class Vec2(val x: Int, val y: Int) {
             val xA = x + offset
             val yA = y + offset
 
-            return if (xA >= 0 && xA < actualSize && yA >= 0 && yA < actualSize) {
+            return if (xA in 0 until actualSize && yA in 0 until actualSize) {
                 pool[actualSize * yA + xA]
             } else {
                 // return a generated one.  This should not happen in practice, but its nice not to throw a bug for the
@@ -33,6 +33,16 @@ data class Vec2(val x: Int, val y: Int) {
         }
     }
 
+    // Includes the center point
+    fun inclusiveVonNeumanNeighborhood(): List<Vec2> = listOf(
+            this,
+            Vec2[x, y + 1],
+            Vec2[x + 1, y],
+            Vec2[x, y - 1],
+            Vec2[x - 1, y]
+    )
+
+    // Excludes center point
     fun vonNeumanNeighborhood(): List<Vec2> = listOf(
             Vec2[x, y + 1],
             Vec2[x + 1, y],
@@ -40,12 +50,18 @@ data class Vec2(val x: Int, val y: Int) {
             Vec2[x - 1, y]
     )
 
-    fun mooreNeighborhood(): List<Vec2> = List(8, { index ->
+    // Includes the center point
+    fun inclusiveMooreNeighborhood(): List<Vec2> = List(9) { index ->
+        Vec2[index / 3 - 1 + x, index % 3 - 1 + y]
+    }
+
+    // Excludes center point
+    fun mooreNeighborhood(): List<Vec2> = List(8) { index ->
         if (index >= 4)
             Vec2[(index + 1) % 3 - 1 + x, (index + 1) / 3 - 1 + y]
         else
             Vec2[index % 3 - 1 + x, index / 3 - 1 + y]
-    })
+    }
 
     override fun toString(): String {
         return "($x, $y)"

@@ -12,6 +12,27 @@ import org.junit.Test
 class PathfinderTest {
 
     @Test
+    fun testPathfinding() {
+
+        val size = Vec2[20, 20]
+
+        val field = Matrix2d(size) { x, y -> x == 6 && y != 0 }
+        val path = findPath2d(
+                field.getSize(),
+                { if (field[it]) 100000.0 else 1.0 },
+                ::getEuclideanDistance,
+                { it.vonNeumanNeighborhood() },
+                Vec2[0, 0],
+                Vec2[19, 19]
+        )
+
+        println(path)
+
+        assert(path!!.contains(Vec2[6, 0]))
+
+    }
+
+    @Test
     fun testPathfindingInOpen2d() {
 
         // If blocks are 6.5 * 6.5 inches

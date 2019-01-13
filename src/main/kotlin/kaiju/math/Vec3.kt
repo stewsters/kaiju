@@ -33,7 +33,11 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
             val yA = y + offset
             val zA = z + offset
 
-            return if (xA >= 0 && xA < actualSize && yA >= 0 && yA < actualSize && zA >= 0 && zA < actualSize) {
+            return if (
+                    xA in 0 until actualSize &&
+                    yA in 0 until actualSize &&
+                    zA in 0 until actualSize
+            ) {
                 pool[zA * actualSize * actualSize + actualSize * yA + xA]
             } else {
                 // return a generated one.  This should not happen in practice, but its nice not to throw a bug for the
@@ -43,6 +47,16 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
             }
         }
     }
+
+    fun inclusiveVonNeumanNeighborhood(): List<Vec3> = listOf(
+            this,
+            Vec3(x + 1, y, z),
+            Vec3(x, y + 1, z),
+            Vec3(x, y, z + 1),
+            Vec3(x - 1, y, z),
+            Vec3(x, y - 1, z),
+            Vec3(x, y, z - 1)
+    )
 
     fun vonNeumanNeighborhood(): List<Vec3> = listOf(
             Vec3(x + 1, y, z),
@@ -60,6 +74,14 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
             Vec3(x - 1, y, z)
     )
 
+    fun inclusiveVonNeumanNeighborhood2d(): List<Vec3> = listOf(
+            this,
+            Vec3(x, y + 1, z),
+            Vec3(x + 1, y, z),
+            Vec3(x, y - 1, z),
+            Vec3(x - 1, y, z)
+    )
+
 //    fun mooreNeighborhood(): List<Vec3> = List(8, { index ->
 //        if (index >= 4)
 //            Vec3[(index + 1) % 2 - 1 + x, (index + 1) / 3 - 1 + y]
@@ -70,7 +92,6 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
     override fun toString(): String {
         return "($x, $y, $z)"
     }
-
 
 }
 
