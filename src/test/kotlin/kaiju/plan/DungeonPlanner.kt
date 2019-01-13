@@ -101,8 +101,8 @@ class DungeonWorldState(
         return DungeonWorldState(this)
     }
 
-    override fun compareTo(o: DungeonWorldState): Int {
-        return java.lang.Float.compare(cost, o.cost)
+    override fun compareTo(other: DungeonWorldState): Int {
+        return java.lang.Float.compare(cost, other.cost)
     }
 }
 

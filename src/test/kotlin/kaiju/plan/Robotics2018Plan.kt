@@ -93,18 +93,14 @@ private enum class ElevatorPos {
 }
 
 private fun atLow(pos: Vec): Boolean {
-    //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     return true
 }
 
 private fun atHigh(pos: Vec): Boolean {
-    //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     return true
 }
 
 private fun atStash(pos: Vec): Boolean {
-
-//    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     return true
 }
 

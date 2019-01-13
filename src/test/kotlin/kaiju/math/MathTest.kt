@@ -1,6 +1,6 @@
 package kaiju.math
 
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 
