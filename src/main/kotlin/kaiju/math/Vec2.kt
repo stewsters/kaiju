@@ -27,7 +27,6 @@ data class Vec2(val x: Int, val y: Int) {
             } else {
                 // return a generated one.  This should not happen in practice, but its nice not to throw a bug for the
                 // occasional one.  May want to actually error once this gets going
-                println("new $x $y")
                 Vec2(x, y)
             }
         }
