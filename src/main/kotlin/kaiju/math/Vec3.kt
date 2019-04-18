@@ -17,7 +17,7 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
         // how far off the standard size we will have cached.
         // These happen if you get negative movements or move off the board
         private const val offset = 4
-        private const val size: Int = 128
+        private const val size: Int = 32
         private const val actualSize = size + 2 * offset
         private val pool = Array((actualSize * actualSize * actualSize)) { i ->
             Vec3(
@@ -42,7 +42,6 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
             } else {
                 // return a generated one.  This should not happen in practice, but its nice not to throw a bug for the
                 // occasional one.  May want to actually error once this gets going
-                println("new $x $y $z")
                 Vec3(x, y, z)
             }
         }
@@ -50,36 +49,36 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
 
     fun inclusiveVonNeumanNeighborhood(): List<Vec3> = listOf(
             this,
-            Vec3(x + 1, y, z),
-            Vec3(x, y + 1, z),
-            Vec3(x, y, z + 1),
-            Vec3(x - 1, y, z),
-            Vec3(x, y - 1, z),
-            Vec3(x, y, z - 1)
+            Vec3[x + 1, y, z],
+            Vec3[x, y + 1, z],
+            Vec3[x, y, z + 1],
+            Vec3[x - 1, y, z],
+            Vec3[x, y - 1, z],
+            Vec3[x, y, z - 1]
     )
 
     fun vonNeumanNeighborhood(): List<Vec3> = listOf(
-            Vec3(x + 1, y, z),
-            Vec3(x, y + 1, z),
-            Vec3(x, y, z + 1),
-            Vec3(x - 1, y, z),
-            Vec3(x, y - 1, z),
-            Vec3(x, y, z - 1)
+            Vec3[x + 1, y, z],
+            Vec3[x, y + 1, z],
+            Vec3[x, y, z + 1],
+            Vec3[x - 1, y, z],
+            Vec3[x, y - 1, z],
+            Vec3[x, y, z - 1]
     )
 
     fun vonNeumanNeighborhood2d(): List<Vec3> = listOf(
-            Vec3(x, y + 1, z),
-            Vec3(x + 1, y, z),
-            Vec3(x, y - 1, z),
-            Vec3(x - 1, y, z)
+            Vec3[x, y + 1, z],
+            Vec3[x + 1, y, z],
+            Vec3[x, y - 1, z],
+            Vec3[x - 1, y, z]
     )
 
     fun inclusiveVonNeumanNeighborhood2d(): List<Vec3> = listOf(
             this,
-            Vec3(x, y + 1, z),
-            Vec3(x + 1, y, z),
-            Vec3(x, y - 1, z),
-            Vec3(x - 1, y, z)
+            Vec3[x, y + 1, z],
+            Vec3[x + 1, y, z],
+            Vec3[x, y - 1, z],
+            Vec3[x - 1, y, z]
     )
 
 //    fun mooreNeighborhood(): List<Vec3> = List(8, { index ->

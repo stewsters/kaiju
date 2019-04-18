@@ -97,8 +97,8 @@ private class SwordCombatWorldState(
         return SwordCombatWorldState(this)
     }
 
-    override fun compareTo(o: SwordCombatWorldState): Int {
-        return java.lang.Float.compare(cost, o.cost)
+    override fun compareTo(other: SwordCombatWorldState): Int {
+        return java.lang.Float.compare(cost, other.cost)
     }
 }
 
