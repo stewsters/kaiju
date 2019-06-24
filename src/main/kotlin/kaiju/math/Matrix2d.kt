@@ -1,6 +1,6 @@
 package kaiju.math
 
-class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
+class Matrix2d<T>(val xSize: Int, val ySize: Int, val data: Array<T>) {
 
     operator fun get(p: Vec2): T = get(p.x, p.y)
 
@@ -22,9 +22,17 @@ class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
 
     fun outside(x: Int, y: Int): Boolean = (x < 0 || y < 0 || x >= xSize || y >= ySize)
 
-    fun forEach(function: (T) -> Unit) = data.forEach(function)
+    inline fun forEach(function: (T) -> Unit) = data.forEach(function)
 
-    fun forEachIndexed(function: (Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
+    inline fun forEach(func: (x: Int, y: Int) -> Unit) {
+        for (x in 0 until xSize) {
+            for (y in 0 until ySize) {
+                func(x, y)
+            }
+        }
+    }
+
+    inline fun forEachIndexed(function: (Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
         function(
                 i % xSize,
                 i / xSize,
@@ -40,7 +48,7 @@ class Matrix2d<T>(val xSize: Int, val ySize: Int, private val data: Array<T>) {
 
     fun <R : Comparable<R>> sortedBy(function: (T) -> R?): List<T> = data.sortedBy(function)
 
-//    fun <R> map(transform: (T) -> R): Matrix2d<R> = Matrix2d(xSize, ySize, data.map(transform))
+    inline fun <reified R> map(transform: (T) -> R): Matrix2d<R> = Matrix2d(xSize, ySize, data.map(transform))
 
 //    fun <R> mapIndexed(transform: (Int, Int, T) -> R): Matrix2d<R> = Matrix2d.fromArray(xSize, ySize,
 //            data.mapIndexed { i, t ->
