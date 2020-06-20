@@ -1,9 +1,9 @@
 buildscript {
-    ext.kotlin_version = '1.3.11'
+    ext.kotlin_version = '1.3.70'
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.3.11"
+    id "org.jetbrains.kotlin.jvm" version "1.3.70"
 }
 
 group 'com.stewsters'
@@ -17,7 +17,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api "com.github.alexeyr.pcg:pcg:0.9.1"
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     testImplementation("junit:junit:4.12")
 }
 
