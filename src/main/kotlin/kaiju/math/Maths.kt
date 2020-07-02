@@ -72,10 +72,8 @@ fun unlerp(min: Double, max: Double, value: Double): Double {
 }
 
 
-fun smootherStep(edge0: Float, edge1: Float, x: Float): Float {
-    var x = x
-    // Scale, and clamp x to 0..1 range
-    x = Math.max(0f, Math.min(1f, (x - edge0) / (edge1 - edge0)))
+fun smootherStep(edge0: Float, edge1: Float, xIn: Float): Float {
+    var x = Math.max(0f, Math.min(1f, (xIn - edge0) / (edge1 - edge0)))
     // Evaluate polynomial
     return x * x * x * (x * (x * 6 - 15) + 10)
 }

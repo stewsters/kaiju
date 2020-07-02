@@ -2,7 +2,7 @@ package kaiju.math
 
 import java.lang.Math.abs
 
-open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle {
+open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle, Container2d {
 
     fun inside(point: Vec2): Boolean = inside(point.x, point.y)
     fun inside(x: Int, y: Int): Boolean {
@@ -16,6 +16,11 @@ open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle {
 
     fun getXSize(): Int = upper.x - lower.x
     fun getYSize(): Int = upper.y - lower.y
+
+    fun center(): Vec2 {
+        val total = lower + upper
+        return Vec2[total.x / 2, total.y / 2]
+    }
 
 
     override fun minDist(point: Vec2): Double {
@@ -52,6 +57,9 @@ open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle {
             return -1.0//throw Exception("That's not good")
         }
     }
+
+    override fun contains(x: Int, y: Int): Boolean = inside(x, y)
+
 }
 
 class InverseRectangle(lower: Vec2, upper: Vec2) : Rectangle(lower, upper) {

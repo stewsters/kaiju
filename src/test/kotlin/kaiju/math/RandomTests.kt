@@ -24,10 +24,14 @@ class RandomTests {
         assert(num <= 10)
 
         // inclusive
-        val num2 = getInt((0 until 10))
+        val num2 = getInt(0 until 10)
+        assert(num2 >= 0)
+        assert(num2 < 10)
 
         // not inclusive
-        val num3 = getInt((0..10))
+        val num3 = getInt(0..10)
+        assert(num3 >= 0)
+        assert(num3 <= 10)
 
     }
 
@@ -37,12 +41,6 @@ class RandomTests {
         val num = getFloatInRange(0f, 10f)
         assert(num >= 0)
         assert(num <= 10)
-
-        // inclusive
-        val num2 = getInt((0 until 10))
-
-        // not inclusive of end
-        val num3 = getInt((0..10))
 
     }
 

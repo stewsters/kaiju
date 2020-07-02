@@ -8,7 +8,6 @@ import java.util.*
 
 // http://www.roguebasin.com/index.php?title=The_Incredible_Power_of_Dijkstra_Maps
 
-// Todo: need a function to block
 fun dijkstraMap2d(size: Vec2, goals: List<Vec2>, blocked: (p: Vec2) -> Boolean): Matrix2d<Int> {
     // clear out map
     val map = Matrix2d<Int>(size.x, size.y) { x, y -> Int.MAX_VALUE }
