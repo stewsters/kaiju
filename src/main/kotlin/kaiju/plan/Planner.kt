@@ -2,6 +2,8 @@ package kaiju.plan
 
 import java.util.*
 
+import kotlin.collections.ArrayList
+
 
 class Action<W>(val name: String, val prerequisite: (W) -> Boolean, val effect: (W) -> W)
 
@@ -10,7 +12,8 @@ fun <W> plan(
         startingState: W,
         fitness: (W) -> Float,
         actions: Array<Action<W>>,
-        maxCost: Int): List<Action<W>>? where W : World<W> {
+        maxCost: Int
+): List<Action<W>>? where W : World<W> {
 
     val endState = ArrayList<W>()
 
