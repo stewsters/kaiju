@@ -2,7 +2,7 @@
 
 ## Kotlin Artificial Intelligence Java Utilities
 
-Hows that for a backronym?
+How's that for a backronym?
 
 This is some utilities I extracted from some simple kotlin roguelikes I was working on.  The syntax works a bit better
  than regular Java for algorithm heavy stuff like this.  
@@ -17,7 +17,7 @@ Instruction can be found here:
 
 [![](https://jitpack.io/v/stewsters/kaiju.svg)](https://jitpack.io/#stewsters/kaiju)
 
-## Whats Here
+## What's Here
 
 
 ### Math Primitives

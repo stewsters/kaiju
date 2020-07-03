@@ -1,4 +1,4 @@
-package kaiju.mapgen.predicate
+package kaiju.mapgen.two.predicate
 
 
 import kaiju.mapgen.noise.NoiseFunction2d

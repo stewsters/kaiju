@@ -1,4 +1,4 @@
-package mapgen
+package kaiju.mapgen.two
 
 
 import kaiju.math.Matrix2d
@@ -15,9 +15,9 @@ import kaiju.math.Vec2
 fun <T> fillWithBorder(map: Matrix2d<T>, fill: T, wall: T) {
     map.forEach { x, y ->
         if (x == 0 || y == 0 || x >= map.xSize - 1 || y >= map.ySize - 1) {
-            map.set(x, y, wall)
+            map[x, y] = wall
         } else {
-            map.set(x, y, fill)
+            map[x, y] = fill
         }
     }
 }

@@ -1,15 +1,15 @@
 package kaiju.mapgen
 
-import drawCell
+import kaiju.mapgen.two.brush.drawCell
 import kaiju.mapgen.noise.NoiseFunction2d
-import kaiju.mapgen.predicate.containedIn
-import kaiju.mapgen.predicate.noiseGreaterThan
 import kaiju.math.*
+import kaiju.math.geom.Rectangle
 import kaiju.pathfinder.findPath2d
-import mapgen.fill
-import mapgen.fillWithBorder
-import mapgen.floodFill
-import mapgen.predicate.*
+import kaiju.mapgen.two.fill
+import kaiju.mapgen.two.fillWithBorder
+import kaiju.mapgen.two.floodFill
+import kaiju.mapgen.two.predicate.*
+
 import org.junit.Test
 
 
@@ -207,7 +207,7 @@ class GenerateMap2dTest {
     private fun printMap(exampleGeneratedMap2D: Matrix2d<ExampleCellType>) {
         for (y in 0 until exampleGeneratedMap2D.xSize) {
             for (x in 0 until exampleGeneratedMap2D.ySize) {
-                System.out.print((exampleGeneratedMap2D.get(x, y)).glyph)
+                System.out.print(exampleGeneratedMap2D[x, y].glyph)
             }
             println()
         }

@@ -1,4 +1,4 @@
-package mapgen.predicate
+package kaiju.mapgen.two.predicate
 
 import kaiju.math.Matrix2d
 

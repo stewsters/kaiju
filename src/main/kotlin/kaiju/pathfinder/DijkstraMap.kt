@@ -10,7 +10,7 @@ import java.util.*
 
 fun dijkstraMap2d(size: Vec2, goals: List<Vec2>, blocked: (p: Vec2) -> Boolean): Matrix2d<Int> {
     // clear out map
-    val map = Matrix2d<Int>(size.x, size.y) { x, y -> Int.MAX_VALUE }
+    val map = Matrix2d(size.x, size.y) { x, y -> Int.MAX_VALUE }
     val frontier = PriorityQueue<Vec2>(goals.size) { x, y -> map[x].compareTo(map[y]) }
 
     // put all the points in the frontier
@@ -40,7 +40,7 @@ fun dijkstraMap2d(size: Vec2, goals: List<Vec2>, blocked: (p: Vec2) -> Boolean):
 
 fun dijkstraMap3d(size: Vec3, goals: List<Vec3>, blocked: (p: Vec3) -> Boolean): Matrix3d<Int> {
     // clear out map
-    val map = Matrix3d<Int>(size) { x, y, z -> Int.MAX_VALUE }
+    val map = Matrix3d(size) { x, y, z -> Int.MAX_VALUE }
     val frontier = PriorityQueue<Vec3>(goals.size) { x, y -> map[x].compareTo(map[y]) }
 
     // put all the points in the frontier

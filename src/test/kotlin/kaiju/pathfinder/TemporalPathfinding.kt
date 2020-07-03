@@ -33,7 +33,7 @@ class TemporalPathfinding {
                 timeLimit = 20,
                 cost = { pos -> 1.0 },
                 distance = { one, two -> getEuclideanDistance(one, two) },
-                neighbors = { it: Vec3 ->
+                neighbors = {
                     // get von neuman neighborhood 1 unit in the future
                     it.vonNeumanNeighborhood()
                 },

@@ -68,4 +68,4 @@ inline fun <reified T> Matrix2d(xSize: Int, ySize: Int, init: (Int, Int) -> T) =
         Matrix2d(xSize, ySize, Array(xSize * ySize) { i -> init(i % xSize, i / xSize) })
 
 inline fun <reified T> Matrix2d(xSize: Int, ySize: Int, dataList: List<T>): Matrix2d<T> =
-        Matrix2d<T>(xSize, ySize, Array<T>(dataList.size) { i -> dataList[i] })
+        Matrix2d(xSize, ySize, Array(dataList.size) { i -> dataList[i] })

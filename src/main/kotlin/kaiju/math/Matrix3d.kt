@@ -1,6 +1,6 @@
 package kaiju.math
 
-class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val data: Array<T>) {
+class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, val data: Array<T>) {
 
     operator fun get(p: Vec3): T = get(p.x, p.y, p.z)
 
@@ -22,9 +22,19 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val da
 
     fun outside(x: Int, y: Int, z: Int): Boolean = (x < 0 || y < 0 || z < 0 || x >= xSize || y >= ySize || z >= zSize)
 
-    fun forEach(function: (T) -> Unit) = data.forEach(function)
+    inline fun forEach(function: (T) -> Unit) = data.forEach(function)
 
-    fun forEachIndexed(function: (Int, Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
+    inline fun forEach(func: (x: Int, y: Int, z:Int) -> Unit) {
+        for (x in 0 until xSize) {
+            for (y in 0 until ySize) {
+                for (z in 0 until zSize) {
+                    func(x, y, z)
+                }
+            }
+        }
+    }
+
+   inline fun forEachIndexed(function: (Int, Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
         function(
                 i % xSize,
                 (i % (xSize * ySize)) / xSize,
@@ -38,6 +48,8 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, private val da
     }
 
     fun <R : Comparable<R>> sortedBy(function: (T) -> R?): List<T> = data.sortedBy(function)
+
+    inline fun <reified R> map(transform: (T) -> R): Matrix3d<R> = Matrix3d(xSize, ySize, zSize, data.map(transform))
 
 //    fun submap(boundingRect: RectangularPrism): Matrix3d<T> {
 //
@@ -57,5 +69,5 @@ inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, init: (Int, 
         })
 
 inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, dataList: List<T>): Matrix3d<T> =
-        Matrix3d<T>(xSize, ySize, zSize, Array<T>(dataList.size) { i -> dataList[i] })
+        Matrix3d(xSize, ySize, zSize, Array(dataList.size) { i -> dataList[i] })
 

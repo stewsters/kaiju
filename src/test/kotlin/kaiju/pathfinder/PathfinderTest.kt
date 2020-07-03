@@ -1,9 +1,9 @@
 package kaiju.pathfinder
 
-import kaiju.math.InverseRectangle
+import kaiju.math.geom.InverseRectangle
 import kaiju.math.Matrix2d
 import kaiju.math.Obstacle
-import kaiju.math.Rectangle
+import kaiju.math.geom.Rectangle
 import kaiju.math.Vec2
 import kaiju.math.Vec3
 import kaiju.math.getEuclideanDistance
