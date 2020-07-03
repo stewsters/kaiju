@@ -18,7 +18,7 @@ class NoiseFunction2d(
      * @return The generated value
      */
     fun gen(x: Double, y: Double): Double {
-        return openSimplexNoise.eval(x / xScale + xOffset, y / yScale + yOffset) + 0.5
+        return openSimplexNoise.random2D(x / xScale + xOffset, y / yScale + yOffset) + 0.5
     }
 
 

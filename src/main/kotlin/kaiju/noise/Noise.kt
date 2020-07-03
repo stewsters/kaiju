@@ -5,7 +5,7 @@ fun fbm(el: OpenSimplexNoise, x: Double, y: Double, octaves: Int, frequency: Dou
     var amp = amplitude
     var total = 0.0
     for (i in 0 until octaves) {
-        total += el.eval(x * freq, y * freq) * amp
+        total += el.random2D(x * freq, y * freq) * amp
         freq *= lacunarity
         amp *= gain
     }

@@ -21,7 +21,7 @@ class NoiseFunction3d(
      * @return The generated value scaled
      */
     fun gen(x: Double, y: Double, z: Double): Double {
-        return openSimplexNoise.eval(x / xScale + xOffset, y / yScale + yOffset, z / zScale + zOffset) + 0.5f
+        return openSimplexNoise.random3D(x / xScale + xOffset, y / yScale + yOffset, z / zScale + zOffset) + 0.5f
     }
 
 
