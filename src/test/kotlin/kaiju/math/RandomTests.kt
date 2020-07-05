@@ -2,6 +2,7 @@ package kaiju.math
 
 import com.github.alexeyr.pcg.Pcg32
 import org.junit.Test
+import kotlin.math.max
 
 
 class RandomTests {

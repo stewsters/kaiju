@@ -4,7 +4,7 @@ import kaiju.math.Obstacle
 import kaiju.math.Vec2
 import kaiju.math.Vec3
 import kaiju.math.getEuclideanDistance
-import java.lang.Math.abs
+import kotlin.math.abs
 
 open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle, Container2d {
 

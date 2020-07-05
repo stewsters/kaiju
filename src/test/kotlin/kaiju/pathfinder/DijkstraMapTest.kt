@@ -2,8 +2,8 @@ package kaiju.pathfinder
 
 import kaiju.math.Vec2
 import kaiju.math.Vec3
-import kaiju.math.min
 import org.junit.Test
+import kotlin.math.min
 
 class DijkstraMapTest {
 
