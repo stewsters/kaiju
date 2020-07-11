@@ -1,10 +1,6 @@
 package kaiju.pathfinder
 
-import kaiju.math.Matrix2d
-import kaiju.math.Matrix3d
-import kaiju.math.Vec2
-import kaiju.math.Vec3
-import kaiju.math.getEuclideanDistance
+import kaiju.math.*
 import org.junit.Ignore
 import org.junit.Test
 

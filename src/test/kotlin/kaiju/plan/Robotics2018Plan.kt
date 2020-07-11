@@ -141,7 +141,7 @@ private class Robotics2018WorldState(
     }
 
     override fun compareTo(o: Robotics2018WorldState): Int {
-        return java.lang.Float.compare(cost, o.cost)
+        return cost.compareTo(o.cost)
     }
 }
 

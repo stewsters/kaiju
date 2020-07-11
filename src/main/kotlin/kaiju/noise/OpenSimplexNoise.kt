@@ -1,4 +1,4 @@
-package kaiju.noise;
+package kaiju.noise
 
 /**
  * OpenSimplexNoise implementation in Kotlin, based on
@@ -312,7 +312,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     dz_ext0 = dz_ext1
                 }
             } else { //(0,0,0) is not one of the closest two tetrahedral vertices.
-                val c = (aPoint or bPoint).toByte() //Our two extra vertices are determined by the closest two.
+                val c = (aPoint or bPoint) //Our two extra vertices are determined by the closest two.
 
                 if (c and 0x01 == 0.toByte()) {
                     xsv_ext0 = xsb
@@ -405,7 +405,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
             if (wins < aScore || wins < bScore) { //(1,1,1) is one of the closest two tetrahedral vertices.
                 val c = if (bScore < aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
 
-                if (c and 0x01 != 0.toByte().toByte()) {
+                if (c and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 2
                     xsv_ext1 = xsb + 1
                     dx_ext0 = dx0 - 2 - 3 * SQUISH_CONSTANT_3D
@@ -417,12 +417,12 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     dx_ext0 = dx_ext1
                 }
 
-                if (c and 0x02 != 0.toByte().toByte()) {
+                if (c and 0x02 != 0.toByte()) {
                     ysv_ext1 = ysb + 1
                     ysv_ext0 = ysv_ext1
                     dy_ext1 = dy0 - 1 - 3 * SQUISH_CONSTANT_3D
                     dy_ext0 = dy_ext1
-                    if (c and 0x01 != 0.toByte().toByte()) {
+                    if (c and 0x01 != 0.toByte()) {
                         ysv_ext1 += 1
                         dy_ext1 -= 1.0
                     } else {
@@ -436,7 +436,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     dy_ext0 = dy_ext1
                 }
 
-                if (c and 0x04 != 0.toByte().toByte()) {
+                if (c and 0x04 != 0.toByte()) {
                     zsv_ext0 = zsb + 1
                     zsv_ext1 = zsb + 2
                     dz_ext0 = dz0 - 1 - 3 * SQUISH_CONSTANT_3D
@@ -448,9 +448,9 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     dz_ext0 = dz_ext1
                 }
             } else { //(1,1,1) is not one of the closest two tetrahedral vertices.
-                val c = (aPoint and bPoint).toByte() //Our two extra vertices are determined by the closest two.
+                val c = (aPoint and bPoint) //Our two extra vertices are determined by the closest two.
 
-                if (c and 0x01 != 0.toByte().toByte()) {
+                if (c and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 1
                     xsv_ext1 = xsb + 2
                     dx_ext0 = dx0 - 1 - SQUISH_CONSTANT_3D
@@ -462,7 +462,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     dx_ext1 = dx0 - 2 * SQUISH_CONSTANT_3D
                 }
 
-                if (c and 0x02 != 0.toByte().toByte()) {
+                if (c and 0x02 != 0.toByte()) {
                     ysv_ext0 = ysb + 1
                     ysv_ext1 = ysb + 2
                     dy_ext0 = dy0 - 1 - SQUISH_CONSTANT_3D
@@ -474,7 +474,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     dy_ext1 = dy0 - 2 * SQUISH_CONSTANT_3D
                 }
 
-                if (c and 0x04 != 0.toByte().toByte()) {
+                if (c and 0x04 != 0.toByte()) {
                     zsv_ext0 = zsb + 1
                     zsv_ext1 = zsb + 2
                     dz_ext0 = dz0 - 1 - SQUISH_CONSTANT_3D
@@ -594,7 +594,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     zsv_ext0 = zsb + 1
 
                     //Other extra point is based on the shared axis.
-                    val c = (aPoint and bPoint).toByte()
+                    val c = (aPoint and bPoint)
                     if (c and 0x01 != 0.toByte()) {
                         dx_ext1 = dx0 - 2 - 2 * SQUISH_CONSTANT_3D
                         dy_ext1 = dy0 - 2 * SQUISH_CONSTANT_3D
@@ -628,7 +628,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     zsv_ext0 = zsb
 
                     //Other extra point is based on the omitted axis.
-                    val c = (aPoint or bPoint).toByte()
+                    val c = (aPoint or bPoint)
                     if (c and 0x01 == 0.toByte()) {
                         dx_ext1 = dx0 + 1 - SQUISH_CONSTANT_3D
                         dy_ext1 = dy0 - 1 - SQUISH_CONSTANT_3D
@@ -920,7 +920,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
                     dz_ext2 = dz0
                     dz_ext1 = dz_ext2
                     dz_ext0 = dz_ext1
-                    if (c and 0x03 != 0.toByte().toByte()) {
+                    if (c and 0x03 != 0.toByte()) {
                         if (c and 0x03 == 0x03.toByte()) {
                             zsv_ext0 -= 1
                             dz_ext0 += 1.0
@@ -2241,7 +2241,7 @@ class OpenSimplexNoise(seed: Long = 0L) {
     }
 
     private fun extrapolate(xsb: Int, ysb: Int, zsb: Int, dx: Double, dy: Double, dz: Double): Double {
-        val index = permGradIndex3D[perm[perm[xsb and 0xFF] + ysb and 0xFF] + zsb and 0xFF].toInt()
+        val index = permGradIndex3D[perm[perm[xsb and 0xFF] + ysb and 0xFF] + zsb and 0xFF]
         return (gradients3D[index] * dx
                 + gradients3D[index + 1] * dy
                 + gradients3D[index + 2] * dz)

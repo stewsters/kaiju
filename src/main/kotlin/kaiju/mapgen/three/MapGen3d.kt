@@ -34,7 +34,7 @@ fun <T> fill(map: Matrix3d<T>, predicate: (map: Matrix3d<T>, x: Int, y: Int, z: 
  * Flood fills on things that fit the predicate
  *
  * @param map       The map we are working on
- * @param start     The beginning of the flood fille
+ * @param start     The beginning of the flood fill
  * @param predicate The predicate to check
  * @param brush3d   The brush to fill
  */

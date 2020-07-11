@@ -24,7 +24,7 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, val data: Arra
 
     inline fun forEach(function: (T) -> Unit) = data.forEach(function)
 
-    inline fun forEach(func: (x: Int, y: Int, z:Int) -> Unit) {
+    inline fun forEach(func: (x: Int, y: Int, z: Int) -> Unit) {
         for (x in 0 until xSize) {
             for (y in 0 until ySize) {
                 for (z in 0 until zSize) {
@@ -34,7 +34,7 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, val data: Arra
         }
     }
 
-   inline fun forEachIndexed(function: (Int, Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
+    inline fun forEachIndexed(function: (Int, Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
         function(
                 i % xSize,
                 (i % (xSize * ySize)) / xSize,

@@ -30,13 +30,13 @@ fun los(x1: Int, y1: Int, x2: Int, y2: Int, passable: (x: Int, y: Int) -> Boolea
         val e2 = 2 * err
 
         if (e2 > -dy) {
-            err = err - dy
-            x1 = x1 + sx
+            err -= dy
+            x1 += sx
         }
 
         if (e2 < dx) {
-            err = err + dx
-            y1 = y1 + sy
+            err += dx
+            y1 += sy
         }
     }
     return true

@@ -37,11 +37,11 @@ fun limit(number: Double, low: Double, high: Double): Double {
 }
 
 fun <T : Comparable<T>> T.limit(low: T, high: T): T =
-        if (this < low)
-            low
-        else if (this > high)
-            high
-        else this
+        when {
+            this < low -> low
+            this > high -> high
+            else -> this
+        }
 
 
 // Linear Interpolate

@@ -83,4 +83,4 @@ fun getChebyshevDistance(x1: Int, y1: Int, x2: Int, y2: Int): Int = max(abs(x1 -
 
 
 fun getEuclideanDistance(pos1: Vec2, pos2: Vec2): Double = getEuclideanDistance(pos1.x.toDouble(), pos1.y.toDouble(), pos2.x.toDouble(), pos2.y.toDouble())
-fun getEuclideanDistance(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((x1 - x2).pow(2.0) + (y1 - y2).pow( 2.0))
+fun getEuclideanDistance(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((x1 - x2).pow(2.0) + (y1 - y2).pow(2.0))

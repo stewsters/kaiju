@@ -13,7 +13,7 @@ class DijkstraMapTest {
         val size = Vec2[10, 10]
         val source = Vec2[5, 5]
 
-        val map = dijkstraMap2d(size, listOf(source), { pos -> pos.x > 6 })
+        val map = dijkstraMap2d(size, listOf(source)) { pos -> pos.x > 6 }
 
         for (y in (0 until map.ySize)) {
             println()
@@ -52,7 +52,7 @@ class DijkstraMapTest {
         val size = Vec3[10, 10, 10]
         val source = Vec3[5, 5, 5]
 
-        val map = dijkstraMap3d(size, listOf(source), { pos -> pos.x > 6 })
+        val map = dijkstraMap3d(size, listOf(source)) { pos -> pos.x > 6 }
 
 //        for (y in (0 until map.ySize)) {
 //

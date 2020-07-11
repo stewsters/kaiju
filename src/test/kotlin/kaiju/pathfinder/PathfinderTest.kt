@@ -1,13 +1,11 @@
 package kaiju.pathfinder
 
+import kaiju.math.*
 import kaiju.math.geom.InverseRectangle
-import kaiju.math.Matrix2d
-import kaiju.math.Obstacle
 import kaiju.math.geom.Rectangle
-import kaiju.math.Vec2
-import kaiju.math.Vec3
-import kaiju.math.getEuclideanDistance
 import org.junit.Test
+import kotlin.math.min
+import kotlin.math.roundToLong
 
 class PathfinderTest {
 
@@ -87,10 +85,6 @@ class PathfinderTest {
     @Test
     fun testPathfindingInOpen3d() {
 
-        // If blocks are 6.5 * 6.5 inches
-        // xSize = 50
-        // ySize = 100
-
         val size = Vec3[20, 30, 40]
 
         val start = Vec3(1, 1, 1)
@@ -105,93 +99,17 @@ class PathfinderTest {
                 end
         )
 
-
         assert(path != null)
         assert(path?.first() == start)
         assert(path?.last() == end)
 
     }
 
-//    @Test
-//    fun testPathMakerWithTurns() {
-//
-////        val bi = ImageIO.read(File("${System.getProperty("user.home")}${File.separator}Desktop${File.separator}pathing${File.separator}editMap.png"))
-//        val obstacles = mutableListOf<Obstacle>()
-//
-////        for (x in 0 until bi.getWidth()) {
-////            for (y in 0 until bi.getHeight()) {
-////                if (Color(bi.getRGB(x, bi.getHeight()-y -1)).red < 10) {
-////                    obstacles.add(Rectangle(Vec2[x, y], Vec2[x, y]))
-////                }
-////            }
-////        }
-//
-//        StartingPos.values().forEach { start ->
-//            EndingPos.values().forEach { end ->
-//
-//                val path = makePath(start, end, obstacles)
-//
-//                if (path == null) {
-//                    println("No possible path, do a default action instead")
-//                }
-//
-//                if (end == EndingPos.RIGHT_SWITCH) {
-////                    assert(path == null)
-//                } else {
-////                    assert(path != null)
-////                    assert(path?.first() == Vec3(start.pos.x, start.pos.y, start.facing.ordinal))
-//  //                  assert(path?.last() == Vec3(end.pos.x, end.pos.y, end.facing.ordinal))
-//                }
-////                println("start ${start} end ${end}")
-////                path?.forEach { println("x: ${it.x} y: ${it.y} ${Facing.values()[it.z]}") }
-//
-//                drawPathImage(path, obstacles, "${start.name}-${end.name}.png")
-//
-//            }
-//        }
-//    }
-
-//    @Test
-//    fun generateMap() {
-//        drawPathImage(path = null, obstacles = arrayListOf(), name = "blankMap.png")
-//    }
-
-//    private fun drawPathImage(path: List<Vec3>?, obstacles: List<Obstacle>, name: String) {
-//
-//        val out = BufferedImage(FieldMeasurement.pathfinderBlocksWidth, FieldMeasurement.pathfinderBlocksLength, TYPE_INT_RGB)
-//
-//        val map = createMap(obstacles)
-//
-//        for (x in 0 until out.width) {
-//            for (y in 0 until out.height) {
-//
-//                val ammt = map[x, y].toFloat()
-//
-//                if (ammt > 10) {
-//                    out.setRGB(x, out.height - y - 1, Color.BLACK.rgb)
-//                } else {
-//                    out.setRGB(x, out.height - y - 1, Color(1 - ammt / 10f, 1 - ammt / 10f, 1 - ammt / 10f).rgb)
-//                }
-//            }
-//        }
-//
-//        val colors = listOf(Color.RED, Color.GREEN, Color.MAGENTA, Color.CYAN)
-//        path?.forEach {
-//            out.setRGB(it.x, out.height - it.y - 1, colors[it.z].rgb)
-//        }
-////        out.graphics.
-//
-//        val plans = File("build/plans")
-//        plans.mkdirs()
-//        ImageIO.write(out, "PNG", File(plans, name))
-//    }
-
-
     private fun printField(fieldMap: Matrix2d<Double>, path: List<Vec2>? = null) {
         for (ym in 1..fieldMap.ySize) {
             val y = fieldMap.ySize - ym
             for (x in 0 until fieldMap.xSize) {
-                val value = Math.min(Math.round(fieldMap[x, y]), 9)
+                val value = min(fieldMap[x, y].roundToLong(), 9)
 
                 if (path?.contains(Vec2[x, y]) == true) {
                     print("X ")

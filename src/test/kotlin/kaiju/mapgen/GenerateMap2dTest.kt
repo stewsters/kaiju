@@ -1,25 +1,26 @@
 package kaiju.mapgen
 
-import kaiju.mapgen.two.brush.drawCell
 import kaiju.mapgen.noise.NoiseFunction2d
-import kaiju.math.*
-import kaiju.math.geom.Rectangle
-import kaiju.pathfinder.findPath2d
+import kaiju.mapgen.two.brush.drawCell
 import kaiju.mapgen.two.fill
 import kaiju.mapgen.two.fillWithBorder
 import kaiju.mapgen.two.floodFill
 import kaiju.mapgen.two.predicate.*
-
+import kaiju.math.*
+import kaiju.math.geom.Rectangle
+import kaiju.pathfinder.findPath2d
 import org.junit.Test
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class GenerateMap2dTest {
     @Test
     fun testGenerationOfBoxViaPredicates() {
-        val em1 = Matrix2d(20, 20, { x, y -> unknown })
+        val em1 = Matrix2d(20, 20) { x, y -> unknown }
         fillWithBorder(em1, floor, wall)
 
-        val em2 = Matrix2d(20, 20, { x, y -> unknown })
+        val em2 = Matrix2d(20, 20) { x, y -> unknown }
         fill(em2, cellNearEdge(), drawCell(wall))
         fill(em2, not(cellNearEdge()), drawCell(floor))
 
@@ -32,7 +33,7 @@ class GenerateMap2dTest {
 
     @Test
     fun testGenerationOfTreesViaPredicates() {
-        val em = Matrix2d(20, 20, { x, y -> unknown })
+        val em = Matrix2d(20, 20) { x, y -> unknown }
         fill(em, cellNearEdge(), drawCell(wall))
         fill(em, not(cellNearEdge()), drawCell(floor))
         println("Gen trees 1 - not planted yet")
@@ -58,7 +59,7 @@ class GenerateMap2dTest {
 
     @Test
     fun testOr() {
-        val em = Matrix2d(10, 10, { x, y -> grass })
+        val em = Matrix2d(10, 10) { x, y -> grass }
         em[5, 5] = floor
 
         fill(em,
@@ -73,7 +74,7 @@ class GenerateMap2dTest {
 
     @Test
     fun testFloodFill() {
-        val em = Matrix2d(10, 10, { x, y -> unknown })
+        val em = Matrix2d(10, 10) { x, y -> unknown }
         val center = Vec2(5, 5)
         val wallPoints: List<Vec2> = center.mooreNeighborhood()
 
@@ -100,7 +101,7 @@ class GenerateMap2dTest {
 
     @Test
     fun makeAVillageByALake() {
-        val map = Matrix2d(100, 100, { x, y -> unknown })
+        val map = Matrix2d(100, 100) { x, y -> unknown }
         fillWithBorder(map, grass, forest)
         val xMid: Int = map.xSize / 2
         val yMid: Int = map.ySize / 2
@@ -109,8 +110,8 @@ class GenerateMap2dTest {
         val forestRadius = buildingRadius + 1
         val rooms: List<Rectangle> = (0..10).map { i: Int ->
             val angle: Float = getFloatInRange(0f, Math.PI.toFloat() * 2)
-            val x: Int = xMid + (buildingRadius * Math.cos(angle.toDouble())).toInt() + getIntInRange(-3, 3)
-            val y: Int = yMid + (buildingRadius * Math.sin(angle.toDouble())).toInt() + getIntInRange(-3, 3)
+            val x: Int = xMid + (buildingRadius * cos(angle.toDouble())).toInt() + getIntInRange(-3, 3)
+            val y: Int = yMid + (buildingRadius * sin(angle.toDouble())).toInt() + getIntInRange(-3, 3)
             val xw: Int = getIntInRange(2, 3)
             val yw: Int = getIntInRange(2, 3)
             Rectangle(Vec2(x - xw, y - yw), Vec2(x + xw, y + yw))
@@ -207,7 +208,7 @@ class GenerateMap2dTest {
     private fun printMap(exampleGeneratedMap2D: Matrix2d<ExampleCellType>) {
         for (y in 0 until exampleGeneratedMap2D.xSize) {
             for (x in 0 until exampleGeneratedMap2D.ySize) {
-                System.out.print(exampleGeneratedMap2D[x, y].glyph)
+                print(exampleGeneratedMap2D[x, y].glyph)
             }
             println()
         }
