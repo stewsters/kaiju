@@ -1,7 +1,6 @@
 package kaiju.plan
 
 import java.util.*
-
 import kotlin.collections.ArrayList
 
 
@@ -44,7 +43,7 @@ fun <W> plan(
         }
     }
 
-    var state = endState.maxBy { fitness(it) }
+    var state = endState.maxByOrNull { fitness(it) }
 
     if (state == null) {
         return null

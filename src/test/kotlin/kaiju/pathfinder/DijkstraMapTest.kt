@@ -32,7 +32,7 @@ class DijkstraMapTest {
 
             val betterPos = pos.inclusiveMooreNeighborhood()
                     .filter { map.contains(it) }
-                    .minBy { map[it] }
+                    .minByOrNull { map[it] }
 
             if (betterPos != null && betterPos != pos) {
                 //set it
@@ -72,7 +72,7 @@ class DijkstraMapTest {
 
             val betterPos = pos.inclusiveVonNeumanNeighborhood()
                     .filter { map.contains(it) }
-                    .minBy { map[it] }
+                    .minByOrNull { map[it] }
 
             if (betterPos != null && betterPos != pos) {
                 //set it

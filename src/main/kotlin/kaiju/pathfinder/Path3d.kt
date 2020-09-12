@@ -29,7 +29,7 @@ fun findPath3d(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode: Vec3 = openSet.minBy { fScore[it] }!!
+        val cheapestNode: Vec3 = openSet.minByOrNull { fScore[it] }!!
 
         if (cheapestNode == end) {
             // target found, we have a path

@@ -29,7 +29,7 @@ fun findPath2d(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode: Vec2 = openSet.minBy { fScore[it] }!!
+        val cheapestNode: Vec2 = openSet.minByOrNull { fScore[it] }!!
 
         if (cheapestNode == end) {
             // target found, we have a path

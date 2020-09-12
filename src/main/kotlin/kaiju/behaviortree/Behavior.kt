@@ -45,7 +45,7 @@ class Selector(val tasks: Map<Condition, Task>, var current: Task? = null) : Tas
     override fun doIt(): Status {
 
         if (current == null) {
-            val current = tasks.maxBy { it.key.valueToDoIt() }?.value
+            val current = tasks.maxByOrNull { it.key.valueToDoIt() }?.value
 
             // if there is no option, we are done
             if (current == null) {

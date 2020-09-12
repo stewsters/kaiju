@@ -16,12 +16,12 @@ class PathfinderTest {
 
         val field = Matrix2d(size) { x, y -> x == 6 && y != 0 }
         val path = findPath2d(
-                field.getSize(),
-                { if (field[it]) 100000.0 else 1.0 },
-                ::getEuclideanDistance,
-                { it.vonNeumanNeighborhood() },
-                Vec2[0, 0],
-                Vec2[19, 19]
+                size = field.getSize(),
+                cost = { if (field[it]) 100000.0 else 1.0 },
+                heuristic = ::getEuclideanDistance,
+                neighbors = Vec2::vonNeumanNeighborhood,
+                start = Vec2[0, 0],
+                end = Vec2[19, 19]
         )
 
         println(path)
@@ -57,8 +57,7 @@ class PathfinderTest {
         val path = findPath2d(
                 size,
                 { pos ->
-
-                    val d: Double = obstacles.map { it.minDist(pos) }.min()!!
+                    val d: Double = obstacles.map { it.minDist(pos) }.minOrNull()!!
                     if (d <= 0) {
                         Double.MAX_VALUE
                     } else if (d > safeDist) {
@@ -69,7 +68,7 @@ class PathfinderTest {
                     }
                 },
                 { one, two -> 1.0 },
-                { it.mooreNeighborhood() },
+                Vec2::mooreNeighborhood,
                 start,
                 end
         )
@@ -94,7 +93,7 @@ class PathfinderTest {
                 size,
                 { pos -> 1.0 },
                 { one, two -> getEuclideanDistance(one, two) },
-                { it.vonNeumanNeighborhood() },
+                Vec3::vonNeumanNeighborhood,
                 start,
                 end
         )
@@ -102,7 +101,6 @@ class PathfinderTest {
         assert(path != null)
         assert(path?.first() == start)
         assert(path?.last() == end)
-
     }
 
     private fun printField(fieldMap: Matrix2d<Double>, path: List<Vec2>? = null) {
