@@ -86,8 +86,8 @@ class PathfinderTest {
 
         val size = Vec3[20, 30, 40]
 
-        val start = Vec3(1, 1, 1)
-        val end = Vec3(19, 29, 39)
+        val start = Vec3[1, 1, 1]
+        val end = Vec3[19, 29, 39]
 
         val path = findPath3d(
                 size,

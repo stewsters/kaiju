@@ -14,7 +14,7 @@ import kaiju.math.Vec3
  */
 fun <T> fillWithBorder(map: Matrix3d<T>, fill: T, wall: T) {
     map.forEach { x, y, z ->
-        if (x == 0 || y == 0 || x == 0 || x >= map.xSize - 1 || y >= map.ySize - 1 || y >= map.zSize - 1) {
+        if (x == 0 || y == 0 || z == 0 || x >= map.xSize - 1 || y >= map.ySize - 1 || z >= map.zSize - 1) {
             map[x, y, z] = wall
         } else {
             map[x, y, z] = fill
@@ -50,12 +50,12 @@ fun <T> floodFill(map: Matrix3d<T>, start: Vec3, predicate: (map: Matrix3d<T>, x
             match.add(p)
 
             // If we are not going off the edge, add the neighbor
-            if (p.x > 0) todo.add(Vec3(p.x - 1, p.y, p.z))
-            if (p.x < map.xSize - 1) todo.add(Vec3(p.x + 1, p.y, p.z))
-            if (p.y > 0) todo.add(Vec3(p.x, p.y - 1, p.z))
-            if (p.y < map.ySize - 1) todo.add(Vec3(p.x, p.y + 1, p.z))
-            if (p.z > 0) todo.add(Vec3(p.x, p.y, p.z - 1))
-            if (p.z < map.ySize - 1) todo.add(Vec3(p.x, p.y, p.z + 1))
+            if (p.x > 0) todo.add(Vec3[p.x - 1, p.y, p.z])
+            if (p.x < map.xSize - 1) todo.add(Vec3[p.x + 1, p.y, p.z])
+            if (p.y > 0) todo.add(Vec3[p.x, p.y - 1, p.z])
+            if (p.y < map.ySize - 1) todo.add(Vec3[p.x, p.y + 1, p.z])
+            if (p.z > 0) todo.add(Vec3[p.x, p.y, p.z - 1])
+            if (p.z < map.zSize - 1) todo.add(Vec3[p.x, p.y, p.z + 1])
         }
         done.add(p)
     }

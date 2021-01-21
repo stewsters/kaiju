@@ -86,16 +86,26 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
             Vec3[x - 1, y, z]
     )
 
-//    fun mooreNeighborhood(): List<Vec3> = List(8, { index ->
-//        if (index >= 4)
-//            Vec3[(index + 1) % 2 - 1 + x, (index + 1) / 3 - 1 + y]
-//        else
-//            Vec3[index % 3 - 1 + x, index / 3 - 1 + y]
-//    })
-
     override fun toString(): String {
         return "($x, $y, $z)"
     }
+
+    // Includes the center point
+    fun inclusiveMooreNeighborhood2d(): List<Vec3> = List(9) { index ->
+        Vec3[index / 3 - 1 + x, index % 3 - 1 + y, z]
+    }
+
+    // Excludes center point
+    fun mooreNeighborhood2d(): List<Vec3> = List(8) { index ->
+        if (index >= 4)
+            Vec3[(index + 1) % 3 - 1 + x, (index + 1) / 3 - 1 + y, z]
+        else
+            Vec3[index % 3 - 1 + x, index / 3 - 1 + y, z]
+    }
+
+    fun getMooreNeighborhood(): List<Vec3> = (this + Vec3[0, 0, 1]).inclusiveMooreNeighborhood2d() +
+            (this).mooreNeighborhood2d() +
+            (this + Vec3[0, 0, -1]).inclusiveMooreNeighborhood2d()
 
 }
 
