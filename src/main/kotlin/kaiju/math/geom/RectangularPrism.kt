@@ -2,7 +2,7 @@ package kaiju.math.geom
 
 import kaiju.math.Vec3
 
-open class RectangularPrism(val lower: Vec3, val upper: Vec3) {
+open class RectangularPrism(val lower: Vec3, val upper: Vec3) : Container3d {
 
     fun inside(point: Vec3): Boolean = inside(point.x, point.y, point.z)
     fun inside(x: Int, y: Int, z: Int): Boolean {
@@ -18,6 +18,13 @@ open class RectangularPrism(val lower: Vec3, val upper: Vec3) {
     fun getXSize() = upper.x - lower.x
     fun getYSize() = upper.y - lower.y
     fun getZSize() = upper.z - lower.z
+
+    override fun contains(x: Int, y: Int, z: Int) = inside(x, y, z)
+
+    fun center(): Vec3 {
+        val total = lower + upper
+        return Vec3[total.x / 2, total.y / 2, total.z / 2]
+    }
 
 //    override fun minDist(point: Vec3): Double {
 //        if (inside(point)) {
