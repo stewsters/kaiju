@@ -1,13 +1,13 @@
 package kaiju.behaviortree
 
 sealed class Status {
+    object Running : Status()
     object Success : Status()
     object Failure : Status()
-    object Running : Status()
 }
-typealias success = Status.Success
-typealias failure = Status.Failure
-typealias running = Status.Running
+typealias running = Status.Running // not finished
+typealias success = Status.Success // succeeded
+typealias failure = Status.Failure // anything else
 
 
 // Does something in the game
@@ -15,11 +15,22 @@ interface Task {
     fun doIt(): Status // returns if we are done doing this action
 }
 
+// This is the root of the tree
+class BehaviorTree(val root: Task, current: Task = root) {
+    // This needs to store a tree of tasks and your current position in it.
+    fun doIt(): Status {
 
-// Composites
+    }
 
-// Executes every node in order
-class Sequence(val tasks: List<Task>, var i: Int = 0) : Task {
+
+}
+
+// Control flow nodes
+
+/**
+ * Executes every node in order until one failed
+ */
+class Sequence(vararg val tasks: Task, var i: Int = 0) : Task {
     override fun doIt(): Status =
             when (tasks[i].doIt()) {
                 Status.Success -> {
@@ -38,8 +49,30 @@ class Sequence(val tasks: List<Task>, var i: Int = 0) : Task {
             }
 }
 
-// Decorators
-class Selector(val tasks: Map<Condition, Task>, var current: Task? = null) : Task {
+/**
+ * find and execute first child that does not fail (fallback composition)
+ */
+class Selector(val tasks: List<Task>, var i: Int = 0) : Task {
+    override fun doIt(): Status =
+            when (tasks[i].doIt()) {
+                Status.Success -> {
+                    i = 0
+                    success
+                }
+                Status.Failure -> {
+                    i++
+                    if (i >= tasks.size) {
+                        i = 0
+                        failure
+                    } else
+                        running
+                }
+                Status.Running -> running
+            }
+}
+
+// Execute one action with the highest score
+class Chooser(val tasks: Map<Condition, Task>, var current: Task? = null) : Task {
 
 
     override fun doIt(): Status {
