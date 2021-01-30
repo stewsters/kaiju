@@ -1,23 +1,23 @@
 package kaiju.pathfinder
 
-import kaiju.math.Matrix2d
 import kaiju.math.Vec2
+import kaiju.math.matrix2dOf
 
 /**
  * AStar 2d
  */
 fun findPath2d(
-        size: Vec2,
-        cost: (Vec2) -> Double,
-        heuristic: (Vec2, Vec2) -> Double,
-        neighbors: (Vec2) -> List<Vec2>,
-        start: Vec2,
-        end: Vec2
+    size: Vec2,
+    cost: (Vec2) -> Double,
+    heuristic: (Vec2, Vec2) -> Double,
+    neighbors: (Vec2) -> List<Vec2>,
+    start: Vec2,
+    end: Vec2
 ): List<Vec2>? {
 
-    val costs = Matrix2d(size.x, size.y) { _, _ -> Double.MAX_VALUE }
-    val parent = Matrix2d<Vec2?>(size.x, size.y) { _, _ -> null }
-    val fScore = Matrix2d(size.x, size.y) { _, _ -> Double.MAX_VALUE }
+    val costs = matrix2dOf(size.x, size.y) { _, _ -> Double.MAX_VALUE }
+    val parent = matrix2dOf<Vec2?>(size.x, size.y) { _, _ -> null }
+    val fScore = matrix2dOf(size.x, size.y) { _, _ -> Double.MAX_VALUE }
 
     val openSet = mutableListOf<Vec2>()
     val closeSet = HashSet<Vec2>()

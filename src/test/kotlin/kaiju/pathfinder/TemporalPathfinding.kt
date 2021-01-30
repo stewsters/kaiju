@@ -15,28 +15,30 @@ class TemporalPathfinding {
         // xSize = 50
         // ySize = 100
         val mover1 = Mover(
-                start = Vec2(1, 1),
-                end = Vec2(19, 29))
+            start = Vec2(1, 1),
+            end = Vec2(19, 29)
+        )
 
         val mover2 = Mover(
-                start = Vec2(1, 29),
-                end = Vec2(29, 1))
+            start = Vec2(1, 29),
+            end = Vec2(29, 1)
+        )
 
-        val map = Matrix2d(30, 30) { x, y -> false }
+        val map = matrix2dOf(30, 30) { x, y -> false }
 
         val paths = findPathTemporal(
-                size = Vec2[20, 20],
-                timeLimit = 20,
-                cost = { pos -> 1.0 },
-                distance = { one, two -> getEuclideanDistance(one, two) },
-                neighbors = {
-                    // get von neuman neighborhood 1 unit in the future
-                    it.vonNeumanNeighborhood()
-                },
-                movers = arrayOf(
-                        mover1,
-                        mover2
-                )
+            size = Vec2[20, 20],
+            timeLimit = 20,
+            cost = { pos -> 1.0 },
+            distance = { one, two -> getEuclideanDistance(one, two) },
+            neighbors = {
+                // get von neuman neighborhood 1 unit in the future
+                it.vonNeumanNeighborhood()
+            },
+            movers = arrayOf(
+                mover1,
+                mover2
+            )
         )
 
         with(paths[mover1]) {
@@ -52,16 +54,17 @@ class TemporalPathfinding {
     }
 
     private fun findPathTemporal(
-            size: Vec2,
-            timeLimit: Int,
-            cost: (Vec3) -> Double,
-            distance: (Vec2, Vec2) -> Double,
-            neighbors: (Vec3) -> List<Vec3>,
-            movers: Array<Mover>): Map<Mover, Array<Vec3>> {
+        size: Vec2,
+        timeLimit: Int,
+        cost: (Vec3) -> Double,
+        distance: (Vec2, Vec2) -> Double,
+        neighbors: (Vec3) -> List<Vec3>,
+        movers: Array<Mover>
+    ): Map<Mover, Array<Vec3>> {
 
         // create a temporalMap of future blocked positions
 
-        val map = Matrix3d(size.x, size.y, timeLimit) { x, y, z -> false }
+        val map = matrix3dOf(size.x, size.y, timeLimit) { x, y, z -> false }
 
 
         return mapOf()

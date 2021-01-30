@@ -1,23 +1,23 @@
 package kaiju.pathfinder
 
-import kaiju.math.Matrix3d
 import kaiju.math.Vec3
+import kaiju.math.matrix3dOf
 
 /**
  * AStar 3d
  */
 fun findPath3d(
-        size: Vec3,
-        cost: (Vec3) -> Double,
-        heuristic: (Vec3, Vec3) -> Double,
-        neighbors: (Vec3) -> List<Vec3>,
-        start: Vec3,
-        end: Vec3
+    size: Vec3,
+    cost: (Vec3) -> Double,
+    heuristic: (Vec3, Vec3) -> Double,
+    neighbors: (Vec3) -> List<Vec3>,
+    start: Vec3,
+    end: Vec3
 ): List<Vec3>? {
 
-    val costs = Matrix3d(size.x, size.y, size.z) { _, _, _ -> Double.MAX_VALUE }
-    val parent = Matrix3d<Vec3?>(size.x, size.y, size.z) { _, _, _ -> null }
-    val fScore = Matrix3d(size.x, size.y, size.z) { _, _, _ -> Double.MAX_VALUE }
+    val costs = matrix3dOf(size.x, size.y, size.z) { _, _, _ -> Double.MAX_VALUE }
+    val parent = matrix3dOf<Vec3?>(size.x, size.y, size.z) { _, _, _ -> null }
+    val fScore = matrix3dOf(size.x, size.y, size.z) { _, _, _ -> Double.MAX_VALUE }
 
     val openSet = mutableListOf<Vec3>()
     val closeSet = HashSet<Vec3>()

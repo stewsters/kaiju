@@ -21,21 +21,21 @@ interface Task {
 // Executes every node in order
 class Sequence(val tasks: List<Task>, var i: Int = 0) : Task {
     override fun doIt(): Status =
-            when (tasks[i].doIt()) {
-                Status.Success -> {
-                    i++
-                    if (i >= tasks.size) {
-                        i = 0
-                        success
-                    } else
-                        running
-                }
-                Status.Failure -> {
+        when (tasks[i].doIt()) {
+            Status.Success -> {
+                i++
+                if (i >= tasks.size) {
                     i = 0
-                    failure
-                }
-                Status.Running -> running
+                    success
+                } else
+                    running
             }
+            Status.Failure -> {
+                i = 0
+                failure
+            }
+            Status.Running -> running
+        }
 }
 
 // Decorators

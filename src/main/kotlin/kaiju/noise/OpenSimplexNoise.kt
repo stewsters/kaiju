@@ -267,7 +267,8 @@ class OpenSimplexNoise(seed: Long = 0L) {
             //This depends on the closest two tetrahedral vertices, including (0,0,0)
             val wins = 1 - inSum
             if (wins > aScore || wins > bScore) { //(0,0,0) is one of the closest two tetrahedral vertices.
-                val c = if (bScore > aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
+                val c =
+                    if (bScore > aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
 
                 if (c and 0x01 == 0x00.toByte()) {
                     xsv_ext0 = xsb - 1
@@ -403,7 +404,8 @@ class OpenSimplexNoise(seed: Long = 0L) {
             //This depends on the closest two tetrahedral vertices, including (1,1,1)
             val wins = 3 - inSum
             if (wins < aScore || wins < bScore) { //(1,1,1) is one of the closest two tetrahedral vertices.
-                val c = if (bScore < aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
+                val c =
+                    if (bScore < aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
 
                 if (c and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 2
@@ -873,7 +875,8 @@ class OpenSimplexNoise(seed: Long = 0L) {
             //This depends on the closest two pentachoron vertices, including (0,0,0,0)
             val uins = 1 - inSum
             if (uins > aScore || uins > bScore) { //(0,0,0,0) is one of the closest two pentachoron vertices.
-                val c = if (bScore > aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
+                val c =
+                    if (bScore > aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
                 if (c and 0x01 == 0.toByte()) {
                     xsv_ext0 = xsb - 1
                     xsv_ext2 = xsb
@@ -1105,7 +1108,8 @@ class OpenSimplexNoise(seed: Long = 0L) {
             //This depends on the closest two pentachoron vertices, including (0,0,0,0)
             val uins = 4 - inSum
             if (uins < aScore || uins < bScore) { //(1,1,1,1) is one of the closest two pentachoron vertices.
-                val c = if (bScore < aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
+                val c =
+                    if (bScore < aScore) bPoint else aPoint //Our other closest vertex is the closest out of a and b.
 
                 if (c and 0x01 != 0.toByte()) {
                     xsv_ext0 = xsb + 2
@@ -2207,21 +2211,48 @@ class OpenSimplexNoise(seed: Long = 0L) {
         var attn_ext0 = 2.0 - dx_ext0 * dx_ext0 - dy_ext0 * dy_ext0 - dz_ext0 * dz_ext0 - dw_ext0 * dw_ext0
         if (attn_ext0 > 0) {
             attn_ext0 *= attn_ext0
-            value += attn_ext0 * attn_ext0 * extrapolate(xsv_ext0, ysv_ext0, zsv_ext0, wsv_ext0, dx_ext0, dy_ext0, dz_ext0, dw_ext0)
+            value += attn_ext0 * attn_ext0 * extrapolate(
+                xsv_ext0,
+                ysv_ext0,
+                zsv_ext0,
+                wsv_ext0,
+                dx_ext0,
+                dy_ext0,
+                dz_ext0,
+                dw_ext0
+            )
         }
 
         //Second extra vertex
         var attn_ext1 = 2.0 - dx_ext1 * dx_ext1 - dy_ext1 * dy_ext1 - dz_ext1 * dz_ext1 - dw_ext1 * dw_ext1
         if (attn_ext1 > 0) {
             attn_ext1 *= attn_ext1
-            value += attn_ext1 * attn_ext1 * extrapolate(xsv_ext1, ysv_ext1, zsv_ext1, wsv_ext1, dx_ext1, dy_ext1, dz_ext1, dw_ext1)
+            value += attn_ext1 * attn_ext1 * extrapolate(
+                xsv_ext1,
+                ysv_ext1,
+                zsv_ext1,
+                wsv_ext1,
+                dx_ext1,
+                dy_ext1,
+                dz_ext1,
+                dw_ext1
+            )
         }
 
         //Third extra vertex
         var attn_ext2 = 2.0 - dx_ext2 * dx_ext2 - dy_ext2 * dy_ext2 - dz_ext2 * dz_ext2 - dw_ext2 * dw_ext2
         if (attn_ext2 > 0) {
             attn_ext2 *= attn_ext2
-            value += attn_ext2 * attn_ext2 * extrapolate(xsv_ext2, ysv_ext2, zsv_ext2, wsv_ext2, dx_ext2, dy_ext2, dz_ext2, dw_ext2)
+            value += attn_ext2 * attn_ext2 * extrapolate(
+                xsv_ext2,
+                ysv_ext2,
+                zsv_ext2,
+                wsv_ext2,
+                dx_ext2,
+                dy_ext2,
+                dz_ext2,
+                dw_ext2
+            )
         }
 
         return value / NORM_CONSTANT_4D
@@ -2247,7 +2278,16 @@ class OpenSimplexNoise(seed: Long = 0L) {
                 + gradients3D[index + 2] * dz)
     }
 
-    private fun extrapolate(xsb: Int, ysb: Int, zsb: Int, wsb: Int, dx: Double, dy: Double, dz: Double, dw: Double): Double {
+    private fun extrapolate(
+        xsb: Int,
+        ysb: Int,
+        zsb: Int,
+        wsb: Int,
+        dx: Double,
+        dy: Double,
+        dz: Double,
+        dw: Double
+    ): Double {
         val index = perm[perm[perm[perm[xsb and 0xFF] + ysb and 0xFF] + zsb and 0xFF] + wsb and 0xFF] and 0xFC
         return (gradients4D[index] * dx
                 + gradients4D[index + 1] * dy
@@ -2264,10 +2304,10 @@ class OpenSimplexNoise(seed: Long = 0L) {
         //Gradients for 2D. They approximate the directions to the
         //vertices of an octagon from the center.
         private val gradients2D = byteArrayOf(
-                5, 2, 2, 5,
-                -5, 2, -2, 5,
-                5, -2, 2, -5,
-                -5, -2, -2, -5
+            5, 2, 2, 5,
+            -5, 2, -2, 5,
+            5, -2, 2, -5,
+            -5, -2, -2, -5
         )
 
         //Gradients for 3D. They approximate the directions to the
@@ -2275,14 +2315,14 @@ class OpenSimplexNoise(seed: Long = 0L) {
         //that the triangular and square facets can be inscribed inside
         //circles of the same radius.
         private val gradients3D = byteArrayOf(
-                -11, 4, 4, -4, 11, 4, -4, 4, 11,
-                11, 4, 4, 4, 11, 4, 4, 4, 11,
-                -11, -4, 4, -4, -11, 4, -4, -4, 11,
-                11, -4, 4, 4, -11, 4, 4, -4, 11,
-                -11, 4, -4, -4, 11, -4, -4, 4, -11,
-                11, 4, -4, 4, 11, -4, 4, 4, -11,
-                -11, -4, -4, -4, -11, -4, -4, -4, -11,
-                11, -4, -4, 4, -11, -4, 4, -4, -11
+            -11, 4, 4, -4, 11, 4, -4, 4, 11,
+            11, 4, 4, 4, 11, 4, 4, 4, 11,
+            -11, -4, 4, -4, -11, 4, -4, -4, 11,
+            11, -4, 4, 4, -11, 4, 4, -4, 11,
+            -11, 4, -4, -4, 11, -4, -4, 4, -11,
+            11, 4, -4, 4, 11, -4, 4, 4, -11,
+            -11, -4, -4, -4, -11, -4, -4, -4, -11,
+            11, -4, -4, 4, -11, -4, 4, -4, -11
         )
 
         //Gradients for 4D. They approximate the directions to the
@@ -2290,22 +2330,22 @@ class OpenSimplexNoise(seed: Long = 0L) {
         //skewed so that the tetrahedral and cubic facets can be inscribed inside
         //spheres of the same radius.
         private val gradients4D = byteArrayOf(
-                3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3,
-                -3, 1, 1, 1, -1, 3, 1, 1, -1, 1, 3, 1, -1, 1, 1, 3,
-                3, -1, 1, 1, 1, -3, 1, 1, 1, -1, 3, 1, 1, -1, 1, 3,
-                -3, -1, 1, 1, -1, -3, 1, 1, -1, -1, 3, 1, -1, -1, 1, 3,
-                3, 1, -1, 1, 1, 3, -1, 1, 1, 1, -3, 1, 1, 1, -1, 3,
-                -3, 1, -1, 1, -1, 3, -1, 1, -1, 1, -3, 1, -1, 1, -1, 3,
-                3, -1, -1, 1, 1, -3, -1, 1, 1, -1, -3, 1, 1, -1, -1, 3,
-                -3, -1, -1, 1, -1, -3, -1, 1, -1, -1, -3, 1, -1, -1, -1, 3,
-                3, 1, 1, -1, 1, 3, 1, -1, 1, 1, 3, -1, 1, 1, 1, -3,
-                -3, 1, 1, -1, -1, 3, 1, -1, -1, 1, 3, -1, -1, 1, 1, -3,
-                3, -1, 1, -1, 1, -3, 1, -1, 1, -1, 3, -1, 1, -1, 1, -3,
-                -3, -1, 1, -1, -1, -3, 1, -1, -1, -1, 3, -1, -1, -1, 1, -3,
-                3, 1, -1, -1, 1, 3, -1, -1, 1, 1, -3, -1, 1, 1, -1, -3,
-                -3, 1, -1, -1, -1, 3, -1, -1, -1, 1, -3, -1, -1, 1, -1, -3,
-                3, -1, -1, -1, 1, -3, -1, -1, 1, -1, -3, -1, 1, -1, -1, -3,
-                -3, -1, -1, -1, -1, -3, -1, -1, -1, -1, -3, -1, -1, -1, -1, -3
+            3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3,
+            -3, 1, 1, 1, -1, 3, 1, 1, -1, 1, 3, 1, -1, 1, 1, 3,
+            3, -1, 1, 1, 1, -3, 1, 1, 1, -1, 3, 1, 1, -1, 1, 3,
+            -3, -1, 1, 1, -1, -3, 1, 1, -1, -1, 3, 1, -1, -1, 1, 3,
+            3, 1, -1, 1, 1, 3, -1, 1, 1, 1, -3, 1, 1, 1, -1, 3,
+            -3, 1, -1, 1, -1, 3, -1, 1, -1, 1, -3, 1, -1, 1, -1, 3,
+            3, -1, -1, 1, 1, -3, -1, 1, 1, -1, -3, 1, 1, -1, -1, 3,
+            -3, -1, -1, 1, -1, -3, -1, 1, -1, -1, -3, 1, -1, -1, -1, 3,
+            3, 1, 1, -1, 1, 3, 1, -1, 1, 1, 3, -1, 1, 1, 1, -3,
+            -3, 1, 1, -1, -1, 3, 1, -1, -1, 1, 3, -1, -1, 1, 1, -3,
+            3, -1, 1, -1, 1, -3, 1, -1, 1, -1, 3, -1, 1, -1, 1, -3,
+            -3, -1, 1, -1, -1, -3, 1, -1, -1, -1, 3, -1, -1, -1, 1, -3,
+            3, 1, -1, -1, 1, 3, -1, -1, 1, 1, -3, -1, 1, 1, -1, -3,
+            -3, 1, -1, -1, -1, 3, -1, -1, -1, 1, -3, -1, -1, 1, -1, -3,
+            3, -1, -1, -1, 1, -3, -1, -1, 1, -1, -3, -1, 1, -1, -1, -3,
+            -3, -1, -1, -1, -1, -3, -1, -1, -1, -1, -3, -1, -1, -1, -1, -3
         )
     }
 }

@@ -37,19 +37,19 @@ fun limit(number: Double, low: Double, high: Double): Double {
 }
 
 fun <T : Comparable<T>> T.limit(low: T, high: T): T =
-        when {
-            this < low -> low
-            this > high -> high
-            else -> this
-        }
+    when {
+        this < low -> low
+        this > high -> high
+        else -> this
+    }
 
 
 // Linear Interpolate
 fun lerp(percentage: Double, one: Double, two: Double): Double =
-        one + (two - one) * percentage
+    one + (two - one) * percentage
 
 fun lerp(percentage: Float, min: Float, max: Float): Float =
-        min + (max - min) * percentage
+    min + (max - min) * percentage
 
 
 fun unlerp(min: Float, max: Float, value: Float): Float {

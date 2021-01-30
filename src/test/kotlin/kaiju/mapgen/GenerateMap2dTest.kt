@@ -17,10 +17,10 @@ import kotlin.math.sin
 class GenerateMap2dTest {
     @Test
     fun testGenerationOfBoxViaPredicates() {
-        val em1 = Matrix2d(20, 20) { x, y -> unknown }
+        val em1 = matrix2dOf(20, 20) { x, y -> unknown }
         fillWithBorder(em1, floor, wall)
 
-        val em2 = Matrix2d(20, 20) { x, y -> unknown }
+        val em2 = matrix2dOf(20, 20) { x, y -> unknown }
         fill(em2, cellNearEdge(), drawCell(wall))
         fill(em2, not(cellNearEdge()), drawCell(floor))
 
@@ -33,55 +33,60 @@ class GenerateMap2dTest {
 
     @Test
     fun testGenerationOfTreesViaPredicates() {
-        val em = Matrix2d(20, 20) { x, y -> unknown }
+        val em = matrix2dOf(20, 20) { x, y -> unknown }
         fill(em, cellNearEdge(), drawCell(wall))
         fill(em, not(cellNearEdge()), drawCell(floor))
         println("Gen trees 1 - not planted yet")
         printMap(em)
         val vegetation = NoiseFunction2d(10.0, 30.0, 16.0, 13.0)
         val tree = ExampleCellType('T', true)
-        fill(em,
-                and(
-                        noiseGreaterThan(vegetation, 0.5),
-                        cellEquals(floor)
-                ),
-                drawCell(tree))
+        fill(
+            em,
+            and(
+                noiseGreaterThan(vegetation, 0.5),
+                cellEquals(floor)
+            ),
+            drawCell(tree)
+        )
 
         val snow = NoiseFunction2d(-10.0, -500.0, 20.0, 22.0)
         val pineTree = ExampleCellType('p', true)
-        fill(em, and(
+        fill(
+            em, and(
                 noiseGreaterThan(snow, 0.6),
                 cellEquals(tree)
-        ), drawCell(pineTree))
+            ), drawCell(pineTree)
+        )
         println("Gen trees 2 - you should start seeing T's")
         printMap(em)
     }
 
     @Test
     fun testOr() {
-        val em = Matrix2d(10, 10) { x, y -> grass }
+        val em = matrix2dOf(10, 10) { x, y -> grass }
         em[5, 5] = floor
 
-        fill(em,
-                or(
-                        cellNearEdge(),
-                        nearCell(floor)
-                ),
-                drawCell(wall)
+        fill(
+            em,
+            or(
+                cellNearEdge(),
+                nearCell(floor)
+            ),
+            drawCell(wall)
         )
         printMap(em)
     }
 
     @Test
     fun testFloodFill() {
-        val em = Matrix2d(10, 10) { x, y -> unknown }
+        val em = matrix2dOf(10, 10) { x, y -> unknown }
         val center = Vec2(5, 5)
         val wallPoints: List<Vec2> = center.mooreNeighborhood()
 
         //Draw a wall
         fill(em,
-                { map: Matrix2d<ExampleCellType>, x: Int, y: Int -> wallPoints.contains(Vec2(x, y)) },
-                { m, x, y -> m[x, y] = wall }
+            { map: Matrix2d<ExampleCellType>, x: Int, y: Int -> wallPoints.contains(Vec2(x, y)) },
+            { m, x, y -> m[x, y] = wall }
         )
         assert(em[5, 5] === unknown)
         for (wallPoint in wallPoints) {
@@ -101,7 +106,7 @@ class GenerateMap2dTest {
 
     @Test
     fun makeAVillageByALake() {
-        val map = Matrix2d(100, 100) { x, y -> unknown }
+        val map = matrix2dOf(100, 100) { x, y -> unknown }
         fillWithBorder(map, grass, forest)
         val xMid: Int = map.xSize / 2
         val yMid: Int = map.ySize / 2
@@ -117,39 +122,59 @@ class GenerateMap2dTest {
             Rectangle(Vec2(x - xw, y - yw), Vec2(x + xw, y + yw))
         }
         rooms.forEach { room: Rectangle ->
-            fill(map,
-                    containedIn(room),
-                    drawCell(floor)
+            fill(
+                map,
+                containedIn(room),
+                drawCell(floor)
             )
         }
 
         //Put walls around buildings
-        fill(map,
-                and(
-                        nearCell(floor),
-                        cellEquals(grass)
-                ),
-                drawCell(wall)
+        fill(
+            map,
+            and(
+                nearCell(floor),
+                cellEquals(grass)
+            ),
+            drawCell(wall)
         )
 
         // Fill in pond
         val lake = NoiseFunction2d(30.0, 20.0, 24.0, 24.0)
         fill(map,
-                and(
-                        cellEquals(grass),
-                        { e: Matrix2d<ExampleCellType>, x: Int, y: Int ->
-                            0.1 * lake.gen(x.toDouble(), y.toDouble()) + 0.9 * ((lakeRadius - getEuclideanDistance(xMid.toDouble(), yMid.toDouble(), x.toDouble(), y.toDouble())) / xMid.toFloat()) > 0
-                        }
-                ),
-                drawCell(water)
+            and(
+                cellEquals(grass),
+                { e: Matrix2d<ExampleCellType>, x: Int, y: Int ->
+                    0.1 * lake.gen(
+                        x.toDouble(),
+                        y.toDouble()
+                    ) + 0.9 * ((lakeRadius - getEuclideanDistance(
+                        xMid.toDouble(),
+                        yMid.toDouble(),
+                        x.toDouble(),
+                        y.toDouble()
+                    )) / xMid.toFloat()) > 0
+                }
+            ),
+            drawCell(water)
         )
         val trees = NoiseFunction2d(10.0, 30.0, 4.0, 4.0)
         fill(map,
-                and(
-                        cellEquals(grass),
-                        { e, x, y -> trees.gen(x.toDouble(), y.toDouble()) + (forestRadius - getEuclideanDistance(xMid.toDouble(), yMid.toDouble(), x.toDouble(), y.toDouble())) / xMid.toFloat() < 0 }
-                ),
-                drawCell(forest)
+            and(
+                cellEquals(grass),
+                { e, x, y ->
+                    trees.gen(
+                        x.toDouble(),
+                        y.toDouble()
+                    ) + (forestRadius - getEuclideanDistance(
+                        xMid.toDouble(),
+                        yMid.toDouble(),
+                        x.toDouble(),
+                        y.toDouble()
+                    )) / xMid.toFloat() < 0
+                }
+            ),
+            drawCell(forest)
         )
 
         // Dig paths
@@ -157,20 +182,21 @@ class GenerateMap2dTest {
         var centerLast = Vec2[xMid, 0]
         for (center in centers) {
 
-            val path: List<Vec2>? = findPath2d(map.getSize(),
-                    { v ->
-                        when (map[v.x, v.y]) {
-                            wall -> 10.0
-                            floor -> 2.0
-                            grass -> 1.0
-                            forest -> 2.0
-                            water -> 30.0
-                            else -> 1.0
-                        }
-                    },
-                    ::getEuclideanDistance,
-                    { it.vonNeumanNeighborhood() },
-                    centerLast, center
+            val path: List<Vec2>? = findPath2d(
+                map.getSize(),
+                { v ->
+                    when (map[v.x, v.y]) {
+                        wall -> 10.0
+                        floor -> 2.0
+                        grass -> 1.0
+                        forest -> 2.0
+                        water -> 30.0
+                        else -> 1.0
+                    }
+                },
+                ::getEuclideanDistance,
+                { it.vonNeumanNeighborhood() },
+                centerLast, center
             )
             centerLast = center
 

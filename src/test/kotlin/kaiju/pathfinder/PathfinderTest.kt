@@ -14,14 +14,14 @@ class PathfinderTest {
 
         val size = Vec2[20, 20]
 
-        val field = Matrix2d(size) { x, y -> x == 6 && y != 0 }
+        val field = matrix2dOf(size) { x, y -> x == 6 && y != 0 }
         val path = findPath2d(
-                size = field.getSize(),
-                cost = { if (field[it]) 100000.0 else 1.0 },
-                heuristic = ::getEuclideanDistance,
-                neighbors = Vec2::vonNeumanNeighborhood,
-                start = Vec2[0, 0],
-                end = Vec2[19, 19]
+            size = field.getSize(),
+            cost = { if (field[it]) 100000.0 else 1.0 },
+            heuristic = ::getEuclideanDistance,
+            neighbors = Vec2::vonNeumanNeighborhood,
+            start = Vec2[0, 0],
+            end = Vec2[19, 19]
         )
 
         println(path)
@@ -42,9 +42,9 @@ class PathfinderTest {
 
         // We should take in a list of autonomous "safe zones" for our allies too
         val obstacles = listOf<Obstacle>(
-                Rectangle(Vec2[5, 5], Vec2[15, 10]), // switch
-                Rectangle(Vec2[5, 15], Vec2[15, 20]), // scale
-                InverseRectangle(Vec2[0, 0], size) // playing field
+            Rectangle(Vec2[5, 5], Vec2[15, 10]), // switch
+            Rectangle(Vec2[5, 15], Vec2[15, 20]), // scale
+            InverseRectangle(Vec2[0, 0], size) // playing field
         )
 
         // This represents the cost to travel as a scalar field.  Keeping ourselves away from the edges
@@ -55,22 +55,22 @@ class PathfinderTest {
         val end = Vec2(19, 29)
 
         val path = findPath2d(
-                size,
-                { pos ->
-                    val d: Double = obstacles.map { it.minDist(pos) }.minOrNull()!!
-                    if (d <= 0) {
-                        Double.MAX_VALUE
-                    } else if (d > safeDist) {
-                        1.0
-                    } else {
-                        // weight spaces near obstacles higher.
-                        2 * (1 - (d / safeDist)) + 1
-                    }
-                },
-                { one, two -> 1.0 },
-                Vec2::mooreNeighborhood,
-                start,
-                end
+            size,
+            { pos ->
+                val d: Double = obstacles.map { it.minDist(pos) }.minOrNull()!!
+                if (d <= 0) {
+                    Double.MAX_VALUE
+                } else if (d > safeDist) {
+                    1.0
+                } else {
+                    // weight spaces near obstacles higher.
+                    2 * (1 - (d / safeDist)) + 1
+                }
+            },
+            { one, two -> 1.0 },
+            Vec2::mooreNeighborhood,
+            start,
+            end
         )
 
 
@@ -90,12 +90,12 @@ class PathfinderTest {
         val end = Vec3[19, 29, 39]
 
         val path = findPath3d(
-                size,
-                { pos -> 1.0 },
-                { one, two -> getEuclideanDistance(one, two) },
-                Vec3::vonNeumanNeighborhood,
-                start,
-                end
+            size,
+            { pos -> 1.0 },
+            { one, two -> getEuclideanDistance(one, two) },
+            Vec3::vonNeumanNeighborhood,
+            start,
+            end
         )
 
         assert(path != null)

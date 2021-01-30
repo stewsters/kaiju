@@ -22,7 +22,11 @@ fun <T> fillWithBorder(map: Matrix3d<T>, fill: T, wall: T) {
     }
 }
 
-fun <T> fill(map: Matrix3d<T>, predicate: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Boolean, brush2d: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Unit) {
+fun <T> fill(
+    map: Matrix3d<T>,
+    predicate: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Boolean,
+    brush2d: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Unit
+) {
     map.forEach { x, y, z ->
         if (predicate(map, x, y, z)) {
             brush2d(map, x, y, z)
@@ -38,7 +42,12 @@ fun <T> fill(map: Matrix3d<T>, predicate: (map: Matrix3d<T>, x: Int, y: Int, z: 
  * @param predicate The predicate to check
  * @param brush3d   The brush to fill
  */
-fun <T> floodFill(map: Matrix3d<T>, start: Vec3, predicate: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Boolean, brush3d: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Unit) {
+fun <T> floodFill(
+    map: Matrix3d<T>,
+    start: Vec3,
+    predicate: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Boolean,
+    brush3d: (map: Matrix3d<T>, x: Int, y: Int, z: Int) -> Unit
+) {
     val todo = mutableListOf<Vec3>()
     val match = mutableListOf<Vec3>()
     val done = HashSet<Vec3>()
