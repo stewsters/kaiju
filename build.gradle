@@ -20,7 +20,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api "com.github.alexeyr.pcg:pcg:0.9.1"
     implementation 'com.google.code.gson:gson:2.8.6'
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.2")
 }
 
 compileKotlin {
