@@ -10,8 +10,8 @@ import kaiju.math.*
 import kaiju.math.geom.RectangularPrism
 import kaiju.pathfinder.findPath3d
 import org.junit.Test
-import java.lang.Math.cos
-import java.lang.Math.sin
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class GenerateMap3dTest {
@@ -115,9 +115,9 @@ class GenerateMap3dTest {
         val lakeRadius = buildingRadius / 2
         val forestRadius = buildingRadius + 1
         val rooms: List<RectangularPrism> = (0..10).map { i: Int ->
-            val angle: Float = getFloatInRange(0f, Math.PI.toFloat() * 2)
-            val x: Int = xMid + (buildingRadius * cos(angle.toDouble())).toInt() + getIntInRange(-3, 3)
-            val y: Int = yMid + (buildingRadius * sin(angle.toDouble())).toInt() + getIntInRange(-3, 3)
+            val angle = getDoubleInRange(0.0, Math.PI * 2)
+            val x: Int = xMid + (buildingRadius * cos(angle)).toInt() + getIntInRange(-3, 3)
+            val y: Int = yMid + (buildingRadius * sin(angle)).toInt() + getIntInRange(-3, 3)
             val xw: Int = getIntInRange(2, 3)
             val yw: Int = getIntInRange(2, 3)
             RectangularPrism(Vec3[x - xw, y - yw, 0], Vec3[x + xw, y + yw, 1])

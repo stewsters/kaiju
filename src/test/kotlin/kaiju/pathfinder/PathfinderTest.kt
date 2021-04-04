@@ -58,13 +58,17 @@ class PathfinderTest {
             size,
             { pos ->
                 val d: Double = obstacles.map { it.minDist(pos) }.minOrNull()!!
-                if (d <= 0) {
-                    Double.MAX_VALUE
-                } else if (d > safeDist) {
-                    1.0
-                } else {
-                    // weight spaces near obstacles higher.
-                    2 * (1 - (d / safeDist)) + 1
+                when {
+                    d <= 0 -> {
+                        Double.MAX_VALUE
+                    }
+                    d > safeDist -> {
+                        1.0
+                    }
+                    else -> {
+                        // weight spaces near obstacles higher.
+                        2 * (1 - (d / safeDist)) + 1
+                    }
                 }
             },
             { one, two -> 1.0 },
@@ -112,7 +116,7 @@ class PathfinderTest {
                 if (path?.contains(Vec2[x, y]) == true) {
                     print("X ")
                 } else {
-                    print(value.toString() + " ")
+                    print("$value ")
                 }
             }
             println()

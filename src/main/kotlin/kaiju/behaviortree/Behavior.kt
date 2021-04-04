@@ -123,6 +123,6 @@ class LoopUntilFailure(val task: Task) : Task {
     }
 }
 
-//class Parallel()  // failuremode any/all, successMode any/all
+//class Parallel()  // failure mode any/all, successMode any/all
 
 // wait?
