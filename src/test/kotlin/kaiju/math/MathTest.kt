@@ -94,4 +94,10 @@ class MathTest {
 
         assert(Vec3[1, 2, 0] - Vec3[2, 3, 1] == Vec3[-1, -1, -1])
     }
+
+    @Test
+    fun testEquals(){
+        assert(Vec2(1,2) != Vec2(1,3))
+        assert(Vec2(1,2) == Vec2(1,2))
+    }
 }
