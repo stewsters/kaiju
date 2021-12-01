@@ -3,7 +3,6 @@ package kaiju.pathfinder
 import kaiju.math.Vec2
 import kaiju.math.matrix2dOf
 import java.util.*
-import kotlin.collections.HashSet
 
 /**
  * AStar 2d
@@ -21,7 +20,7 @@ fun findPath2d(
     val parent = matrix2dOf<Vec2?>(size.x, size.y) { _, _ -> null }
     val fScore = matrix2dOf(size.x, size.y) { _, _ -> Double.MAX_VALUE }
 
-    val openSet = PriorityQueue<Vec2>{ one, two -> fScore[one].compareTo(fScore[two]) }
+    val openSet = PriorityQueue<Vec2> { one, two -> fScore[one].compareTo(fScore[two]) }
     val closeSet = HashSet<Vec2>()
 
     openSet.add(start)

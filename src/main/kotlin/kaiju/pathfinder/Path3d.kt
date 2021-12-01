@@ -1,11 +1,8 @@
 package kaiju.pathfinder
 
-import kaiju.math.Matrix3d
-import kaiju.math.Vec2
 import kaiju.math.Vec3
 import kaiju.math.matrix3dOf
 import java.util.*
-import kotlin.collections.HashSet
 
 /**
  * AStar 3d
@@ -23,7 +20,7 @@ fun findPath3d(
     val parent = matrix3dOf<Vec3?>(size) { _, _, _ -> null }
     val fScore = matrix3dOf(size) { _, _, _ -> Double.MAX_VALUE }
 
-    val openSet = PriorityQueue<Vec3>{ one, two -> fScore[one].compareTo(fScore[two]) }
+    val openSet = PriorityQueue<Vec3> { one, two -> fScore[one].compareTo(fScore[two]) }
     val closeSet = HashSet<Vec3>()
 
     openSet.add(start)

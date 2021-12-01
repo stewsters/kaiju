@@ -1,7 +1,6 @@
 package kaiju.plan
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class Action<W>(val name: String, val prerequisite: (W) -> Boolean, val effect: (W) -> W)

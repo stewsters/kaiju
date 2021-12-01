@@ -1,8 +1,8 @@
 package kaiju.pathfinder
 
-import kaiju.math.Matrix2d
 import kaiju.math.Vec2
 import kaiju.math.getEuclideanDistance
+import kaiju.math.matrix2dOf
 import org.junit.Test
 
 class Forklift {
@@ -10,7 +10,7 @@ class Forklift {
     @Test
     fun drivePackages() {
 
-        val passable = Matrix2d(Vec2(100, 100)) { x, y ->
+        val passable = matrix2dOf(Vec2(100, 100)) { x, y ->
             x == 0 || y == 0 || x == 39 || y == 39 || x % 2 == 0
         }
 
@@ -35,7 +35,7 @@ class Forklift {
         // time passes
         while (true) {
 
-            if (workOrders.isEmpty() && robots.map { it.payload }.filterNotNull().isNullOrEmpty()) {
+            if (workOrders.isEmpty() && robots.map { it.payload }.filterNotNull().isEmpty()) {
 //                println("Work done")
                 break
             }

@@ -96,8 +96,8 @@ class MathTest {
     }
 
     @Test
-    fun testEquals(){
-        assert(Vec2(1,2) != Vec2(1,3))
-        assert(Vec2(1,2) == Vec2(1,2))
+    fun testEquals() {
+        assert(Vec2(1, 2) != Vec2(1, 3))
+        assert(Vec2(1, 2) == Vec2(1, 2))
     }
 }

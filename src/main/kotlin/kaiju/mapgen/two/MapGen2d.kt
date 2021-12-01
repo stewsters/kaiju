@@ -1,5 +1,3 @@
-
-
 package kaiju.mapgen.two
 
 

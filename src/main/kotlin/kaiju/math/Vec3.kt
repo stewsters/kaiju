@@ -8,13 +8,13 @@ import kotlin.math.sqrt
 data class Vec3(val x: Int, val y: Int, val z: Int) {
 
 
-    operator fun plus(dir: Vec3)= Vec3(x + dir.x, y + dir.y, z + dir.z)
-    operator fun plus(dir: Facing)= Vec3 (x + dir.offset.x, y + dir.offset.y, z)
+    operator fun plus(dir: Vec3) = Vec3(x + dir.x, y + dir.y, z + dir.z)
+    operator fun plus(dir: Facing) = Vec3(x + dir.offset.x, y + dir.offset.y, z)
 
-    operator fun minus(dir: Vec3)= Vec3(x - dir.x, y - dir.y, z - dir.z)
+    operator fun minus(dir: Vec3) = Vec3(x - dir.x, y - dir.y, z - dir.z)
 
-    fun down()= Vec3 (x, y, z - 1)
-    fun up()= Vec3 (x, y, z + 1)
+    fun down() = Vec3(x, y, z - 1)
+    fun up() = Vec3(x, y, z + 1)
     fun getXY() = Vec2(x, y)
 
     fun inclusiveVonNeumanNeighborhood(): List<Vec3> = listOf(
