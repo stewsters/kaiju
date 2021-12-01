@@ -25,7 +25,7 @@ class TemporalPathfinding {
         val map = Matrix2d(30, 30) { x, y -> false }
 
         val paths = findPathTemporal(
-                size = Vec2[20, 20],
+                size = Vec2(20, 20),
                 timeLimit = 20,
                 cost = { pos -> 1.0 },
                 distance = { one, two -> getEuclideanDistance(one, two) },

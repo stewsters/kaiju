@@ -10,8 +10,8 @@ class DijkstraMapTest {
     @Test
     fun test2d() {
 
-        val size = Vec2[10, 10]
-        val source = Vec2[5, 5]
+        val size = Vec2(10, 10)
+        val source = Vec2(5, 5)
 
         val map = dijkstraMap2d(size, listOf(source)) { pos -> pos.x > 6 }
 
@@ -25,7 +25,7 @@ class DijkstraMapTest {
         // we should be able to follow it back to the source.
 
         var done = false
-        var pos = Vec2[0, 0]
+        var pos = Vec2(0, 0)
 
         // For each position, find one that's better and go there until we get to a source
         while (!done) {
@@ -49,8 +49,8 @@ class DijkstraMapTest {
     @Test
     fun test3d() {
 
-        val size = Vec3[10, 10, 10]
-        val source = Vec3[5, 5, 5]
+        val size = Vec3(10, 10, 10)
+        val source = Vec3(5, 5, 5)
 
         val map = dijkstraMap3d(size, listOf(source)) { pos -> pos.x > 6 }
 
@@ -65,7 +65,7 @@ class DijkstraMapTest {
         // we should be able to follow it back to the source.
 
         var done = false
-        var pos = Vec3[0, 0, 0]
+        var pos = Vec3(0, 0, 0)
 
         // For each position, find one that's better and go there until we get to a source
         while (!done) {

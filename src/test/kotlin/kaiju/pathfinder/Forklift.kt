@@ -10,7 +10,7 @@ class Forklift {
     @Test
     fun drivePackages() {
 
-        val passable = Matrix2d(Vec2(40, 40)) { x, y ->
+        val passable = Matrix2d(Vec2(100, 100)) { x, y ->
             x == 0 || y == 0 || x == 39 || y == 39 || x % 2 == 0
         }
 
@@ -24,7 +24,7 @@ class Forklift {
         val validPos = mutableListOf<Vec2>()
         passable.forEachIndexed { x, y, value ->
             if (value) {
-                validPos.add(Vec2[x, y])
+                validPos.add(Vec2(x, y))
             }
         }
 
@@ -36,7 +36,7 @@ class Forklift {
         while (true) {
 
             if (workOrders.isEmpty() && robots.map { it.payload }.filterNotNull().isNullOrEmpty()) {
-                println("Work done")
+//                println("Work done")
                 break
             }
 
@@ -62,7 +62,7 @@ class Forklift {
                     if (closest != null) {
                         // if we are on top of it, pick it up, else drive to it
                         if (closest.location == robot.position) {
-                            println("Robot ${robot.id} picked up ${closest.id} at ${robot.position}")
+//                            println("Robot ${robot.id} picked up ${closest.id} at ${robot.position}")
                             robot.plan = null
                             robot.payload = closest
                             workOrders.remove(closest)
@@ -80,7 +80,7 @@ class Forklift {
                             )
                             robot.plan = plan
                             if (plan != null) {
-                                println("Robot ${robot.id}${robot.position} moving towards pickup ${closest.id}${closest.location}")
+//                                println("Robot ${robot.id}${robot.position} moving towards pickup ${closest.id}${closest.location}")
                                 robot.position = plan[1]
                             }
                         }
@@ -90,7 +90,7 @@ class Forklift {
                     // if we are at the destination, drop off
                     if (payload.destination == robot.position) {
                         // SUCCESS
-                        println("Robot ${robot.id} dropped off ${payload.id} at ${robot.position}")
+//                        println("Robot ${robot.id} dropped off ${payload.id} at ${robot.position}")
                         robot.payload = null
                         robot.plan = null
                     } else {
@@ -105,7 +105,7 @@ class Forklift {
                         )
                         robot.plan = plan
                         if (plan != null && plan.size > 1) {
-                            println("Robot ${robot.id}${robot.position} moving towards dropoff ${payload.id}${payload.destination}")
+//                            println("Robot ${robot.id}${robot.position} moving towards dropoff ${payload.id}${payload.destination}")
                             robot.position = plan[1]
                         }
 

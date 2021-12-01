@@ -2,24 +2,26 @@ package kaiju.pathfinder
 
 import kaiju.math.Matrix2d
 import kaiju.math.Vec2
+import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * AStar 2d
  */
 fun findPath2d(
-        size: Vec2,
-        cost: (Vec2) -> Double,
-        heuristic: (Vec2, Vec2) -> Double,
-        neighbors: (Vec2) -> List<Vec2>,
-        start: Vec2,
-        end: Vec2
+    size: Vec2,
+    cost: (Vec2) -> Double,
+    heuristic: (Vec2, Vec2) -> Double,
+    neighbors: (Vec2) -> List<Vec2>,
+    start: Vec2,
+    end: Vec2
 ): List<Vec2>? {
 
-    val costs = Matrix2d(size.x, size.y) { _, _ -> Double.MAX_VALUE }
-    val parent = Matrix2d<Vec2?>(size.x, size.y) { _, _ -> null }
-    val fScore = Matrix2d(size.x, size.y) { _, _ -> Double.MAX_VALUE }
+    val costs = Matrix2d(size) { _, _ -> Double.MAX_VALUE }
+    val parent = Matrix2d<Vec2?>(size) { _, _ -> null }
+    val fScore = Matrix2d(size) { _, _ -> Double.MAX_VALUE }
 
-    val openSet = mutableListOf<Vec2>()
+    val openSet = PriorityQueue<Vec2>{ one, two -> fScore[one].compareTo(fScore[two]) }
     val closeSet = HashSet<Vec2>()
 
     openSet.add(start)
@@ -29,7 +31,7 @@ fun findPath2d(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode: Vec2 = openSet.minByOrNull { fScore[it] }!!
+        val cheapestNode: Vec2 = openSet.poll()
 
         if (cheapestNode == end) {
             // target found, we have a path
@@ -43,12 +45,10 @@ fun findPath2d(
             return path.reversed()
         }
 
-        openSet.remove(cheapestNode)
         closeSet.add(cheapestNode)
 
         // get the neighbors
         //  for each point, set the cost, and a pointer back if we set the cost
-
         for (it in neighbors(cheapestNode)) {
             if (it.x < 0 || it.y < 0 || it.x >= size.x || it.y >= size.y)
                 continue

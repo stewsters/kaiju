@@ -22,7 +22,7 @@ open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle, Container2d {
 
     fun center(): Vec2 {
         val total = lower + upper
-        return Vec2[total.x / 2, total.y / 2]
+        return Vec2(total.x / 2, total.y / 2)
     }
 
 
@@ -45,16 +45,16 @@ open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle, Container2d {
                 abs(point.x.toDouble() - lower.x.toDouble())
             }
         } else if (point.x < lower.x && point.y > upper.y) { // upper left
-            return getEuclideanDistance(point, Vec2[lower.x, upper.y])
+            return getEuclideanDistance(point, Vec2(lower.x, upper.y))
 
         } else if (point.x > upper.x && point.y > upper.y) { // upper right
-            return getEuclideanDistance(point, Vec2[upper.x, upper.y])
+            return getEuclideanDistance(point, Vec2(upper.x, upper.y))
 
         } else if (point.x > upper.x && point.y < lower.y) { // lower right
-            return getEuclideanDistance(point, Vec2[upper.x, lower.y])
+            return getEuclideanDistance(point, Vec2(upper.x, lower.y))
 
         } else if (point.x < lower.x && point.y < lower.y) { // lower left
-            return getEuclideanDistance(point, Vec2[lower.x, lower.y])
+            return getEuclideanDistance(point, Vec2(lower.x, lower.y))
 
         } else {
             return -1.0//throw Exception("That's not good")

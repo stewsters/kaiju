@@ -80,7 +80,7 @@ data class Entity(var hp: Int, var pos: Vec2)
 
 //TODO: Data class allows copy.  I think this can get a lot smaller if we use that.
 class DungeonWorldState(
-        var player: Entity = Entity(10, Vec2[1, 1]),
+        var player: Entity = Entity(10, Vec2(1, 1)),
         var opponentsHp: Int = 10,
         var hasSword: Boolean = false,
 

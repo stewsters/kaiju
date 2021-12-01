@@ -23,7 +23,7 @@ open class RectangularPrism(val lower: Vec3, val upper: Vec3) : Container3d {
 
     fun center(): Vec3 {
         val total = lower + upper
-        return Vec3[total.x / 2, total.y / 2, total.z / 2]
+        return Vec3(total.x / 2, total.y / 2, total.z / 2)
     }
 
 //    override fun minDist(point: Vec3): Double {

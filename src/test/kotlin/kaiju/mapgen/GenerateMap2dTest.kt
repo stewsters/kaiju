@@ -154,7 +154,7 @@ class GenerateMap2dTest {
 
         // Dig paths
         val centers: List<Vec2> = rooms.map { room: Rectangle -> room.center() }
-        var centerLast = Vec2[xMid, 0]
+        var centerLast = Vec2(xMid, 0)
         for (center in centers) {
 
             val path: List<Vec2>? = findPath2d(map.getSize(),

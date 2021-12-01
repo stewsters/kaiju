@@ -75,13 +75,13 @@ class GenerateMap3dTest {
     @Test
     fun testFloodFill() {
         val em = Matrix3d(10, 10, 10) { x, y, z -> unknown }
-        val center = Vec3[5, 5, 5]
+        val center = Vec3(5, 5, 5)
         val wallPoints: List<Vec3> = center.getMooreNeighborhood()
         assert(wallPoints.size == 26)
 
         //Draw a wall
         fill(em,
-                { map: Matrix3d<ExampleCellType>, x: Int, y: Int, z: Int -> wallPoints.contains(Vec3[x, y, z]) },
+                { map: Matrix3d<ExampleCellType>, x: Int, y: Int, z: Int -> wallPoints.contains(Vec3(x, y, z)) },
                 { m, x, y, z -> m[x, y, z] = wall }
         )
         assert(em[5, 5, 5] === unknown)
@@ -115,7 +115,7 @@ class GenerateMap3dTest {
             val y: Int = yMid + (buildingRadius * sin(angle.toDouble())).toInt() + getIntInRange(-3, 3)
             val xw: Int = getIntInRange(2, 3)
             val yw: Int = getIntInRange(2, 3)
-            RectangularPrism(Vec3[x - xw, y - yw, 0], Vec3[x + xw, y + yw, 1])
+            RectangularPrism(Vec3(x - xw, y - yw, 0), Vec3(x + xw, y + yw, 1))
         }
         rooms.forEach { room ->
             fill(map,
@@ -155,7 +155,7 @@ class GenerateMap3dTest {
 
         // Dig paths
         val centers: List<Vec3> = rooms.map { room -> room.center() }
-        var centerLast = Vec3[xMid, 0, 0]
+        var centerLast = Vec3(xMid, 0, 0)
         for (center in centers) {
 
             val path: List<Vec3>? = findPath3d(map.getSize(),

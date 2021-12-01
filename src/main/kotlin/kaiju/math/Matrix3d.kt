@@ -43,7 +43,7 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, val data: Arra
         )
     }
 
-    fun getSize() = Vec3[xSize, ySize, zSize]
+    fun getSize() = Vec3(xSize, ySize, zSize)
 
     fun setFromList(list: List<T>) {
         list.forEachIndexed { index, t -> data[index] = t }

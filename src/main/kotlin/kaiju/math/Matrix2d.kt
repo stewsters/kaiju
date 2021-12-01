@@ -40,7 +40,7 @@ class Matrix2d<T>(val xSize: Int, val ySize: Int, val data: Array<T>) {
         )
     }
 
-    fun getSize() = Vec2[xSize, ySize]
+    fun getSize() = Vec2(xSize, ySize)
 
     fun setFromList(list: List<T>) {
         list.forEachIndexed { index, t -> data[index] = t }

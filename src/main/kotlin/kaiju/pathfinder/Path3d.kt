@@ -1,25 +1,28 @@
 package kaiju.pathfinder
 
 import kaiju.math.Matrix3d
+import kaiju.math.Vec2
 import kaiju.math.Vec3
+import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * AStar 3d
  */
 fun findPath3d(
-        size: Vec3,
-        cost: (Vec3) -> Double,
-        heuristic: (Vec3, Vec3) -> Double,
-        neighbors: (Vec3) -> List<Vec3>,
-        start: Vec3,
-        end: Vec3
+    size: Vec3,
+    cost: (Vec3) -> Double,
+    heuristic: (Vec3, Vec3) -> Double,
+    neighbors: (Vec3) -> List<Vec3>,
+    start: Vec3,
+    end: Vec3
 ): List<Vec3>? {
 
-    val costs = Matrix3d(size.x, size.y, size.z) { _, _, _ -> Double.MAX_VALUE }
-    val parent = Matrix3d<Vec3?>(size.x, size.y, size.z) { _, _, _ -> null }
-    val fScore = Matrix3d(size.x, size.y, size.z) { _, _, _ -> Double.MAX_VALUE }
+    val costs = Matrix3d(size) { _, _, _ -> Double.MAX_VALUE }
+    val parent = Matrix3d<Vec3?>(size) { _, _, _ -> null }
+    val fScore = Matrix3d(size) { _, _, _ -> Double.MAX_VALUE }
 
-    val openSet = mutableListOf<Vec3>()
+    val openSet = PriorityQueue<Vec3>{ one, two -> fScore[one].compareTo(fScore[two]) }
     val closeSet = HashSet<Vec3>()
 
     openSet.add(start)
@@ -29,7 +32,7 @@ fun findPath3d(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode: Vec3 = openSet.minByOrNull { fScore[it] }!!
+        val cheapestNode: Vec3 = openSet.poll()
 
         if (cheapestNode == end) {
             // target found, we have a path
@@ -43,7 +46,6 @@ fun findPath3d(
             return path.reversed()
         }
 
-        openSet.remove(cheapestNode)
         closeSet.add(cheapestNode)
 
         // get the neighbors
