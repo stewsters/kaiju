@@ -36,10 +36,10 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, val data: Arra
 
     inline fun forEachIndexed(function: (Int, Int, Int, T) -> Unit) = data.forEachIndexed { i, t ->
         function(
-                i % xSize,
-                (i % (xSize * ySize)) / xSize,
-                i / (xSize * ySize),
-                t
+            i % xSize,
+            (i % (xSize * ySize)) / xSize,
+            i / (xSize * ySize),
+            t
         )
     }
 
@@ -51,7 +51,7 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, val data: Arra
 
     fun <R : Comparable<R>> sortedBy(function: (T) -> R?): List<T> = data.sortedBy(function)
 
-    inline fun <reified R> map(transform: (T) -> R): Matrix3d<R> = Matrix3d(xSize, ySize, zSize, data.map(transform))
+    inline fun <reified R> map(transform: (T) -> R): Matrix3d<R> = matrix3dOf(xSize, ySize, zSize, data.map(transform))
 
 //    fun submap(boundingRect: RectangularPrism): Matrix3d<T> {
 //
@@ -59,17 +59,17 @@ class Matrix3d<T>(val xSize: Int, val ySize: Int, val zSize: Int, val data: Arra
 
 }
 
-inline fun <reified T> Matrix3d(size: Vec3, init: (Int, Int, Int) -> T) = Matrix3d(size.x, size.y, size.z, init)
+inline fun <reified T> matrix3dOf(size: Vec3, init: (Int, Int, Int) -> T) = matrix3dOf(size.x, size.y, size.z, init)
 
-inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, init: (Int, Int, Int) -> T) =
-        Matrix3d(xSize, ySize, zSize, Array(xSize * ySize * zSize) { i ->
-            init(
-                    i % xSize,
-                    (i % (xSize * ySize)) / xSize,
-                    i / (xSize * ySize)
-            )
-        })
+inline fun <reified T> matrix3dOf(xSize: Int, ySize: Int, zSize: Int, init: (Int, Int, Int) -> T) =
+    Matrix3d(xSize, ySize, zSize, Array(xSize * ySize * zSize) { i ->
+        init(
+            i % xSize,
+            (i % (xSize * ySize)) / xSize,
+            i / (xSize * ySize)
+        )
+    })
 
-inline fun <reified T> Matrix3d(xSize: Int, ySize: Int, zSize: Int, dataList: List<T>): Matrix3d<T> =
-        Matrix3d(xSize, ySize, zSize, Array(dataList.size) { i -> dataList[i] })
+inline fun <reified T> matrix3dOf(xSize: Int, ySize: Int, zSize: Int, dataList: List<T>): Matrix3d<T> =
+    Matrix3d(xSize, ySize, zSize, Array(dataList.size) { i -> dataList[i] })
 

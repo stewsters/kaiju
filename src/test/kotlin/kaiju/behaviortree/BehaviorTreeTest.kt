@@ -9,24 +9,31 @@ class BehaviorTreeTest {
     fun testBehaviorTree() {
 
         val situation = Situation(
-                inRoom = false,
-                opponentAlive = true
+            inRoom = false,
+            opponentAlive = true
         )
 
-        val root = Sequence(listOf(
+        val root = Sequence(
+            listOf(
                 WalkIntoRoom(situation),
-                Loop(3,
-                        Selector(mapOf(
-                                LeaveValue(situation) to WalkOutOfRoom(situation),
-                                ShootValue(situation) to Sequence(listOf(
-                                        SayPunchline("Remember when I said I would kill you last?"),
-                                        ShootYourShot(situation),
-                                        SayPunchline("I lied.")
-                                )),
-                                NapValue(situation) to TakeANap(situation)
-                        ))
+                Loop(
+                    3,
+                    Selector(
+                        mapOf(
+                            LeaveValue(situation) to WalkOutOfRoom(situation),
+                            ShootValue(situation) to Sequence(
+                                listOf(
+                                    SayPunchline("Remember when I said I would kill you last?"),
+                                    ShootYourShot(situation),
+                                    SayPunchline("I lied.")
+                                )
+                            ),
+                            NapValue(situation) to TakeANap(situation)
+                        )
+                    )
                 )
-        ))
+            )
+        )
 
 
         var i = 0
@@ -65,8 +72,8 @@ class NapValue(val situation: Situation) : Condition {
 }
 
 class Situation(
-        var inRoom: Boolean = false,
-        var opponentAlive: Boolean = true
+    var inRoom: Boolean = false,
+    var opponentAlive: Boolean = true
 )
 
 class ShootValue(var situation: Situation) : Condition {

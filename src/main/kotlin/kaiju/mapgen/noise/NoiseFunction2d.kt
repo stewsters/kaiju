@@ -3,11 +3,11 @@ package kaiju.mapgen.noise
 import kaiju.noise.OpenSimplexNoise
 
 class NoiseFunction2d(
-        val xOffset: Double,
-        val yOffset: Double,
-        val xScale: Double,
-        val yScale: Double,
-        val openSimplexNoise: OpenSimplexNoise = OpenSimplexNoise()
+    private val xOffset: Double,
+    private val yOffset: Double,
+    private val xScale: Double,
+    private val yScale: Double,
+    private val openSimplexNoise: OpenSimplexNoise = OpenSimplexNoise()
 ) {
 
     /**

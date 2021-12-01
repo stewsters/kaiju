@@ -8,10 +8,10 @@ class Action<W>(val name: String, val prerequisite: (W) -> Boolean, val effect: 
 
 
 fun <W> plan(
-        startingState: W,
-        fitness: (W) -> Float,
-        actions: Array<Action<W>>,
-        maxCost: Int
+    startingState: W,
+    fitness: (W) -> Float,
+    actions: Array<Action<W>>,
+    maxCost: Int
 ): List<Action<W>>? where W : World<W> {
 
     val endState = ArrayList<W>()
@@ -72,8 +72,9 @@ interface World<W> {
 }
 
 abstract class BaseWorldState<W>(
-        override var parentState: W? = null,
-        override var parentAction: Action<W>? = null,
-        override var cost: Float = 0f) : World<W>
+    override var parentState: W? = null,
+    override var parentAction: Action<W>? = null,
+    override var cost: Float = 0f
+) : World<W>
 
 

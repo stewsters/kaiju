@@ -1,8 +1,8 @@
 package kaiju.geom
 
 import kaiju.math.Facing
-import kaiju.math.Matrix2d
 import kaiju.math.Vec2
+import kaiju.math.matrix2dOf
 import org.junit.Test
 
 class VecTests {
@@ -37,37 +37,45 @@ class VecTests {
         val neighbors = center.mooreNeighborhood()
 
         assert(neighbors.size == 8)
-        assert(neighbors.containsAll(listOf(
-                Vec2(4, 4),
-                Vec2(5, 4),
-                Vec2(6, 4),
-                Vec2(4, 5),
-                Vec2(6, 5),
-                Vec2(4, 6),
-                Vec2(5, 6),
-                Vec2(6, 6)
-        )))
+        assert(
+            neighbors.containsAll(
+                listOf(
+                    Vec2(4, 4),
+                    Vec2(5, 4),
+                    Vec2(6, 4),
+                    Vec2(4, 5),
+                    Vec2(6, 5),
+                    Vec2(4, 6),
+                    Vec2(5, 6),
+                    Vec2(6, 6)
+                )
+            )
+        )
 
         val neighbors2 = center.inclusiveMooreNeighborhood()
         assert(neighbors2.size == 9)
-        assert(neighbors2.containsAll(listOf(
-                center,
-                Vec2(4, 4),
-                Vec2(5, 4),
-                Vec2(6, 4),
-                Vec2(4, 5),
-                Vec2(6, 5),
-                Vec2(4, 6),
-                Vec2(5, 6),
-                Vec2(6, 6)
-        )))
+        assert(
+            neighbors2.containsAll(
+                listOf(
+                    center,
+                    Vec2(4, 4),
+                    Vec2(5, 4),
+                    Vec2(6, 4),
+                    Vec2(4, 5),
+                    Vec2(6, 5),
+                    Vec2(4, 6),
+                    Vec2(5, 6),
+                    Vec2(6, 6)
+                )
+            )
+        )
 
     }
 
 
     @Test
     fun testMatrix() {
-        val mat = Matrix2d(10, 10) { x, y -> x * y }
+        val mat = matrix2dOf(10, 10) { x, y -> x * y }
 
         for (x in 0..9) {
             for (y in 0..9) {

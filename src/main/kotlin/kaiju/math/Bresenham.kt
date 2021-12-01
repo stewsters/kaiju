@@ -3,7 +3,7 @@ package kaiju.math
 import kotlin.math.abs
 
 fun los(start: Vec2, end: Vec2, passable: (x: Int, y: Int) -> Boolean) =
-        los(start.x, start.y, end.x, end.y, passable)
+    los(start.x, start.y, end.x, end.y, passable)
 
 fun los(x1: Int, y1: Int, x2: Int, y2: Int, passable: (x: Int, y: Int) -> Boolean): Boolean {
     var x1 = x1

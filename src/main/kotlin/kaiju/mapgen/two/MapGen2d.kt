@@ -1,4 +1,4 @@
-@file:Suppress("SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection")
+
 
 package kaiju.mapgen.two
 
@@ -24,7 +24,11 @@ fun <T> fillWithBorder(map: Matrix2d<T>, fill: T, wall: T) {
     }
 }
 
-fun <T> fill(map: Matrix2d<T>, predicate: (map: Matrix2d<T>, x: Int, y: Int) -> Boolean, brush2d: (map: Matrix2d<T>, x: Int, y: Int) -> Unit) {
+fun <T> fill(
+    map: Matrix2d<T>,
+    predicate: (map: Matrix2d<T>, x: Int, y: Int) -> Boolean,
+    brush2d: (map: Matrix2d<T>, x: Int, y: Int) -> Unit
+) {
     map.forEach { x, y ->
         if (predicate(map, x, y)) {
             brush2d(map, x, y)
@@ -40,7 +44,12 @@ fun <T> fill(map: Matrix2d<T>, predicate: (map: Matrix2d<T>, x: Int, y: Int) -> 
  * @param predicate The predicate to check
  * @param brush2d   The brush to fill
  */
-fun <T> floodFill(map: Matrix2d<T>, start: Vec2, predicate: (map: Matrix2d<T>, x: Int, y: Int) -> Boolean, brush2d: (map: Matrix2d<T>, x: Int, y: Int) -> Unit) {
+fun <T> floodFill(
+    map: Matrix2d<T>,
+    start: Vec2,
+    predicate: (map: Matrix2d<T>, x: Int, y: Int) -> Boolean,
+    brush2d: (map: Matrix2d<T>, x: Int, y: Int) -> Unit
+) {
     val todo = mutableListOf<Vec2>()
     val match = mutableListOf<Vec2>()
     val done = HashSet<Vec2>()

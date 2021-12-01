@@ -1,7 +1,7 @@
 package kaiju.pathfinder
 
-import kaiju.math.Matrix2d
 import kaiju.math.Vec2
+import kaiju.math.matrix2dOf
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -17,9 +17,9 @@ fun findPath2d(
     end: Vec2
 ): List<Vec2>? {
 
-    val costs = Matrix2d(size) { _, _ -> Double.MAX_VALUE }
-    val parent = Matrix2d<Vec2?>(size) { _, _ -> null }
-    val fScore = Matrix2d(size) { _, _ -> Double.MAX_VALUE }
+    val costs = matrix2dOf(size.x, size.y) { _, _ -> Double.MAX_VALUE }
+    val parent = matrix2dOf<Vec2?>(size.x, size.y) { _, _ -> null }
+    val fScore = matrix2dOf(size.x, size.y) { _, _ -> Double.MAX_VALUE }
 
     val openSet = PriorityQueue<Vec2>{ one, two -> fScore[one].compareTo(fScore[two]) }
     val closeSet = HashSet<Vec2>()

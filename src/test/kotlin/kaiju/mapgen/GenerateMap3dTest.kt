@@ -10,17 +10,17 @@ import kaiju.math.*
 import kaiju.math.geom.RectangularPrism
 import kaiju.pathfinder.findPath3d
 import org.junit.Test
-import java.lang.Math.cos
-import java.lang.Math.sin
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class GenerateMap3dTest {
     @Test
     fun testGenerationOfBoxViaPredicates() {
-        val em1 = Matrix3d(10, 10, 10) { x, y, z -> unknown }
+        val em1 = matrix3dOf(10, 10, 10) { x, y, z -> unknown }
         fillWithBorder(em1, floor, wall)
 
-        val em2 = Matrix3d(10, 10, 10) { x, y, z -> unknown }
+        val em2 = matrix3dOf(10, 10, 10) { x, y, z -> unknown }
         fill(em2, cellNearEdge(), drawCell(wall))
         fill(em2, not(cellNearEdge()), drawCell(floor))
 
@@ -33,56 +33,61 @@ class GenerateMap3dTest {
 
     @Test
     fun testGenerationOfTreesViaPredicates() {
-        val em = Matrix3d(20, 20, 20) { x, y, z -> unknown }
+        val em = matrix3dOf(20, 20, 20) { x, y, z -> unknown }
         fill(em, cellNearEdge(), drawCell(wall))
         fill(em, not(cellNearEdge()), drawCell(floor))
         println("Gen trees 1 - not planted yet")
         printMap(em)
         val vegetation = NoiseFunction3d(10.0, 30.0, 20.0, 16.0, 13.0, 15.0)
         val tree = ExampleCellType('T', true)
-        fill(em,
-                and(
-                        noiseGreaterThan(vegetation, 0.5),
-                        cellEquals(floor)
-                ),
-                drawCell(tree))
+        fill(
+            em,
+            and(
+                noiseGreaterThan(vegetation, 0.5),
+                cellEquals(floor)
+            ),
+            drawCell(tree)
+        )
 
         val snow = NoiseFunction3d(-10.0, -500.0, 20.0, 18.0, 20.0, 22.0)
         val pineTree = ExampleCellType('p', true)
-        fill(em, and(
+        fill(
+            em, and(
                 noiseGreaterThan(snow, 0.6),
                 cellEquals(tree)
-        ), drawCell(pineTree))
+            ), drawCell(pineTree)
+        )
         println("Gen trees 2 - you should start seeing T's")
         printMap(em)
     }
 
     @Test
     fun testOr() {
-        val em = Matrix3d(10, 10, 10) { x, y, z -> grass }
+        val em = matrix3dOf(10, 10, 10) { x, y, z -> grass }
         em[5, 5, 0] = floor
 
-        fill(em,
-                or(
-                        cellNearEdge(),
-                        nearCell(floor)
-                ),
-                drawCell(wall)
+        fill(
+            em,
+            or(
+                cellNearEdge(),
+                nearCell(floor)
+            ),
+            drawCell(wall)
         )
         printMap(em)
     }
 
     @Test
     fun testFloodFill() {
-        val em = Matrix3d(10, 10, 10) { x, y, z -> unknown }
+        val em = matrix3dOf(10, 10, 10) { x, y, z -> unknown }
         val center = Vec3(5, 5, 5)
         val wallPoints: List<Vec3> = center.getMooreNeighborhood()
         assert(wallPoints.size == 26)
 
         //Draw a wall
         fill(em,
-                { map: Matrix3d<ExampleCellType>, x: Int, y: Int, z: Int -> wallPoints.contains(Vec3(x, y, z)) },
-                { m, x, y, z -> m[x, y, z] = wall }
+            { map: Matrix3d<ExampleCellType>, x: Int, y: Int, z: Int -> wallPoints.contains(Vec3(x, y, z)) },
+            { m, x, y, z -> m[x, y, z] = wall }
         )
         assert(em[5, 5, 5] === unknown)
         for (wallPoint in wallPoints) {
@@ -102,7 +107,7 @@ class GenerateMap3dTest {
 
     @Test
     fun makeAVillageByALake() {
-        val map = Matrix3d(100, 100, 10) { x, y, z -> unknown }
+        val map = matrix3dOf(100, 100, 10) { x, y, z -> unknown }
         fillWithBorder(map, grass, forest)
         val xMid: Int = map.xSize / 2
         val yMid: Int = map.ySize / 2
@@ -110,47 +115,69 @@ class GenerateMap3dTest {
         val lakeRadius = buildingRadius / 2
         val forestRadius = buildingRadius + 1
         val rooms: List<RectangularPrism> = (0..10).map { i: Int ->
-            val angle: Float = getFloatInRange(0f, Math.PI.toFloat() * 2)
-            val x: Int = xMid + (buildingRadius * cos(angle.toDouble())).toInt() + getIntInRange(-3, 3)
-            val y: Int = yMid + (buildingRadius * sin(angle.toDouble())).toInt() + getIntInRange(-3, 3)
+            val angle = getDoubleInRange(0.0, Math.PI * 2)
+            val x: Int = xMid + (buildingRadius * cos(angle)).toInt() + getIntInRange(-3, 3)
+            val y: Int = yMid + (buildingRadius * sin(angle)).toInt() + getIntInRange(-3, 3)
             val xw: Int = getIntInRange(2, 3)
             val yw: Int = getIntInRange(2, 3)
             RectangularPrism(Vec3(x - xw, y - yw, 0), Vec3(x + xw, y + yw, 1))
         }
         rooms.forEach { room ->
-            fill(map,
-                    containedIn(room),
-                    drawCell(floor)
+            fill(
+                map,
+                containedIn(room),
+                drawCell(floor)
             )
         }
 
         //Put walls around buildings
-        fill(map,
-                and(
-                        nearCell(floor),
-                        cellEquals(grass)
-                ),
-                drawCell(wall)
+        fill(
+            map,
+            and(
+                nearCell(floor),
+                cellEquals(grass)
+            ),
+            drawCell(wall)
         )
 
         // Fill in pond
         val lake = NoiseFunction3d(30.0, 20.0, -234.0, 24.0, 24.0, 24.0)
         fill(map,
-                and(
-                        cellEquals(grass),
-                        { e: Matrix3d<ExampleCellType>, x: Int, y: Int, z: Int ->
-                            0.1 * lake.gen(x.toDouble(), y.toDouble(), z.toDouble()) + 0.9 * ((lakeRadius - getEuclideanDistance(xMid.toDouble(), yMid.toDouble(), x.toDouble(), y.toDouble())) / xMid.toFloat()) > 0
-                        }
-                ),
-                drawCell(water)
+            and(
+                cellEquals(grass),
+                { e: Matrix3d<ExampleCellType>, x: Int, y: Int, z: Int ->
+                    0.1 * lake.gen(
+                        x.toDouble(),
+                        y.toDouble(),
+                        z.toDouble()
+                    ) + 0.9 * ((lakeRadius - getEuclideanDistance(
+                        xMid.toDouble(),
+                        yMid.toDouble(),
+                        x.toDouble(),
+                        y.toDouble()
+                    )) / xMid.toFloat()) > 0
+                }
+            ),
+            drawCell(water)
         )
         val trees = NoiseFunction3d(10.0, 30.0, 20.0, 4.0, 4.0, 4.0)
         fill(map,
-                and(
-                        cellEquals(grass),
-                        { e, x, y, z -> trees.gen(x.toDouble(), y.toDouble(), z.toDouble()) + (forestRadius - getEuclideanDistance(xMid.toDouble(), yMid.toDouble(), x.toDouble(), y.toDouble())) / xMid.toFloat() < 0 }
-                ),
-                drawCell(forest)
+            and(
+                cellEquals(grass),
+                { e, x, y, z ->
+                    trees.gen(
+                        x.toDouble(),
+                        y.toDouble(),
+                        z.toDouble()
+                    ) + (forestRadius - getEuclideanDistance(
+                        xMid.toDouble(),
+                        yMid.toDouble(),
+                        x.toDouble(),
+                        y.toDouble()
+                    )) / xMid.toFloat() < 0
+                }
+            ),
+            drawCell(forest)
         )
 
         // Dig paths
@@ -158,20 +185,21 @@ class GenerateMap3dTest {
         var centerLast = Vec3(xMid, 0, 0)
         for (center in centers) {
 
-            val path: List<Vec3>? = findPath3d(map.getSize(),
-                    { v ->
-                        when (map[v]) {
-                            wall -> 10.0
-                            floor -> 2.0
-                            grass -> 1.0
-                            forest -> 2.0
-                            water -> 30.0
-                            else -> 1.0
-                        }
-                    },
-                    ::getEuclideanDistance,
-                    { it.vonNeumanNeighborhood() },
-                    centerLast, center
+            val path: List<Vec3>? = findPath3d(
+                map.getSize(),
+                { v ->
+                    when (map[v]) {
+                        wall -> 10.0
+                        floor -> 2.0
+                        grass -> 1.0
+                        forest -> 2.0
+                        water -> 30.0
+                        else -> 1.0
+                    }
+                },
+                ::getEuclideanDistance,
+                { it.vonNeumanNeighborhood() },
+                centerLast, center
             )
             centerLast = center
 

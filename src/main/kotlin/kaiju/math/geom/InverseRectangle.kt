@@ -12,8 +12,8 @@ class InverseRectangle(lower: Vec2, upper: Vec2) : Rectangle(lower, upper) {
             0.0
         } else {
             min(
-                    min(point.x.toDouble() - lower.x + 1, point.y.toDouble() - lower.y + 1),
-                    min(upper.x - point.x.toDouble(), upper.y - point.y.toDouble())
+                min(point.x.toDouble() - lower.x + 1, point.y.toDouble() - lower.y + 1),
+                min(upper.x - point.x.toDouble(), upper.y - point.y.toDouble())
             )
         }
     }
