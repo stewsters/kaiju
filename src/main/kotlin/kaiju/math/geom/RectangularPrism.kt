@@ -6,7 +6,7 @@ open class RectangularPrism(val lower: Vec3, val upper: Vec3) : Container3d {
 
     fun inside(point: Vec3): Boolean = inside(point.x, point.y, point.z)
     fun inside(x: Int, y: Int, z: Int): Boolean {
-        return x >= lower.x && y >= lower.y && y >= lower.z
+        return x >= lower.x && y >= lower.y && z >= lower.z
                 && x <= upper.x && y <= upper.y && z <= upper.z
     }
 
