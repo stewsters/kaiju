@@ -1,14 +1,14 @@
 buildscript {
-    ext.kotlin_version = '1.6.0'
+    ext.kotlin_version = '1.6.10'
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.6.0"
+    id "org.jetbrains.kotlin.jvm" version "1.6.10"
 }
 
 group 'com.stewsters'
-version '1.1'
-sourceCompatibility = 1.8
+version '1.2'
+sourceCompatibility = 1.11
 
 repositories {
     mavenCentral()
@@ -22,10 +22,10 @@ dependencies {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.11"
     kotlinOptions.useIR = true
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.11"
     kotlinOptions.useIR = true
 }
