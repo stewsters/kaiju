@@ -15,9 +15,9 @@ open class RectangularPrism(val lower: Vec3, val upper: Vec3) : Container3d {
         return x < 0 || y < 0 || z < 0 || x > upper.x || y > upper.y || z > upper.z
     }
 
-    fun getXSize() = upper.x - lower.x
-    fun getYSize() = upper.y - lower.y
-    fun getZSize() = upper.z - lower.z
+    fun getXSize() = upper.x - lower.x + 1
+    fun getYSize() = upper.y - lower.y + 1
+    fun getZSize() = upper.z - lower.z + 1
 
     override fun contains(x: Int, y: Int, z: Int) = inside(x, y, z)
 
@@ -26,6 +26,16 @@ open class RectangularPrism(val lower: Vec3, val upper: Vec3) : Container3d {
         return Vec3(total.x / 2, total.y / 2, total.z / 2)
     }
 
+    fun volume(): Int {
+        return (upper.x - lower.x + 1) * (upper.y - lower.y + 1) * (upper.z - lower.z + 1)
+    }
+
+    // Slice into floors based on z level
+    fun slices(): List<RectangularPrism> {
+        return (this.lower.z..this.upper.z).map {
+            RectangularPrism(this.lower.copy(z = it), this.upper.copy(z = it))
+        }
+    }
 //    override fun minDist(point: Vec3): Double {
 //        if (inside(point)) {
 //            return 0.0

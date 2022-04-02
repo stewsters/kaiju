@@ -17,8 +17,8 @@ open class Rectangle(val lower: Vec2, val upper: Vec2) : Obstacle, Container2d {
         return x < 0 || y < 0 || x > upper.x || y > upper.y
     }
 
-    fun getXSize(): Int = upper.x - lower.x
-    fun getYSize(): Int = upper.y - lower.y
+    fun getXSize(): Int = upper.x - lower.x + 1
+    fun getYSize(): Int = upper.y - lower.y + 1
 
     fun center(): Vec2 {
         val total = lower + upper

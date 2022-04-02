@@ -1,6 +1,11 @@
 package kaiju.pathfinder
 
-import kaiju.math.*
+import kaiju.math.Matrix2d
+import kaiju.math.Matrix3d
+import kaiju.math.Vec2
+import kaiju.math.Vec3
+import kaiju.math.matrix2dOf
+import kaiju.math.matrix3dOf
 import java.util.*
 
 // http://www.roguebasin.com/index.php?title=The_Incredible_Power_of_Dijkstra_Maps

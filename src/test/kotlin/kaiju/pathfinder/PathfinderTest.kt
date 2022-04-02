@@ -1,8 +1,13 @@
 package kaiju.pathfinder
 
-import kaiju.math.*
+import kaiju.math.Matrix2d
+import kaiju.math.Obstacle
+import kaiju.math.Vec2
+import kaiju.math.Vec3
 import kaiju.math.geom.InverseRectangle
 import kaiju.math.geom.Rectangle
+import kaiju.math.getEuclideanDistance
+import kaiju.math.matrix2dOf
 import org.junit.Test
 import kotlin.math.min
 import kotlin.math.roundToLong
