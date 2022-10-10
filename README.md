@@ -21,13 +21,13 @@ Instruction can be found here:
 
 ### Math Primitives
 
-#### Cached immutable 2d and 3d integer vectors (Vec2 and Vec3)
+#### Immutable 2d and 3d integer vectors (Vec2 and Vec3)
 
 ```kotlin
- println(Vec2[1, 2] + Vec2[2, 3])
+ println(Vec2(1, 2) + Vec2(2, 3))
 // (3, 5)
 
-println(Vec3[1, 2, 0] - Vec3[2, 3, 1])
+println(Vec3(1, 2, 0) - Vec3(2, 3, 1))
 // (-1, -1, -1)
 
 ```
