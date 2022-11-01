@@ -9,6 +9,7 @@ data class Vec2(val x: Int, val y: Int) {
 
     operator fun plus(dir: Vec2) = Vec2(x + dir.x, y + dir.y)
     operator fun plus(dir: Facing) = Vec2(x + dir.offset.x, y + dir.offset.y)
+    operator fun plus(dir: CardinalFacing) = Vec2(x + dir.offset.x, y + dir.offset.y)
 
     operator fun minus(dir: Vec2) = Vec2(x - dir.x, y - dir.y)
     operator fun minus(dir: Facing) = Vec2(x - dir.offset.x, y - dir.offset.y)
