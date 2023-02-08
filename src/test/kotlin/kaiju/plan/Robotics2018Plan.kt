@@ -8,7 +8,7 @@ class Robotics2018Plan {
     fun test() {
 
         val startingWorldState = Robotics2018WorldState()
-        val maxCost = 150 // 2 minutes and 30 seconds
+        val maxCost = 2 * 60 + 30 // 2 minutes and 30 seconds
 
         val actions = arrayOf<Action<Robotics2018WorldState>>(
             Action(
@@ -70,7 +70,7 @@ class Robotics2018Plan {
         val plan = plan(
             startingWorldState,
             {
-                (it.boxesPlacedHigh * 2.0 + it.boxesPlacedLow * 2.0).toFloat()
+                (it.boxesPlacedHigh * 100.0 + it.boxesPlacedLow * 2.0).toFloat()
             },
             actions,
             maxCost
@@ -129,7 +129,7 @@ private class Robotics2018WorldState(
 
         boxesStashed = oldWorldState.boxesStashed,
         boxesPlacedLow = oldWorldState.boxesPlacedLow,
-        boxesPlacedHigh = oldWorldState.boxesPlacedLow,
+        boxesPlacedHigh = oldWorldState.boxesPlacedHigh,
 
         totalPoints = oldWorldState.totalPoints,
 

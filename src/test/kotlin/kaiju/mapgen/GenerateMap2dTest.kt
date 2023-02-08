@@ -223,12 +223,7 @@ class GenerateMap2dTest {
                     floor
                 }
             }
-            //            }
 
-//            fill(em, (e, x, y) -> false,
-//                    (e, x, y) -> {
-//                    }
-//            );
         }
         printMap(map)
     }
