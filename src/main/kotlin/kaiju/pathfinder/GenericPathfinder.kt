@@ -17,8 +17,9 @@ fun <T> findGenericPath(
     val parent = mutableMapOf<T, T>()
     val fScore = mutableMapOf<T, Double>()
 
-    val openSet =
-        PriorityQueue<T> { one, two -> (fScore[one] ?: Double.MAX_VALUE).compareTo(fScore[two] ?: Double.MAX_VALUE) }
+    val openSet = PriorityQueue<T> { one, two ->
+        (fScore[one] ?: Double.MAX_VALUE).compareTo(fScore[two] ?: Double.MAX_VALUE)
+    }
     val closeSet = HashSet<T>()
 
     openSet.add(start)
@@ -53,7 +54,7 @@ fun <T> findGenericPath(
 
             val nextCost = (costs[cheapestNode] ?: Double.MAX_VALUE )+ cost(cheapestNode, it)
 
-            if (nextCost < costs[it] ?: Double.MAX_VALUE) {
+            if (nextCost < (costs[it] ?: Double.MAX_VALUE)) {
                 costs[it] = nextCost
                 fScore[it] = nextCost + heuristic(it, end)
                 parent[it] = cheapestNode

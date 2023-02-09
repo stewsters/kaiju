@@ -24,7 +24,7 @@ class GenericPathfinderTest {
 
         val field = matrix2dOf(bound.upper) { x, y -> x == 6 && y != 0 }
         val path = findGenericPath(
-            cost = { one, it -> if (field.outside(it) || field[it]) 100000.0 else 1.0 },
+            cost = { _, it -> if (field.outside(it) || field[it]) 100000.0 else 1.0 },
             heuristic = ::getEuclideanDistance,
             neighbors = { it ->
                 it.vonNeumanNeighborhood().filter { bound.contains(it.x, it.y) }
