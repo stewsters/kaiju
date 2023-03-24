@@ -2,6 +2,12 @@ package kaiju.pathfinder
 
 import java.util.*
 
+sealed interface Path<T> {
+    data class Success<T>(val data: List<T>) : Path<T>
+    class NotFound<T> : Path<T> // exhausted all possible search options
+    class MaxDistanceExceeded<T> : Path<T> // we went too far
+}
+
 /**
  * AStar
  */
@@ -10,8 +16,9 @@ fun <T> findGenericPath(
     heuristic: (T, T) -> Double,
     neighbors: (T) -> List<T>,
     start: T,
-    end: T
-): List<T>? {
+    end: T,
+    maxCost: Double? = null
+): Path<T> {
 
     val costs = mutableMapOf<T, Double>()
     val parent = mutableMapOf<T, T>()
@@ -31,7 +38,9 @@ fun <T> findGenericPath(
         // Grab the next node with the lowest cost
         val cheapestNode = openSet.poll()
 
-        if (cheapestNode == end) {
+        if (maxCost != null && ((costs[cheapestNode] ?: Double.MAX_VALUE) > maxCost)) {
+            return Path.MaxDistanceExceeded()
+        } else if (cheapestNode == end) {
             // target found, we have a path
             val path = mutableListOf(cheapestNode)
 
@@ -40,7 +49,7 @@ fun <T> findGenericPath(
                 node = parent[node]!!
                 path.add(node)
             }
-            return path.reversed()
+            return Path.Success(path.reversed())
         }
 
         closeSet.add(cheapestNode)
@@ -52,7 +61,7 @@ fun <T> findGenericPath(
             if (closeSet.contains(it))
                 continue
 
-            val nextCost = (costs[cheapestNode] ?: Double.MAX_VALUE )+ cost(cheapestNode, it)
+            val nextCost = (costs[cheapestNode] ?: Double.MAX_VALUE) + cost(cheapestNode, it)
 
             if (nextCost < (costs[it] ?: Double.MAX_VALUE)) {
                 costs[it] = nextCost
@@ -68,7 +77,7 @@ fun <T> findGenericPath(
         }
     }
 
-    // could not find a path
-    return null
+    // could not find a path, open set empty
+    return Path.NotFound()
 
 }

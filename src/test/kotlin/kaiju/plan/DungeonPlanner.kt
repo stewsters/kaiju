@@ -9,7 +9,7 @@ class DungeonPlanner {
     fun test() {
 
         val startingWorldState = DungeonWorldState()
-        val maxCost = 100
+        val maxCost = 100.0
 
         val actions = arrayOf(
             Action(
@@ -60,9 +60,9 @@ class DungeonPlanner {
             startingWorldState,
             {
                 if (it.opponentsHp <= 0) {
-                    it.player.hp.toFloat()
+                    it.player.hp.toDouble()
                 } else {
-                    0f
+                    0.0
                 }
             },
             actions,
@@ -87,7 +87,7 @@ class DungeonWorldState(
 
     parentState: DungeonWorldState? = null,
     parentAction: Action<DungeonWorldState>? = null,
-    cost: Float = 0f
+    cost: Double = 0.0
 ) : BaseWorldState<DungeonWorldState>(parentState, parentAction, cost), Comparable<DungeonWorldState>,
     World<DungeonWorldState> {
 

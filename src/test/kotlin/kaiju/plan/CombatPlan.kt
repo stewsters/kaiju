@@ -8,7 +8,7 @@ class TestPlan {
     fun test() {
 
         val startingWorldState = SwordCombatWorldState()
-        val maxCost = 100
+        val maxCost = 100.0
 
         val actions = arrayOf(
             Action(
@@ -59,9 +59,9 @@ class TestPlan {
             startingWorldState,
             {
                 if (it.opponentsHp <= 0) {
-                    it.hp.toFloat()
+                    it.hp.toDouble()
                 } else {
-                    0f
+                    0.0
                 }
             },
             actions,
@@ -83,7 +83,7 @@ private class SwordCombatWorldState(
     var hasSword: Boolean = false,
     parentState: SwordCombatWorldState? = null,
     parentAction: Action<SwordCombatWorldState>? = null,
-    cost: Float = 0f
+    cost: Double = 0.0
 ) : BaseWorldState<SwordCombatWorldState>(parentState, parentAction, cost), Comparable<SwordCombatWorldState>,
     World<SwordCombatWorldState> {
 

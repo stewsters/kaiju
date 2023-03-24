@@ -8,7 +8,10 @@ class Robotics2018Plan {
     fun test() {
 
         val startingWorldState = Robotics2018WorldState()
-        val maxCost = 2 * 60 + 30 // 2 minutes and 30 seconds
+        val maxCost = 2.0 * 60.0 + 30 // 2 minutes and 30 seconds
+
+        // This makes us a bit greedy
+        fun bonus(time: Double) = ((maxCost - time) / maxCost) / 100.0
 
         val actions = arrayOf<Action<Robotics2018WorldState>>(
             Action(
@@ -26,7 +29,7 @@ class Robotics2018Plan {
                 { it.hasBox && it.elevator == ElevatorPos.MID && atLow(it.pos) },
                 {
                     it.hasBox = false
-                    it.boxesPlacedLow++
+                    it.boxesPlacedLow += 1 + bonus(it.cost)
                     it.cost += 10
                     it
                 }),
@@ -36,7 +39,7 @@ class Robotics2018Plan {
                 { it.hasBox && it.elevator == ElevatorPos.HIGH && atHigh(it.pos) },
                 {
                     it.hasBox = false
-                    it.boxesPlacedHigh++
+                    it.boxesPlacedHigh += 1 + bonus(it.cost)
                     it.cost += 10
                     it
                 }),
@@ -68,12 +71,12 @@ class Robotics2018Plan {
 
 
         val plan = plan(
-            startingWorldState,
-            {
-                (it.boxesPlacedHigh * 100.0 + it.boxesPlacedLow * 2.0).toFloat()
+            startingState = startingWorldState,
+            fitness = {
+                (it.boxesPlacedHigh * 100.0 + it.boxesPlacedLow * 2.0)
             },
-            actions,
-            maxCost
+            actions = actions,
+            maxCost = maxCost
         )
 
         plan?.forEach { println(it.name) }
@@ -110,15 +113,15 @@ private class Robotics2018WorldState(
     var hasBox: Boolean = true,
     var elevator: ElevatorPos = ElevatorPos.LOW,
 
-    var boxesStashed: Int = 0,
-    var boxesPlacedLow: Int = 0,
-    var boxesPlacedHigh: Int = 0,
+    var boxesStashed: Double = 0.0, // we use doubles to give slight preference to earlier scoring
+    var boxesPlacedLow: Double = 0.0,
+    var boxesPlacedHigh: Double = 0.0,
 
     var totalPoints: Int = 0,
 
     parentState: Robotics2018WorldState? = null,
     parentAction: Action<Robotics2018WorldState>? = null,
-    cost: Float = 0f
+    cost: Double = 0.0
 ) : BaseWorldState<Robotics2018WorldState>(parentState, parentAction, cost), Comparable<Robotics2018WorldState>,
     World<Robotics2018WorldState> {
 

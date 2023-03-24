@@ -35,8 +35,41 @@ class GenericPathfinderTest {
 
         println(path)
 
-        assert(path!!.contains(Vec2(6, 0)))
+        when (path) {
+            is Path.Success -> assert(path.data.contains(Vec2(6, 0)))
+            else -> assert(false)
+        }
+    }
 
+    @Test
+    fun testPathfindingMaxDistance() {
+
+        val bound = Rectangle(
+            Vec2(0, 0),
+            Vec2(20, 20)
+        )
+
+        val field = matrix2dOf(bound.upper) { x, y -> x == 6 && y != 0 }
+        val path = findGenericPath(
+            cost = { _, it -> if (field.outside(it) || field[it]) 100000.0 else 1.0 },
+            heuristic = ::getEuclideanDistance,
+            neighbors = { it ->
+                it.vonNeumanNeighborhood().filter { bound.contains(it.x, it.y) }
+            },
+            start = Vec2(0, 0),
+            end = Vec2(19, 19),
+            10.0
+        )
+
+//        println(path)
+
+        when (path) {
+            is Path.MaxDistanceExceeded -> {
+                println("yay")
+            }
+
+            else -> assert(false)
+        }
     }
 
     @Test
@@ -68,8 +101,7 @@ class GenericPathfinderTest {
         val end = Vec2(19, 29)
 
         val path = findGenericPath(
-          //  size,
-            { old,pos ->
+            { old, pos ->
                 val d: Double = obstacles.map { it.minDist(pos) }.minOrNull()!!
                 when {
                     d <= 0 -> {
@@ -87,15 +119,20 @@ class GenericPathfinderTest {
                 }
             },
             { one, two -> 1.0 },
-            {it.mooreNeighborhood().filter { bound.contains(it.x,it.y) }} ,//Vec2::mooreNeighborhood,
+            { it.mooreNeighborhood().filter { bound.contains(it.x, it.y) } },//Vec2::mooreNeighborhood,
             start,
             end
         )
 
 
-        assert(path != null)
-        assert(path?.first() == start)
-        assert(path?.last() == end)
+        when (path) {
+            is Path.Success -> {
+                assert(path.data.first() == start)
+                assert(path.data.last() == end)
+            }
+
+            else -> assert(false)
+        }
 
     }
 
@@ -113,9 +150,14 @@ class GenericPathfinderTest {
             end
         )
 
-        assert(path != null)
-        assert(path?.first() == start)
-        assert(path?.last() == end)
+        when (path) {
+            is Path.Success -> {
+                assert(path.data.first() == start)
+                assert(path.data.last() == end)
+            }
+
+            else -> assert(false)
+        }
     }
 
     private fun printField(fieldMap: Matrix2d<Double>, path: List<Vec2>? = null) {
