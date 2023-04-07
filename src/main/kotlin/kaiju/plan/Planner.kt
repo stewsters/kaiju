@@ -3,14 +3,11 @@ package kaiju.plan
 import java.util.*
 
 
-class Action<W>(val name: String, val prerequisite: (W) -> Boolean, val effect: (W) -> W)
-
-
 fun <W> plan(
     startingState: W,
-    fitness: (W) -> Double,
-    actions: Array<Action<W>>,
-    maxCost: Double
+    fitness: (W) -> Double, // How good that world state is
+    actions: Array<Action<W>>, // ways in which the world state can change
+    maxCost: Double // max cost we are searching.  Usually this is used for time
 ): List<Action<W>>? where W : World<W> {
 
     val endState = ArrayList<W>()
@@ -60,14 +57,18 @@ fun <W> plan(
     return plan
 }
 
-interface World<W> {
+class Action<W>(
+    val name: String,
+    val prerequisite: (W) -> Boolean,
+    val effect: (W) -> W
+)
 
+interface World<W> {
     var cost: Double
     var parentState: W?
     var parentAction: Action<W>?
 
     fun getNext(): W
-
 }
 
 abstract class BaseWorldState<W>(
