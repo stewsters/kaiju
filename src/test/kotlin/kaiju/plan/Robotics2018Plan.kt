@@ -13,7 +13,7 @@ class Robotics2018Plan {
         // This makes us a bit greedy
         fun bonus(time: Double) = ((maxCost - time) / maxCost) / 100.0
 
-        val actions = arrayOf<Action<Robotics2018WorldState>>(
+        val actions = listOf<Action<Robotics2018WorldState>>(
             Action(
                 name = "GetCube",
                 prerequisite = { !it.hasBox && it.elevator == ElevatorPos.LOW },

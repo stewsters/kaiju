@@ -10,7 +10,7 @@ class TestPlan {
         val startingWorldState = SwordCombatWorldState()
         val maxCost = 100.0
 
-        val actions = arrayOf(
+        val actions = listOf(
             Action(
                 name = "Punch",
                 prerequisite = { w: SwordCombatWorldState -> w.opponentsHp > 0 && w.hp > 0 },

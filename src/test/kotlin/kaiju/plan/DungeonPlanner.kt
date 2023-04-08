@@ -11,7 +11,7 @@ class DungeonPlanner {
         val startingWorldState = DungeonWorldState()
         val maxCost = 100.0
 
-        val actions = arrayOf(
+        val actions = listOf(
             Action(
                 name = "Attack",
                 prerequisite = { w: DungeonWorldState -> w.opponentsHp > 0 && w.player.hp > 0 },

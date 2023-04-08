@@ -6,7 +6,7 @@ import java.util.*
 fun <W> plan(
     startingState: W,
     fitness: (W) -> Double, // How good that world state is
-    actions: Array<Action<W>>, // ways in which the world state can change
+    actions: List<Action<W>>, // ways in which the world state can change
     maxCost: Double // max cost we are searching.  Usually this is used for time
 ): List<Action<W>>? where W : World<W> {
 
