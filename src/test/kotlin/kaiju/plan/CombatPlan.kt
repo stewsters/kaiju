@@ -15,42 +15,46 @@ class TestPlan {
                 name = "Punch",
                 prerequisite = { w: SwordCombatWorldState -> w.opponentsHp > 0 && w.hp > 0 },
                 effect = { w: SwordCombatWorldState ->
-                    w.opponentsHp--
-                    if (w.opponentsHp > 0)
-                        w.hp--
-                    w.cost += 5
-                    w
+                    Pair(
+                        w.copy(
+                            opponentsHp = w.opponentsHp-1,
+                            hp = w.hp - (if(w.opponentsHp>0) 1 else 0)
+                        ),
+                        5.0
+                    )
+
                 }),
 
             Action(
                 "Stab",
                 { w: SwordCombatWorldState -> w.opponentsHp > 0 && w.hp > 0 && w.hasSword },
                 { w: SwordCombatWorldState ->
-                    w.opponentsHp -= 5
-                    if (w.opponentsHp > 0)
-                        w.hp--
-                    w.cost += 10
-                    w
+                    Pair(
+                        w.copy(
+                            hp = w.hp + (if (w.opponentsHp > 0) -1 else 0),
+                            opponentsHp = w.opponentsHp - 5
+                        ),
+                        10.0
+                    )
                 }),
 
             Action(
                 "Grab Sword",
                 { w: SwordCombatWorldState -> w.opponentsHp > 0 && w.hp > 0 && !w.hasSword },
                 { w: SwordCombatWorldState ->
-                    w.hasSword = true
-
-                    if (w.opponentsHp > 0)
-                        w.hp--
-
-                    w.cost += 10
-                    w
+                    Pair(
+                        w.copy(
+                            hasSword = true,
+                            hp = if (w.opponentsHp > 0) w.hp - 1 else w.hp
+                        ),
+                        10.0
+                    )
                 }),
             Action(
                 "Le Nap",
                 { w: SwordCombatWorldState -> w.opponentsHp <= 0 },
                 { w: SwordCombatWorldState ->
-                    w.cost += 10
-                    w
+                    Pair(w.copy(), 10.0)
                 })
         )
 
@@ -77,30 +81,8 @@ class TestPlan {
 
 // EXAMPLE:
 
-private class SwordCombatWorldState(
-    var hp: Int = 10,
-    var opponentsHp: Int = 10,
-    var hasSword: Boolean = false,
-    parentState: SwordCombatWorldState? = null,
-    parentAction: Action<SwordCombatWorldState>? = null,
-    cost: Double = 0.0
-) : BaseWorldState<SwordCombatWorldState>(parentState, parentAction, cost), Comparable<SwordCombatWorldState>,
-    World<SwordCombatWorldState> {
-
-    constructor(oldWorldState: SwordCombatWorldState) : this(
-        hp = oldWorldState.hp,
-        opponentsHp = oldWorldState.opponentsHp,
-        hasSword = oldWorldState.hasSword,
-        cost = oldWorldState.cost,
-        parentState = oldWorldState
-    )
-
-    override fun getNext(): SwordCombatWorldState {
-        return SwordCombatWorldState(this)
-    }
-
-    override fun compareTo(other: SwordCombatWorldState): Int {
-        return cost.compareTo(other.cost)
-    }
-}
-
+data class SwordCombatWorldState(
+    val hp: Int = 10,
+    val opponentsHp: Int = 10,
+    val hasSword: Boolean = false
+)

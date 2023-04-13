@@ -2,7 +2,6 @@ package kaiju.plan
 
 import kaiju.math.Vec2
 import kaiju.math.geom.Rectangle
-import org.junit.Ignore
 import org.junit.Test
 import kotlin.math.cos
 import kotlin.math.sin
@@ -11,33 +10,32 @@ class VehiclePlanner {
 
     val course = Rectangle(
         lower = Vec2(0, 0),
-        upper = Vec2(100, 100)
+        upper = Vec2(10, 10)
     )
 
-    val centerWidth = Vec2(4, 4)
+    val centerWidth = Vec2(2, 2)
     val center = course.center()
     val centerPillar = Rectangle(lower = center - centerWidth, upper = center + centerWidth)
 
     @Test
-    @Ignore
     fun drive() {
         val startingState = VehicleState(
             momentum = 0.0,
             facing = 0.0,
-            pos = Vec2f(0.0, course.upper.y / 4.0),
+            pos = Vec2f(course.upper.x / 2.0, course.upper.y / 4.0),
             hasCrashed = false
         )
-        val maxCost = 100.0
+        val maxCost = 5.0 // this is too small
 
         val gas = mapOf(
             "break" to -1,
-            "coast" to 0,
+//            "coast" to 0,
             "accel" to 1
         )
         val steer = mapOf(
-            "left" to -1,
-            "straight" to 0,
-            "right" to 1
+            "left" to Math.toRadians(-30.0),
+            "straight" to 0.0,
+            "right" to Math.toRadians(30.0)
         )
 
 
@@ -55,27 +53,30 @@ class VehiclePlanner {
                         )
                         val c = !course.contains(p) || centerPillar.contains(p)
 
-                        VehicleState(
-                            momentum = m,
-                            facing = f,
-                            pos = p,
-                            hasCrashed = vs.hasCrashed || c
+                        Pair(
+                            VehicleState(
+                                momentum = m,
+                                facing = f,
+                                pos = p,
+                                hasCrashed = vs.hasCrashed || c
+                            ),
+                            1.0
                         )
                     }
                 )
             }
         }
 
-//        val plan = plan(
-//            startingState = startingState,
-//            fitness = { vs -> 1.0 },
-//            actions = actions,
-//            maxCost = maxCost
-//        )
-//
-//        plan?.forEach { println(it.name) }
-//
-//        assert(plan != null)
+        val plan = plan(
+            startingState = startingState,
+            fitness = { vs -> vs.momentum},
+            actions = actions,
+            maxCost = maxCost
+        )
+
+        plan?.forEach { println(it.name) }
+
+        assert(plan != null)
 
     }
 }
