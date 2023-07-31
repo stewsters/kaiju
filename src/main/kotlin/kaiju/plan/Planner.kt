@@ -2,27 +2,29 @@ package kaiju.plan
 
 import java.util.*
 
-
-class Action<W>(val name: String, val prerequisite: (W) -> Boolean, val effect: (W) -> W)
-
+// TODO:
+// add a test that sees how far we can go before running out of memory before these:
+// remove duplicate world states, these can cause loops -> wasted search
+// add a heuristic
+// hierarchy?
 
 fun <W> plan(
     startingState: W,
-    fitness: (W) -> Float,
-    actions: Array<Action<W>>,
-    maxCost: Int
-): List<Action<W>>? where W : World<W> {
+    fitness: (W) -> Double, // How good that world state is
+    actions: List<Action<W>>, // ways in which the world state can change
+    maxCost: Double // max cost we are searching.  Usually this is used for time
+): List<Action<W>>? {
 
-    val endState = ArrayList<W>()
+    val endState = ArrayList<World<W>>()
 
-    val openList = PriorityQueue<W>()
-    openList.add(startingState)
+    val openList = PriorityQueue<World<W>>()
+    openList.add(World(startingState, 0.0, parentAction = null, parentState = null))
 
     // while we have a world state in the open
     while (openList.size > 0) {
         val current = openList.poll()
         val viableActions = actions.filter {
-            it.prerequisite(current)
+            it.prerequisite(current.w)
         }
 
         if (viableActions.isEmpty()) {
@@ -31,9 +33,13 @@ fun <W> plan(
         }
 
         viableActions.forEach { action ->
-            val next: W = action.effect(current.getNext())
-            next.parentAction = action
-            next.parentState = current
+            val (world, cost) = action.effect(current.w)
+            val next = World(
+                w = world,
+                cost = current.cost + cost,
+                parentAction = action,
+                parentState = current,
+            )
             if (next.cost <= maxCost) {
                 openList.add(next)
             } else {
@@ -42,7 +48,7 @@ fun <W> plan(
         }
     }
 
-    var state = endState.maxByOrNull { fitness(it) }
+    var state = endState.maxByOrNull { fitness(it.w) }
 
     if (state == null) {
         return null
@@ -60,20 +66,19 @@ fun <W> plan(
     return plan
 }
 
-interface World<W> {
+class Action<W>(
+    val name: String,
+    val prerequisite: (W) -> Boolean,
+    val effect: (W) -> Pair<W, Double>
+)
 
-    var cost: Float
-    var parentState: W?
+class World<W>(
+    var w: W,
+    var cost: Double,
+    var parentState: World<W>?,
     var parentAction: Action<W>?
-
-    fun getNext(): W
-
+) : Comparable<World<W>> {
+    override fun compareTo(other: World<W>): Int {
+        return cost.compareTo(other.cost)
+    }
 }
-
-abstract class BaseWorldState<W>(
-    override var parentState: W? = null,
-    override var parentAction: Action<W>? = null,
-    override var cost: Float = 0f
-) : World<W>
-
-

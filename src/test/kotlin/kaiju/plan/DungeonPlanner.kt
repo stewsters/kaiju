@@ -9,49 +9,57 @@ class DungeonPlanner {
     fun test() {
 
         val startingWorldState = DungeonWorldState()
-        val maxCost = 100
+        val maxCost = 100.0
 
-        val actions = arrayOf(
+        val actions = listOf(
             Action(
                 name = "Attack",
                 prerequisite = { w: DungeonWorldState -> w.opponentsHp > 0 && w.player.hp > 0 },
                 effect = { w: DungeonWorldState ->
-                    w.opponentsHp--
-                    if (w.opponentsHp > 0)
-                        w.player.hp--
-                    w.cost += 5
-                    w
+                    Pair(
+                        w.copy(
+                            opponentsHp = w.opponentsHp - 1,
+                            player = if (w.opponentsHp > 0)
+                                w.player.copy(
+                                    hp = w.player.hp - 1
+                                ) else w.player
+                        ),
+                        5.0
+                    )
                 }),
 
             Action(
                 "Stab",
                 { w: DungeonWorldState -> w.opponentsHp > 0 && w.player.hp > 0 && w.hasSword },
                 { w: DungeonWorldState ->
-                    w.opponentsHp -= 5
-                    if (w.opponentsHp > 0)
-                        w.player.hp--
-                    w.cost += 10
-                    w
+                    Pair(
+                        w.copy(
+                            opponentsHp = w.opponentsHp - 5,
+                            player = if (w.opponentsHp > 0) w.player.copy(hp = w.player.hp - 1) else w.player
+                        ),
+                        10.0
+                    )
                 }),
 
             Action(
                 "Grab Sword",
                 { w: DungeonWorldState -> w.opponentsHp > 0 && w.player.hp > 0 && !w.hasSword },
                 { w: DungeonWorldState ->
-                    w.hasSword = true
-
-                    if (w.opponentsHp > 0)
-                        w.player.hp--
-
-                    w.cost += 10
-                    w
+                    Pair(
+                        w.copy(
+                            hasSword = true,
+                            player = if (w.opponentsHp > 0) w.player.copy(hp = w.player.hp - 1) else w.player
+                        ), 10.0
+                    )
                 }),
             Action(
                 "Wait",
                 { w: DungeonWorldState -> w.opponentsHp <= 0 },
                 { w: DungeonWorldState ->
-                    w.cost += 10
-                    w
+                    Pair(
+                        w,
+                        10.0
+                    )
                 })
         )
 
@@ -60,9 +68,9 @@ class DungeonPlanner {
             startingWorldState,
             {
                 if (it.opponentsHp <= 0) {
-                    it.player.hp.toFloat()
+                    it.player.hp.toDouble()
                 } else {
-                    0f
+                    0.0
                 }
             },
             actions,
@@ -75,36 +83,11 @@ class DungeonPlanner {
     }
 }
 
-data class Entity(var hp: Int, var pos: Vec2)
+data class Entity(val hp: Int, val pos: Vec2)
 
-// EXAMPLE:
-
-//TODO: Data class allows copy.  I think this can get a lot smaller if we use that.
-class DungeonWorldState(
-    var player: Entity = Entity(10, Vec2(1, 1)),
-    var opponentsHp: Int = 10,
-    var hasSword: Boolean = false,
-
-    parentState: DungeonWorldState? = null,
-    parentAction: Action<DungeonWorldState>? = null,
-    cost: Float = 0f
-) : BaseWorldState<DungeonWorldState>(parentState, parentAction, cost), Comparable<DungeonWorldState>,
-    World<DungeonWorldState> {
-
-    constructor(oldWorldState: DungeonWorldState) : this(
-        player = oldWorldState.player.copy(),
-        opponentsHp = oldWorldState.opponentsHp,
-        hasSword = oldWorldState.hasSword,
-        cost = oldWorldState.cost,
-        parentState = oldWorldState
-    )
-
-    override fun getNext(): DungeonWorldState {
-        return DungeonWorldState(this)
-    }
-
-    override fun compareTo(other: DungeonWorldState): Int {
-        return cost.compareTo(other.cost)
-    }
-}
+data class DungeonWorldState(
+    val player: Entity = Entity(10, Vec2(1, 1)),
+    val opponentsHp: Int = 10,
+    val hasSword: Boolean = false
+)
 
