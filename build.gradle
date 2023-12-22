@@ -3,7 +3,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.9.10"
+    id "org.jetbrains.kotlin.jvm" version "1.9.22"
 }
 
 group 'com.stewsters'
