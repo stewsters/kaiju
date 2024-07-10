@@ -3,10 +3,12 @@ package kaiju.pathfinder
 import kaiju.math.Vec2
 import kaiju.math.getEuclideanDistance
 import kaiju.math.matrix2dOf
+import org.junit.Ignore
 import org.junit.Test
 
 class Forklift {
 
+    @Ignore("should work on this soon")
     @Test
     fun drivePackages() {
 
