@@ -1,8 +1,9 @@
 package kaiju.pathfinder
 
+import kaiju.datastructure.PriorityQueue
 import kaiju.math.Vec2
 import kaiju.math.matrix2dOf
-import java.util.*
+
 
 /**
  * AStar 2d
@@ -30,7 +31,7 @@ fun findPath2d(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode: Vec2 = openSet.poll()
+        val cheapestNode: Vec2 = openSet.poll() ?: return null
 
         if (cheapestNode == end) {
             // target found, we have a path

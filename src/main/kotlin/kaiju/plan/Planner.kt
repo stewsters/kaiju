@@ -1,6 +1,7 @@
 package kaiju.plan
 
-import java.util.*
+import kaiju.datastructure.PriorityQueue
+
 
 // TODO:
 // add a test that sees how far we can go before running out of memory before these:
@@ -17,12 +18,12 @@ fun <W> plan(
 
     val endState = ArrayList<World<W>>()
 
-    val openList = PriorityQueue<World<W>>()
+    val openList = PriorityQueue<World<W>> { w1: World<W>, w2: World<W> -> w1.compareTo(w2) }
     openList.add(World(startingState, 0.0, parentAction = null, parentState = null))
 
     // while we have a world state in the open
     while (openList.size > 0) {
-        val current = openList.poll()
+        val current = openList.poll() ?: continue
         val viableActions = actions.filter {
             it.prerequisite(current.w)
         }

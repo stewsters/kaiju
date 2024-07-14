@@ -1,8 +1,8 @@
 package kaiju.pathfinder
 
+import kaiju.datastructure.PriorityQueue
 import kaiju.math.Vec3
 import kaiju.math.matrix3dOf
-import java.util.*
 
 /**
  * AStar 3d
@@ -30,7 +30,7 @@ fun findPath3d(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode: Vec3 = openSet.poll()
+        val cheapestNode: Vec3 = openSet.poll()?: return null
 
         if (cheapestNode == end) {
             // target found, we have a path

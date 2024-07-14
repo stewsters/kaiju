@@ -1,6 +1,7 @@
 package kaiju.pathfinder
 
-import java.util.*
+import kaiju.datastructure.PriorityQueue
+
 
 sealed interface Path<T> {
     data class Success<T>(val data: List<T>) : Path<T>
@@ -36,7 +37,7 @@ fun <T> findGenericPath(
     while (openSet.isNotEmpty()) {
 
         // Grab the next node with the lowest cost
-        val cheapestNode = openSet.poll()
+        val cheapestNode = openSet.poll()?: break
 
         if (maxCost != null && ((costs[cheapestNode] ?: Double.MAX_VALUE) > maxCost)) {
             return Path.MaxDistanceExceeded()
