@@ -1,14 +1,17 @@
 buildscript {
-    ext.kotlin_version = '2.0.20'
+    ext.kotlin_version = '2.1.0'
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "2.0.20"
+    id "org.jetbrains.kotlin.jvm" version "2.1.0"
 }
 
 group 'com.stewsters'
 version '1.6'
-sourceCompatibility = 11
+
+kotlin {
+    jvmToolchain(11)
+}
 
 repositories {
     mavenCentral()
