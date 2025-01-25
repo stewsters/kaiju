@@ -9,9 +9,9 @@ plugins {
 group 'com.stewsters'
 version '1.6'
 
-kotlin {
-    jvmToolchain(11)
-}
+//kotlin {
+//    jvmToolchain(11)
+//}
 
 repositories {
     mavenCentral()
