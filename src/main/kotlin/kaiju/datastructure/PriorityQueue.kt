@@ -23,6 +23,10 @@ class PriorityQueue<T>(
         siftUp(items.size - 1)
     }
 
+    fun remove(element: T) {
+        items.remove(element)
+    }
+
     fun poll(): T? {
         if (isEmpty()) return null
 
